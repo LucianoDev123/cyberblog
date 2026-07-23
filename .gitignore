@@ -1,21 +1,27 @@
+# Dependencias Composer
 /vendor/
-/node_modules/
 
+# Variables de entorno
 .env
 
+# Archivos temporales
+*.log
+
+# Cache
 /app/Storage/cache/*
 !/app/Storage/cache/.gitkeep
 
+# Logs
 /app/Storage/logs/*
 !/app/Storage/logs/.gitkeep
 
-/app/Storage/sessions/*
-!/app/Storage/sessions/.gitkeep
-
+# Subidas de usuarios
 /public/uploads/*
 !/public/uploads/.gitkeep
 
-.vscode/settings.json
+# Configuración VS Code
+.vscode/
 
+# Sistema operativo
 Thumbs.db
 .DS_Store
