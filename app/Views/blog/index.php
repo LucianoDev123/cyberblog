@@ -1,71 +1,57 @@
 <?php
 
 declare(strict_types=1);
+
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
+<h2>Artículos del Blog</h2>
 
-<head>
+<?php if (empty($articles)): ?>
 
-    <meta charset="UTF-8">
+    <p>No hay artículos publicados.</p>
 
-    <title>CyberBlog</title>
+<?php else: ?>
 
-</head>
+    <?php foreach ($articles as $article): ?>
 
-<body>
+        <article>
 
-    <h1>CyberBlog</h1>
+            <h3>
 
-    <hr>
-
-    <?php if (empty($articles)): ?>
-
-        <p>No hay artículos publicados.</p>
-
-    <?php else: ?>
-
-        <?php foreach ($articles as $article): ?>
-
-            <article>
-
-                <h2>
+                <a href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>">
 
                     <?= htmlspecialchars($article['titulo']) ?>
 
-                </h2>
+                </a>
 
-                <p>
+            </h3>
 
-                    <strong>Autor:</strong>
+            <p>
 
-                    <?= htmlspecialchars($article['autor']) ?>
+                <strong>Autor:</strong>
 
-                </p>
+                <?= htmlspecialchars($article['autor']) ?>
 
-                <p>
+            </p>
 
-                    <strong>Categoría:</strong>
+            <p>
 
-                    <?= htmlspecialchars($article['categoria']) ?>
+                <strong>Categoría:</strong>
 
-                </p>
+                <?= htmlspecialchars($article['categoria']) ?>
 
-                <p>
+            </p>
 
-                    <?= htmlspecialchars($article['resumen']) ?>
+            <p>
 
-                </p>
+                <?= htmlspecialchars($article['resumen']) ?>
 
-                <hr>
+            </p>
 
-            </article>
+            <hr>
 
-        <?php endforeach; ?>
+        </article>
 
-    <?php endif; ?>
+    <?php endforeach; ?>
 
-</body>
-
-</html>
+<?php endif; ?>

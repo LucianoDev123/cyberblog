@@ -10,6 +10,6 @@ class HomeController extends Controller
 {
     public function index(): void
     {
-        echo "<h1>Bienvenido a CyberBlog</h1>";
+        $this->view('home/index');
     }
 }

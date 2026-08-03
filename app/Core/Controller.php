@@ -10,12 +10,25 @@ abstract class Controller
     {
         extract($data);
 
-        $viewFile = dirname(__DIR__) . "/Views/{$view}.php";
+        $viewsPath = dirname(__DIR__) . '/Views/';
 
-        if (!file_exists($viewFile)) {
+        $header = $viewsPath . 'layouts/header.php';
+        $footer = $viewsPath . 'layouts/footer.php';
+        $content = $viewsPath . $view . '.php';
+
+        if (!file_exists($content)) {
+            http_response_code(500);
             die("La vista '{$view}' no existe.");
         }
 
-        require $viewFile;
+        if (file_exists($header)) {
+            require $header;
+        }
+
+        require $content;
+
+        if (file_exists($footer)) {
+            require $footer;
+        }
     }
 }

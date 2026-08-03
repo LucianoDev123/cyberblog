@@ -1,52 +1,59 @@
 <?php
 
 declare(strict_types=1);
+
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
+<article>
 
-<head>
+    <h2>
 
-    <meta charset="UTF-8">
+        <?= htmlspecialchars($article['titulo']) ?>
 
-    <title><?= htmlspecialchars($article['titulo']) ?></title>
-
-</head>
-
-<body>
-
-    <h1><?= htmlspecialchars($article['titulo']) ?></h1>
+    </h2>
 
     <p>
+
         <strong>Autor:</strong>
+
         <?= htmlspecialchars($article['autor']) ?>
+
     </p>
 
     <p>
+
         <strong>Categoría:</strong>
+
         <?= htmlspecialchars($article['categoria']) ?>
+
     </p>
 
     <p>
+
         <strong>Fecha:</strong>
+
         <?= htmlspecialchars($article['created_at']) ?>
+
     </p>
 
     <hr>
 
     <div>
-    <?= $article['contenido'] ?>
+
+        <?= $article['contenido'] ?>
+
     </div>
 
     <hr>
 
     <p>
+
         <a href="/incuyo/cyberblog/public/blog">
+
             ← Volver al listado
+
         </a>
+
     </p>
 
-</body>
-
-</html>
+</article>
