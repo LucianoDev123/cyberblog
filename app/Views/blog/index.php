@@ -38,7 +38,11 @@ declare(strict_types=1);
 
                 <strong>Categoría:</strong>
 
-                <?= htmlspecialchars($article['categoria']) ?>
+                <a href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug']) ?>">
+
+                    <?= htmlspecialchars($article['categoria']) ?>
+
+                </a>
 
             </p>
 

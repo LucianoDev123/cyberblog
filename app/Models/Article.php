@@ -20,7 +20,8 @@ class Article extends Model
 
                 CONCAT(u.nombre, ' ', u.apellido) AS autor,
 
-                c.nombre AS categoria
+                c.nombre AS categoria,
+                c.slug AS categoria_slug
 
             FROM articulos a
 
@@ -48,7 +49,8 @@ class Article extends Model
 
                 CONCAT(u.nombre, ' ', u.apellido) AS autor,
 
-                c.nombre AS categoria
+                c.nombre AS categoria,
+                c.slug AS categoria_slug    
 
             FROM articulos a
 
