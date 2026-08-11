@@ -10,25 +10,23 @@ abstract class Controller
     {
         extract($data);
 
-        $viewsPath = dirname(__DIR__) . '/Views/';
+        require dirname(__DIR__) . '/Views/layouts/header.php';
 
-        $header = $viewsPath . 'layouts/header.php';
-        $footer = $viewsPath . 'layouts/footer.php';
-        $content = $viewsPath . $view . '.php';
+        require dirname(__DIR__) . "/Views/{$view}.php";
 
-        if (!file_exists($content)) {
-            http_response_code(500);
-            die("La vista '{$view}' no existe.");
-        }
+        require dirname(__DIR__) . '/Views/layouts/footer.php';
+    }
 
-        if (file_exists($header)) {
-            require $header;
-        }
+    protected function adminView(string $view, array $data = []): void
+    {
+        extract($data);
 
-        require $content;
+        ob_start();
 
-        if (file_exists($footer)) {
-            require $footer;
-        }
+        require dirname(__DIR__) . "/Views/{$view}.php";
+
+        $content = ob_get_clean();
+
+        require dirname(__DIR__) . '/Views/layouts/admin.php';
     }
 }

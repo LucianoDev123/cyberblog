@@ -73,4 +73,104 @@ class Article extends Model
 
         return $statement->fetch();
     }
+
+    public function getAllArticles(): array
+    {
+        $sql = "
+            SELECT
+
+                a.id,
+
+                a.titulo,
+
+                a.estado,
+
+                a.created_at,
+
+                CONCAT(u.nombre,' ',u.apellido) AS autor,
+
+                c.nombre AS categoria
+
+            FROM articulos a
+
+            INNER JOIN usuarios u
+
+                ON a.usuario_id = u.id
+
+            INNER JOIN categorias c
+
+                ON a.categoria_id = c.id
+
+            ORDER BY a.created_at DESC
+        ";
+
+        $statement = $this->db->query($sql);
+
+        return $statement->fetchAll();
+    }
+
+    public function create(array $data): bool
+    {
+        $sql = "
+            INSERT INTO articulos
+            (
+                usuario_id,
+                categoria_id,
+                titulo,
+                slug,
+                resumen,
+                contenido,
+                estado
+            )
+            VALUES
+            (
+                :usuario_id,
+                :categoria_id,
+                :titulo,
+                :slug,
+                :resumen,
+                :contenido,
+                :estado
+            )
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute($data);
+    }
+
+    /**
+     * Actualiza un artículo existente.
+     *
+     * @param int $id ID del artículo que vamos a modificar.
+     * @param array $data Datos nuevos que llegarán desde el formulario.
+     *
+     * @return bool true si el UPDATE fue exitoso.
+     */
+    public function update(int $id, array $data): bool
+    {
+        // Consulta SQL para actualizar un artículo
+        $sql = "
+            UPDATE articulos
+            SET
+                categoria_id = :categoria_id,
+                titulo       = :titulo,
+                slug         = :slug,
+                resumen      = :resumen,
+                contenido    = :contenido,
+                estado       = :estado
+            WHERE id = :id
+        ";
+
+        // Preparamos la consulta para evitar SQL Injection
+        $statement = $this->db->prepare($sql);
+
+        // Agregamos el ID al array de datos
+        $data['id'] = $id;
+
+        // Ejecutamos el UPDATE
+        return $statement->execute($data);
+    }
+
+
 }
