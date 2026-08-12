@@ -173,4 +173,30 @@ class Article extends Model
     }
 
 
+
+        /**
+     * Elimina definitivamente un artículo de la base de datos.
+     *
+     * @param int $id ID del artículo a eliminar.
+     *
+     * @return bool true si la eliminación fue exitosa.
+     */
+    public function delete(int $id): bool
+    {
+        // Consulta SQL para eliminar un artículo
+        $sql = "
+            DELETE FROM articulos
+            WHERE id = :id
+        ";
+
+        // Preparamos la consulta
+        $statement = $this->db->prepare($sql);
+
+        // Ejecutamos la consulta enviando el ID
+        return $statement->execute([
+            'id' => $id
+        ]);
+    }
+
+
 }

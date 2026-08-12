@@ -35,6 +35,9 @@ $router->get('/admin/articles/edit/{id}', [ArticleController::class, 'edit']);
 // Recibe el formulario de edición y envía el ID del artículo al controlador
 $router->post('/admin/articles/update/{id}', [ArticleController::class, 'update']);
 
+// Ruta para eliminar un artículo (por ahora solo recibirá el ID)
+$router->get('/admin/articles/delete/{id}', [ArticleController::class, 'delete']);
+
 /* ---------- PRUEBA ---------- */
 
 $router->get('/categoria-prueba', function () {

@@ -88,6 +88,28 @@ class ArticleController extends Controller
         exit;
     }
 
+        /**
+     * Realiza una eliminación lógica del artículo.
+     *
+     * No elimina el registro de la base de datos.
+     * Solo cambia su estado a "eliminado".
+     */
+    public function delete(int $id): void
+    {
+        // Creamos una instancia del modelo Article
+        $articleModel = new Article();
+
+        // Ejecutamos la eliminación lógica
+        $articleModel->delete($id);
+
+        // Una vez finalizado, volvemos al listado
+        header('Location: /incuyo/cyberblog/public/admin/articles');
+
+        exit;
+    }
+
+
+
 
     public function store(): void
     {

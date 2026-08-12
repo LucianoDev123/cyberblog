@@ -34,9 +34,19 @@
     <td><?= htmlspecialchars($article['estado']) ?></td>
 
     <td>
+
+        <!-- Enlace para editar el artículo -->
         <a href="/incuyo/cyberblog/public/admin/articles/edit/<?= $article['id'] ?>">
             ✏️ Editar
         </a>
+
+        |
+
+        <!-- Enlace para eliminar el artículo -->
+        <a href="/incuyo/cyberblog/public/admin/articles/delete/<?= $article['id'] ?>">
+            🗑️ Eliminar
+        </a>
+
     </td>
 
 </tr>
