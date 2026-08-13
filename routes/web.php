@@ -7,6 +7,7 @@ use App\Controllers\BlogController;
 use App\Controllers\CategoryController;
 use App\Controllers\DashboardController;
 use App\Controllers\ArticleController;
+use App\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,15 @@ $router->post('/admin/articles/update/{id}', [ArticleController::class, 'update'
 
 // Ruta para eliminar un artículo (por ahora solo recibirá el ID)
 $router->get('/admin/articles/delete/{id}', [ArticleController::class, 'delete']);
+
+// Muestra el formulario de inicio de sesión
+$router->get('/login', [AuthController::class, 'login']);
+
+// Recibe las credenciales enviadas por el formulario de login
+$router->post('/login', [AuthController::class, 'authenticate']);
+
+// Cierra la sesión del usuario.
+$router->get('/logout', [AuthController::class, 'logout']);
 
 /* ---------- PRUEBA ---------- */
 

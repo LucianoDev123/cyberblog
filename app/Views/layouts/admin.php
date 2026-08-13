@@ -29,6 +29,8 @@
 
         <a href="/incuyo/cyberblog/public/">Ver Blog</a>
 
+        <a href="/incuyo/cyberblog/public/logout">Cerrar sesión</a>
+
     </nav>
 
     <hr>
