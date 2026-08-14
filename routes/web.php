@@ -8,6 +8,8 @@ use App\Controllers\CategoryController;
 use App\Controllers\DashboardController;
 use App\Controllers\ArticleController;
 use App\Controllers\AuthController;
+use App\Middleware\RoleMiddleware;
+use App\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,11 +29,23 @@ $router->get('/admin', [DashboardController::class, 'index']);
 
 $router->get('/admin/articles', [ArticleController::class, 'index']);
 
+// Administración de usuarios
+$router->get('/admin/users', [UserController::class, 'index']);
+
+// Muestra el formulario para editar un usuario.
+$router->get('/admin/users/edit/{id}', [UserController::class, 'edit']);
+
 $router->post('/admin/articles', [ArticleController::class, 'store']);
 
 $router->get('/admin/articles/create', [ArticleController::class, 'create']);
 
 $router->get('/admin/articles/edit/{id}', [ArticleController::class, 'edit']);
+
+// Recibe el formulario de edición de usuarios.
+$router->post(
+    '/admin/users/update/{id}',
+    [UserController::class, 'update']
+);
 
 // Recibe el formulario de edición y envía el ID del artículo al controlador
 $router->post('/admin/articles/update/{id}', [ArticleController::class, 'update']);

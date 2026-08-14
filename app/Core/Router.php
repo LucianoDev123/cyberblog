@@ -7,6 +7,8 @@ namespace App\Core;
 // Importamos nuestro Middleware de autenticación.
 // Esto permite que Router pueda llamar a AuthMiddleware::handle().
 use App\Middleware\AuthMiddleware;
+use App\Middleware\RoleMiddleware;
+
 
 class Router
 {
@@ -146,19 +148,15 @@ class Router
          *
          * Todas serán protegidas.
          */
+        // Comprobamos si la ruta pertenece al BackOffice.
         if (str_starts_with($requestUri, '/admin')) {
 
-            /*
-             * AuthMiddleware comprobará si existe
-             * $_SESSION['usuario_id'].
-             *
-             * Si existe:
-             *      permite continuar.
-             *
-             * Si NO existe:
-             *      redirige a /login.
-             */
-            AuthMiddleware::handle();
+        // Primero comprobamos que el usuario haya iniciado sesión.
+        AuthMiddleware::handle();
+
+            // Después comprobamos que tenga un rol permitido.
+            // Por ahora permitimos administradores y editores.
+        RoleMiddleware::handle(['admin', 'editor']);
         }
 
 

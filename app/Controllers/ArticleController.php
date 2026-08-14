@@ -6,7 +6,7 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\Article;
-
+use App\Middleware\RoleMiddleware;
 
 class ArticleController extends Controller
 {
@@ -88,21 +88,24 @@ class ArticleController extends Controller
         exit;
     }
 
-        /**
-     * Realiza una eliminación lógica del artículo.
+    /**
+     * Elimina definitivamente un artículo.
      *
-     * No elimina el registro de la base de datos.
-     * Solo cambia su estado a "eliminado".
+     * Esta acción está reservada exclusivamente
+     * para usuarios con rol admin.
      */
     public function delete(int $id): void
     {
-        // Creamos una instancia del modelo Article
+        // Comprobamos que el usuario tenga permisos de administrador.
+        RoleMiddleware::handle(['admin']);
+
+        // Creamos una instancia del modelo Article.
         $articleModel = new Article();
 
-        // Ejecutamos la eliminación lógica
+        // Eliminamos el artículo de la base de datos.
         $articleModel->delete($id);
 
-        // Una vez finalizado, volvemos al listado
+        // Volvemos al listado de artículos.
         header('Location: /incuyo/cyberblog/public/admin/articles');
 
         exit;

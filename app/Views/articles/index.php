@@ -33,19 +33,24 @@
 
     <td><?= htmlspecialchars($article['estado']) ?></td>
 
-    <td>
+   <td>
 
-        <!-- Enlace para editar el artículo -->
+        <!-- Todos los usuarios autorizados pueden editar artículos -->
         <a href="/incuyo/cyberblog/public/admin/articles/edit/<?= $article['id'] ?>">
             ✏️ Editar
         </a>
 
-        |
 
-        <!-- Enlace para eliminar el artículo -->
-        <a href="/incuyo/cyberblog/public/admin/articles/delete/<?= $article['id'] ?>">
-            🗑️ Eliminar
-        </a>
+        <?php if ($_SESSION['usuario_rol'] === 'admin'): ?>
+
+            |
+
+            <!-- Solo los administradores pueden eliminar artículos -->
+            <a href="/incuyo/cyberblog/public/admin/articles/delete/<?= $article['id'] ?>">
+                🗑️ Eliminar
+            </a>
+
+        <?php endif; ?>
 
     </td>
 
