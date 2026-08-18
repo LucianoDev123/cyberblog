@@ -2,10 +2,38 @@
 
 <hr>
 
+
+<?php if ($flashError !== null): ?>
+
+    <p>
+        <strong>
+            ❌ <?= htmlspecialchars($flashError) ?>
+        </strong>
+    </p>
+
+<?php endif; ?>
+
+
+<?php if ($flashSuccess !== null): ?>
+
+    <p>
+        <strong>
+            ✅ <?= htmlspecialchars($flashSuccess) ?>
+        </strong>
+    </p>
+
+<?php endif; ?>
+
+
 <form
-    action="/incuyo/cyberblog/public/admin/users/update/<?= $user['id'] ?>"
+    action="/incuyo/cyberblog/public/admin/users/update/<?= (int) $user['id'] ?>"
     method="POST"
 >
+
+
+    <!-- =====================================================
+         NOMBRE
+         ===================================================== -->
 
     <p>
         <label for="nombre">
@@ -17,9 +45,16 @@
         type="text"
         id="nombre"
         name="nombre"
-        value="<?= htmlspecialchars($user['nombre']) ?>"
+        value="<?= htmlspecialchars(
+            $oldInput['nombre'] ?? $user['nombre']
+        ) ?>"
         required
     >
+
+
+    <!-- =====================================================
+         APELLIDO
+         ===================================================== -->
 
     <p>
         <label for="apellido">
@@ -31,9 +66,35 @@
         type="text"
         id="apellido"
         name="apellido"
-        value="<?= htmlspecialchars($user['apellido']) ?>"
+        value="<?= htmlspecialchars(
+            $oldInput['apellido'] ?? $user['apellido']
+        ) ?>"
         required
     >
+
+
+    <!-- =====================================================
+         USERNAME
+         ===================================================== -->
+
+    <p>
+        <label for="username">
+            Username
+        </label>
+    </p>
+
+    <input
+        type="text"
+        id="username"
+        name="username"
+        value="<?= htmlspecialchars($user['username']) ?>"
+        readonly
+    >
+
+
+    <!-- =====================================================
+         EMAIL
+         ===================================================== -->
 
     <p>
         <label for="email">
@@ -45,66 +106,83 @@
         type="email"
         id="email"
         name="email"
-        value="<?= htmlspecialchars($user['email']) ?>"
+        value="<?= htmlspecialchars(
+            $oldInput['email'] ?? $user['email']
+        ) ?>"
         required
     >
 
+
+    <!-- =====================================================
+         ROL
+         ===================================================== -->
+
     <p>
         <label for="rol">
             Rol
         </label>
     </p>
 
-   <?php if ($user['id'] === $_SESSION['usuario_id']): ?>
-
-    <p>
-        <strong>Rol</strong>
-    </p>
-
-    <p>
-        No puedes modificar tu propio rol.
-    </p>
-
-    <input
-        type="hidden"
+    <select
+        id="rol"
         name="rol"
-        value="<?= htmlspecialchars($user['rol']) ?>"
+        <?= $user['id'] === $_SESSION['usuario_id'] ? 'disabled' : '' ?>
     >
 
-<?php else: ?>
-
-    <p>
-        <label for="rol">
-            Rol
-        </label>
-    </p>
-
-    <select id="rol" name="rol">
-
         <option
-            value="admin"
-            <?= $user['rol'] === 'admin' ? 'selected' : '' ?>
+            value="usuario"
+            <?= (
+                ($oldInput['rol'] ?? $user['rol']) === 'usuario'
+            ) ? 'selected' : '' ?>
         >
-            Administrador
+            Usuario
         </option>
 
         <option
             value="editor"
-            <?= $user['rol'] === 'editor' ? 'selected' : '' ?>
+            <?= (
+                ($oldInput['rol'] ?? $user['rol']) === 'editor'
+            ) ? 'selected' : '' ?>
         >
             Editor
         </option>
 
         <option
-            value="usuario"
-            <?= $user['rol'] === 'usuario' ? 'selected' : '' ?>
+            value="admin"
+            <?= (
+                ($oldInput['rol'] ?? $user['rol']) === 'admin'
+            ) ? 'selected' : '' ?>
         >
-            Usuario
+            Administrador
         </option>
 
     </select>
 
-<?php endif; ?>
+
+    <?php if ($user['id'] === $_SESSION['usuario_id']): ?>
+
+        <p>
+            <small>
+                No puedes modificar tu propio rol.
+            </small>
+        </p>
+
+        <!--
+            Como el select está disabled, no se enviaría por POST.
+            Por eso enviamos el rol mediante un campo oculto.
+        -->
+        <input
+            type="hidden"
+            name="rol"
+            value="<?= htmlspecialchars($user['rol']) ?>"
+        >
+
+    <?php endif; ?>
+
+
+    <!-- =====================================================
+         ESTADO
+         ===================================================== -->
 
     <p>
         <label for="estado">
@@ -112,28 +190,38 @@
         </label>
     </p>
 
-    <select id="estado" name="estado">
+    <select
+        id="estado"
+        name="estado"
+    >
 
         <option
-            value="activo"
-            <?= $user['estado'] === 'activo' ? 'selected' : '' ?>
+            value="1"
+            <?= (
+                ($oldInput['estado'] ?? (string) $user['estado']) === '1'
+            ) ? 'selected' : '' ?>
         >
             Activo
         </option>
 
         <option
-            value="inactivo"
-            <?= $user['estado'] === 'inactivo' ? 'selected' : '' ?>
+            value="0"
+            <?= (
+                ($oldInput['estado'] ?? (string) $user['estado']) === '0'
+            ) ? 'selected' : '' ?>
         >
             Inactivo
         </option>
 
     </select>
 
+
     <br><br>
+
 
     <button type="submit">
         Guardar cambios
     </button>
+
 
 </form>

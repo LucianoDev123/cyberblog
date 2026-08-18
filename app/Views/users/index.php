@@ -1,5 +1,16 @@
 <h2>Administración de Usuarios</h2>
 
+
+<p>
+
+    <a href="/incuyo/cyberblog/public/admin/users/create">
+        ➕ Nuevo usuario
+    </a>
+
+</p>
+
+<hr>
+
 <hr>
 
 <table border="1" cellpadding="8">
@@ -12,6 +23,7 @@
         <th>Estado</th>
         <th>Fecha de registro</th>
         <th>Acciones</th>
+        
     </tr>
 
     <?php foreach ($users as $user): ?>

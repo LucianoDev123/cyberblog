@@ -32,6 +32,20 @@ $router->get('/admin/articles', [ArticleController::class, 'index']);
 // Administración de usuarios
 $router->get('/admin/users', [UserController::class, 'index']);
 
+// Muestra el formulario para crear un usuario.
+$router->get(
+    '/admin/users/create',
+    [UserController::class, 'create']
+);
+
+// Recibe el formulario y crea el usuario.
+$router->post(
+    '/admin/users',
+    [UserController::class, 'store']
+);
+
+
+
 // Muestra el formulario para editar un usuario.
 $router->get('/admin/users/edit/{id}', [UserController::class, 'edit']);
 
