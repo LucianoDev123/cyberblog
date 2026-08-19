@@ -15,12 +15,16 @@ class UserController extends Controller
      */
     public function index(): void
     {
+        // Solo los administradores pueden administrar usuarios.
         RoleMiddleware::handle(['admin']);
 
+        // Creamos el modelo User.
         $userModel = new User();
 
+        // Obtenemos todos los usuarios.
         $users = $userModel->getAllUsers();
 
+        // Enviamos los usuarios a la vista.
         $this->adminView('users/index', [
             'title' => 'Administración de Usuarios',
             'users' => $users
@@ -33,10 +37,13 @@ class UserController extends Controller
      */
     public function create(): void
     {
+        // Solo los administradores pueden crear usuarios.
         RoleMiddleware::handle(['admin']);
 
+        // Recuperamos los datos anteriores del formulario.
         $oldInput = $this->getOldInput();
 
+        // Cargamos la vista.
         $this->adminView('users/create', [
             'title' => 'Nuevo usuario',
             'oldInput' => $oldInput
@@ -49,7 +56,15 @@ class UserController extends Controller
      */
     public function store(): void
     {
+        // Solo los administradores pueden crear usuarios.
         RoleMiddleware::handle(['admin']);
+
+        // Validamos el token CSRF antes de procesar el formulario.
+        $this->verifyCsrfToken();
+
+        // ---------------------------------------------------------
+        // OBTENER DATOS
+        // ---------------------------------------------------------
 
         $nombre = trim($_POST['nombre'] ?? '');
         $apellido = trim($_POST['apellido'] ?? '');
@@ -181,6 +196,10 @@ class UserController extends Controller
         }
 
 
+        // ---------------------------------------------------------
+        // ROL
+        // ---------------------------------------------------------
+
         $allowedRoles = [
             'admin',
             'editor',
@@ -203,6 +222,10 @@ class UserController extends Controller
         }
 
 
+        // ---------------------------------------------------------
+        // ESTADO
+        // ---------------------------------------------------------
+
         if (!in_array($estado, ['0', '1'], true)) {
             $this->setOldInput($oldInput);
 
@@ -218,6 +241,10 @@ class UserController extends Controller
             exit;
         }
 
+
+        // ---------------------------------------------------------
+        // CONTRASEÑA
+        // ---------------------------------------------------------
 
         if (strlen($password) < 8) {
             $this->setOldInput($oldInput);
@@ -351,12 +378,16 @@ class UserController extends Controller
      */
     public function edit(int $id): void
     {
+        // Solo los administradores pueden editar usuarios.
         RoleMiddleware::handle(['admin']);
 
+        // Creamos el modelo User.
         $userModel = new User();
 
+        // Buscamos el usuario.
         $user = $userModel->find($id);
 
+        // Comprobamos si existe.
         if ($user === false) {
 
             http_response_code(404);
@@ -364,8 +395,10 @@ class UserController extends Controller
             die('Usuario no encontrado');
         }
 
+        // Recuperamos los datos anteriores del formulario.
         $oldInput = $this->getOldInput();
 
+        // Cargamos la vista de edición.
         $this->adminView('users/edit', [
             'title' => 'Editar usuario',
             'user' => $user,
@@ -379,7 +412,11 @@ class UserController extends Controller
      */
     public function update(int $id): void
     {
+        // Solo los administradores pueden modificar usuarios.
         RoleMiddleware::handle(['admin']);
+
+        // Validamos el token CSRF antes de procesar el formulario.
+        $this->verifyCsrfToken();
 
 
         // ---------------------------------------------------------
@@ -393,6 +430,7 @@ class UserController extends Controller
         $estado = $_POST['estado'] ?? '';
 
 
+        // Datos que podemos conservar si ocurre un error.
         $oldInput = [
             'nombre'   => $nombre,
             'apellido' => $apellido,
@@ -403,7 +441,7 @@ class UserController extends Controller
 
 
         // ---------------------------------------------------------
-        // VALIDACIONES
+        // CAMPOS OBLIGATORIOS
         // ---------------------------------------------------------
 
         if (
@@ -426,6 +464,10 @@ class UserController extends Controller
         }
 
 
+        // ---------------------------------------------------------
+        // NOMBRE
+        // ---------------------------------------------------------
+
         if (strlen($nombre) > 100) {
 
             $this->setOldInput($oldInput);
@@ -443,6 +485,10 @@ class UserController extends Controller
         }
 
 
+        // ---------------------------------------------------------
+        // APELLIDO
+        // ---------------------------------------------------------
+
         if (strlen($apellido) > 100) {
 
             $this->setOldInput($oldInput);
@@ -459,6 +505,10 @@ class UserController extends Controller
             exit;
         }
 
+
+        // ---------------------------------------------------------
+        // EMAIL
+        // ---------------------------------------------------------
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 

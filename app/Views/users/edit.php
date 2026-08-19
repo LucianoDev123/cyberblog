@@ -1,3 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+?>
+
 <h2>Editar usuario</h2>
 
 <hr>
@@ -29,6 +35,13 @@
     action="/incuyo/cyberblog/public/admin/users/update/<?= (int) $user['id'] ?>"
     method="POST"
 >
+
+    <!-- Token de protección CSRF -->
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= htmlspecialchars($csrfToken) ?>"
+    >
 
 
     <!-- =====================================================
@@ -167,10 +180,6 @@
             </small>
         </p>
 
-        <!--
-            Como el select está disabled, no se enviaría por POST.
-            Por eso enviamos el rol mediante un campo oculto.
-        -->
         <input
             type="hidden"
             name="rol"
@@ -222,6 +231,5 @@
     <button type="submit">
         Guardar cambios
     </button>
-
 
 </form>

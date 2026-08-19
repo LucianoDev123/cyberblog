@@ -37,6 +37,9 @@ abstract class Controller
         // Obtenemos el mensaje de éxito guardado en la sesión.
         $flashSuccess = $this->getFlash('success');
 
+        // Generamos/obtenemos el token CSRF.
+        $csrfToken = $this->getCsrfToken();
+
         // Convertimos los datos recibidos en variables.
         extract($data);
 
@@ -51,8 +54,7 @@ abstract class Controller
 
         // Cargamos el layout administrativo.
         require dirname(__DIR__) . '/Views/layouts/admin.php';
-    } 
-
+    }
 
 
     /**
@@ -60,6 +62,7 @@ abstract class Controller
      */
     protected function setFlash(string $type, string $message): void
     {
+        // Guardamos el mensaje dentro de la sesión.
         $_SESSION['flash'][$type] = $message;
     }
 
@@ -79,14 +82,15 @@ abstract class Controller
         // Guardamos temporalmente el mensaje.
         $message = $_SESSION['flash'][$type];
 
-        // Eliminamos el mensaje de la sesión.
+        // Eliminamos el mensaje.
         unset($_SESSION['flash'][$type]);
 
         // Devolvemos el mensaje.
         return $message;
     }
 
-        /**
+
+    /**
      * Guarda temporalmente los datos no sensibles
      * enviados por un formulario.
      */
@@ -100,7 +104,7 @@ abstract class Controller
     /**
      * Recupera los datos temporales del formulario.
      *
-     * Después de recuperarlos, los elimina de la sesión.
+     * Después de recuperarlos, los elimina.
      */
     protected function getOldInput(): array
     {
@@ -121,7 +125,57 @@ abstract class Controller
     }
 
 
+    /**
+     * Genera y devuelve el token CSRF de la sesión.
+     */
+    protected function getCsrfToken(): string
+    {
+        // Si todavía no existe un token,
+        // generamos uno criptográficamente seguro.
+        if (
+            !isset($_SESSION['csrf_token']) ||
+            !is_string($_SESSION['csrf_token'])
+        ) {
+            $_SESSION['csrf_token'] = bin2hex(
+                random_bytes(32)
+            );
+        }
+
+        // Devolvemos el token.
+        return $_SESSION['csrf_token'];
+    }
 
 
+    /**
+     * Comprueba que el token CSRF recibido sea válido.
+     */
+    protected function verifyCsrfToken(): void
+    {
+        // Obtenemos el token enviado por POST.
+        $submittedToken = $_POST['csrf_token'] ?? '';
 
+        // Obtenemos el token almacenado en la sesión.
+        $sessionToken = $_SESSION['csrf_token'] ?? '';
+
+        // Comprobamos que ambos sean strings.
+        if (
+            !is_string($submittedToken) ||
+            !is_string($sessionToken)
+        ) {
+            http_response_code(403);
+
+            die('403 - Token CSRF inválido.');
+        }
+
+        // Comparamos los tokens de forma segura.
+        if (
+            $submittedToken === '' ||
+            $sessionToken === '' ||
+            !hash_equals($sessionToken, $submittedToken)
+        ) {
+            http_response_code(403);
+
+            die('403 - Token CSRF inválido.');
+        }
+    }
 }

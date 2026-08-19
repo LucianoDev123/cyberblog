@@ -10,127 +10,205 @@ use App\Middleware\RoleMiddleware;
 
 class ArticleController extends Controller
 {
+    /**
+     * Muestra el listado de artículos.
+     */
     public function index(): void
     {
+        // Solo los administradores y editores autorizados
+        // pueden acceder a la administración de artículos.
+        RoleMiddleware::handle(['admin', 'editor']);
+
+        // Creamos una instancia del modelo.
         $articleModel = new Article();
 
+        // Obtenemos todos los artículos.
         $articles = $articleModel->getAllArticles();
 
+        // Enviamos los artículos a la vista.
         $this->adminView('articles/index', [
             'title' => 'Administración de Artículos',
             'articles' => $articles
         ]);
     }
+
+
+    /**
+     * Muestra el formulario para crear un artículo.
+     */
     public function create(): void
     {
+        // Solo administradores y editores pueden crear artículos.
+        RoleMiddleware::handle(['admin', 'editor']);
+
+        // Cargamos la vista.
         $this->adminView('articles/create', [
             'title' => 'Nuevo artículo'
         ]);
     }
+
+
+    /**
+     * Muestra el formulario para editar un artículo.
+     */
     public function edit(int $id): void
     {
-        // Creamos un objeto del modelo Article para poder acceder a la base de datos
+        // Solo administradores y editores pueden editar artículos.
+        RoleMiddleware::handle(['admin', 'editor']);
+
+        // Creamos una instancia del modelo.
         $articleModel = new Article();
 
-        // Buscamos el artículo cuyo ID llegó desde la URL.
-        // El método find() lo heredamos de Model.php.
+        // Buscamos el artículo.
         $article = $articleModel->find($id);
 
-        // Enviamos el artículo a la vista.
-        // adminView() carga el layout de administración y la vista articles/edit.php
+        // Comprobamos que exista.
+        if ($article === false) {
+
+            http_response_code(404);
+
+            die('Artículo no encontrado');
+        }
+
+        // Cargamos la vista de edición.
         $this->adminView('articles/edit', [
-
-            // Título que utilizará el layout
             'title' => 'Editar artículo',
-
-            // Variable que recibirá la vista.
-            // Dentro de edit.php podremos usar:
-            // $article['titulo']
-            // $article['resumen']
-            // etc.
             'article' => $article
         ]);
     }
 
+
+    /**
+     * Actualiza un artículo existente.
+     */
     public function update(int $id): void
     {
-        // Creamos una instancia del modelo Article
+        // Solo administradores y editores pueden actualizar artículos.
+        RoleMiddleware::handle(['admin', 'editor']);
+
+        // Validamos el token CSRF.
+        $this->verifyCsrfToken();
+
+        // Creamos una instancia del modelo.
         $articleModel = new Article();
 
-        // Armamos un array con los datos que llegaron desde el formulario
+        // Armamos los datos recibidos.
         $data = [
 
-            // Por ahora dejamos fija la categoría
+            // Por ahora mantenemos la categoría fija.
             'categoria_id' => 1,
 
-            // Nuevo título
-            'titulo' => $_POST['titulo'],
+            // Nuevo título.
+            'titulo' => $_POST['titulo'] ?? '',
 
-            // Generamos nuevamente el slug a partir del título
-            'slug' => strtolower(str_replace(' ', '-', $_POST['titulo'])),
+            // Generamos el slug a partir del título.
+            'slug' => strtolower(
+                str_replace(
+                    ' ',
+                    '-',
+                    $_POST['titulo'] ?? ''
+                )
+            ),
 
-            // Nuevo resumen
-            'resumen' => $_POST['resumen'],
+            // Nuevo resumen.
+            'resumen' => $_POST['resumen'] ?? '',
 
-            // Nuevo contenido
-            'contenido' => $_POST['contenido'],
+            // Nuevo contenido.
+            'contenido' => $_POST['contenido'] ?? '',
 
-            // Mantenemos el estado como borrador
+            // Por ahora mantenemos los artículos como borrador.
             'estado' => 'borrador'
         ];
 
-        // Llamamos al método update() del modelo
+        // Actualizamos el artículo.
         $articleModel->update($id, $data);
 
-        // Una vez actualizado, volvemos al listado
-        header('Location: /incuyo/cyberblog/public/admin/articles');
+        // Volvemos al listado.
+        header(
+            'Location: /incuyo/cyberblog/public/admin/articles'
+        );
 
         exit;
     }
+
 
     /**
      * Elimina definitivamente un artículo.
      *
-     * Esta acción está reservada exclusivamente
-     * para usuarios con rol admin.
+     * Esta operación requiere:
+     *
+     * 1. Usuario autenticado.
+     * 2. Rol administrador.
+     * 3. Petición POST.
+     * 4. Token CSRF válido.
      */
     public function delete(int $id): void
     {
-        // Comprobamos que el usuario tenga permisos de administrador.
+        // Solo los administradores pueden eliminar artículos.
         RoleMiddleware::handle(['admin']);
 
-        // Creamos una instancia del modelo Article.
+        // Validamos el token CSRF.
+        $this->verifyCsrfToken();
+
+        // Creamos una instancia del modelo.
         $articleModel = new Article();
 
-        // Eliminamos el artículo de la base de datos.
+        // Eliminamos definitivamente el artículo.
         $articleModel->delete($id);
 
-        // Volvemos al listado de artículos.
-        header('Location: /incuyo/cyberblog/public/admin/articles');
+        // Volvemos al listado.
+        header(
+            'Location: /incuyo/cyberblog/public/admin/articles'
+        );
 
         exit;
     }
 
 
-
-
+    /**
+     * Crea un nuevo artículo.
+     */
     public function store(): void
     {
+        // Solo administradores y editores pueden crear artículos.
+        RoleMiddleware::handle(['admin', 'editor']);
+
+        // Validamos el token CSRF.
+        $this->verifyCsrfToken();
+
+        // Creamos una instancia del modelo.
         $articleModel = new Article();
 
+        // Armamos los datos del nuevo artículo.
         $data = [
-            'usuario_id'   => 1,
+            'usuario_id'   => $_SESSION['usuario_id'],
             'categoria_id' => 1,
-            'titulo'       => $_POST['titulo'],
-            'slug'         => strtolower(str_replace(' ', '-', $_POST['titulo'])),
-            'resumen'      => $_POST['resumen'],
-            'contenido'    => $_POST['contenido'],
-            'estado'       => 'borrador'
+
+            'titulo' => $_POST['titulo'] ?? '',
+
+            'slug' => strtolower(
+                str_replace(
+                    ' ',
+                    '-',
+                    $_POST['titulo'] ?? ''
+                )
+            ),
+
+            'resumen' => $_POST['resumen'] ?? '',
+
+            'contenido' => $_POST['contenido'] ?? '',
+
+            'estado' => 'borrador'
         ];
 
+        // Creamos el artículo.
         $articleModel->create($data);
 
-        header('Location: /incuyo/cyberblog/public/admin/articles');
+        // Volvemos al listado.
+        header(
+            'Location: /incuyo/cyberblog/public/admin/articles'
+        );
+
         exit;
     }
 }

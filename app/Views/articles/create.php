@@ -1,3 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+?>
+
 <h2>Nuevo artículo</h2>
 
 <hr>
@@ -7,48 +13,47 @@
     method="POST"
 >
 
-<p>
+    <!-- Token de protección CSRF -->
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= htmlspecialchars($csrfToken) ?>"
+    >
 
-Título
+    <p>
+        Título
+    </p>
 
-</p>
+    <input
+        type="text"
+        name="titulo"
+        style="width:400px;"
+    >
 
-<input
-    type="text"
-    name="titulo"
-    style="width:400px;"
->
+    <p>
+        Resumen
+    </p>
 
-<p>
+    <textarea
+        name="resumen"
+        rows="4"
+        cols="60"
+    ></textarea>
 
-Resumen
+    <p>
+        Contenido
+    </p>
 
-</p>
+    <textarea
+        name="contenido"
+        rows="12"
+        cols="60"
+    ></textarea>
 
-<textarea
-    name="resumen"
-    rows="4"
-    cols="60"
-></textarea>
+    <br><br>
 
-<p>
-
-Contenido
-
-</p>
-
-<textarea
-    name="contenido"
-    rows="12"
-    cols="60"
-></textarea>
-
-<br><br>
-
-<button>
-
-Guardar artículo
-
-</button>
+    <button type="submit">
+        Guardar artículo
+    </button>
 
 </form>

@@ -23,20 +23,32 @@
 
 <tr>
 
-    <td><?= $article['id'] ?></td>
+    <td>
+        <?= (int) $article['id'] ?>
+    </td>
 
-    <td><?= htmlspecialchars($article['titulo']) ?></td>
+    <td>
+        <?= htmlspecialchars($article['titulo']) ?>
+    </td>
 
-    <td><?= htmlspecialchars($article['autor']) ?></td>
+    <td>
+        <?= htmlspecialchars($article['autor']) ?>
+    </td>
 
-    <td><?= htmlspecialchars($article['categoria']) ?></td>
+    <td>
+        <?= htmlspecialchars($article['categoria']) ?>
+    </td>
 
-    <td><?= htmlspecialchars($article['estado']) ?></td>
+    <td>
+        <?= htmlspecialchars($article['estado']) ?>
+    </td>
 
-   <td>
+    <td>
 
         <!-- Todos los usuarios autorizados pueden editar artículos -->
-        <a href="/incuyo/cyberblog/public/admin/articles/edit/<?= $article['id'] ?>">
+        <a
+            href="/incuyo/cyberblog/public/admin/articles/edit/<?= (int) $article['id'] ?>"
+        >
             ✏️ Editar
         </a>
 
@@ -45,10 +57,32 @@
 
             |
 
-            <!-- Solo los administradores pueden eliminar artículos -->
-            <a href="/incuyo/cyberblog/public/admin/articles/delete/<?= $article['id'] ?>">
-                🗑️ Eliminar
-            </a>
+
+            <!--
+                Solo los administradores pueden eliminar artículos.
+
+                Utilizamos POST porque eliminar es una
+                operación destructiva.
+            -->
+            <form
+                action="/incuyo/cyberblog/public/admin/articles/delete/<?= (int) $article['id'] ?>"
+                method="POST"
+                style="display:inline;"
+                onsubmit="return confirm('¿Estás seguro de que quieres eliminar este artículo?');"
+            >
+
+                <!-- Token de protección CSRF -->
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars($csrfToken) ?>"
+                >
+
+                <button type="submit">
+                    🗑️ Eliminar
+                </button>
+
+            </form>
 
         <?php endif; ?>
 

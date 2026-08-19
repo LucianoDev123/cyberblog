@@ -1,3 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+?>
+
 <h2>Nuevo usuario</h2>
 
 <hr>
@@ -30,6 +36,14 @@
     method="POST"
 >
 
+    <!-- Token de protección CSRF -->
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= htmlspecialchars($csrfToken) ?>"
+    >
+
+
     <p>
         <label for="nombre">
             Nombre
@@ -58,6 +72,7 @@
         value="<?= htmlspecialchars($oldInput['apellido'] ?? '') ?>"
         required
     >
+
 
     <p>
         <label for="username">
@@ -135,7 +150,6 @@
             Administrador
         </option>
 
-    
     </select>
 
 
@@ -168,7 +182,6 @@
 
 
     <br><br>
-
 
     <button type="submit">
         Crear usuario

@@ -8,7 +8,6 @@ use App\Controllers\CategoryController;
 use App\Controllers\DashboardController;
 use App\Controllers\ArticleController;
 use App\Controllers\AuthController;
-use App\Middleware\RoleMiddleware;
 use App\Controllers\UserController;
 
 /*
@@ -17,66 +16,157 @@ use App\Controllers\UserController;
 |--------------------------------------------------------------------------
 */
 
-$router->get('/', [HomeController::class, 'index']);
 
-$router->get('/blog', [BlogController::class, 'index']);
+/*
+|--------------------------------------------------------------------------
+| FrontOffice
+|--------------------------------------------------------------------------
+*/
 
-$router->get('/blog/{slug}', [BlogController::class, 'show']);
+$router->get('/', [
+    HomeController::class,
+    'index'
+]);
 
-$router->get('/category/{slug}', [CategoryController::class, 'show']);
+$router->get('/blog', [
+    BlogController::class,
+    'index'
+]);
 
-$router->get('/admin', [DashboardController::class, 'index']);
+$router->get('/blog/{slug}', [
+    BlogController::class,
+    'show'
+]);
 
-$router->get('/admin/articles', [ArticleController::class, 'index']);
-
-// Administración de usuarios
-$router->get('/admin/users', [UserController::class, 'index']);
-
-// Muestra el formulario para crear un usuario.
-$router->get(
-    '/admin/users/create',
-    [UserController::class, 'create']
-);
-
-// Recibe el formulario y crea el usuario.
-$router->post(
-    '/admin/users',
-    [UserController::class, 'store']
-);
+$router->get('/category/{slug}', [
+    CategoryController::class,
+    'show'
+]);
 
 
+/*
+|--------------------------------------------------------------------------
+| Administración
+|--------------------------------------------------------------------------
+*/
 
-// Muestra el formulario para editar un usuario.
-$router->get('/admin/users/edit/{id}', [UserController::class, 'edit']);
+$router->get('/admin', [
+    DashboardController::class,
+    'index'
+]);
 
-$router->post('/admin/articles', [ArticleController::class, 'store']);
 
-$router->get('/admin/articles/create', [ArticleController::class, 'create']);
+/*
+|--------------------------------------------------------------------------
+| Artículos
+|--------------------------------------------------------------------------
+*/
 
-$router->get('/admin/articles/edit/{id}', [ArticleController::class, 'edit']);
+// Listado de artículos.
+$router->get('/admin/articles', [
+    ArticleController::class,
+    'index'
+]);
 
-// Recibe el formulario de edición de usuarios.
-$router->post(
-    '/admin/users/update/{id}',
-    [UserController::class, 'update']
-);
+// Formulario para crear un artículo.
+$router->get('/admin/articles/create', [
+    ArticleController::class,
+    'create'
+]);
 
-// Recibe el formulario de edición y envía el ID del artículo al controlador
-$router->post('/admin/articles/update/{id}', [ArticleController::class, 'update']);
+// Procesar creación de artículo.
+$router->post('/admin/articles', [
+    ArticleController::class,
+    'store'
+]);
 
-// Ruta para eliminar un artículo (por ahora solo recibirá el ID)
-$router->get('/admin/articles/delete/{id}', [ArticleController::class, 'delete']);
+// Formulario para editar un artículo.
+$router->get('/admin/articles/edit/{id}', [
+    ArticleController::class,
+    'edit'
+]);
 
-// Muestra el formulario de inicio de sesión
-$router->get('/login', [AuthController::class, 'login']);
+// Procesar edición de artículo.
+$router->post('/admin/articles/update/{id}', [
+    ArticleController::class,
+    'update'
+]);
 
-// Recibe las credenciales enviadas por el formulario de login
-$router->post('/login', [AuthController::class, 'authenticate']);
+// Eliminar artículo.
+// IMPORTANTE: usamos POST porque es una operación destructiva.
+$router->post('/admin/articles/delete/{id}', [
+    ArticleController::class,
+    'delete'
+]);
 
-// Cierra la sesión del usuario.
-$router->get('/logout', [AuthController::class, 'logout']);
 
-/* ---------- PRUEBA ---------- */
+/*
+|--------------------------------------------------------------------------
+| Usuarios
+|--------------------------------------------------------------------------
+*/
+
+// Listado de usuarios.
+$router->get('/admin/users', [
+    UserController::class,
+    'index'
+]);
+
+// Formulario para crear usuario.
+$router->get('/admin/users/create', [
+    UserController::class,
+    'create'
+]);
+
+// Procesar creación de usuario.
+$router->post('/admin/users', [
+    UserController::class,
+    'store'
+]);
+
+// Formulario para editar usuario.
+$router->get('/admin/users/edit/{id}', [
+    UserController::class,
+    'edit'
+]);
+
+// Procesar edición de usuario.
+$router->post('/admin/users/update/{id}', [
+    UserController::class,
+    'update'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Autenticación
+|--------------------------------------------------------------------------
+*/
+
+// Formulario de login.
+$router->get('/login', [
+    AuthController::class,
+    'login'
+]);
+
+// Procesar login.
+$router->post('/login', [
+    AuthController::class,
+    'authenticate'
+]);
+
+// Cerrar sesión.
+$router->get('/logout', [
+    AuthController::class,
+    'logout'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Prueba
+|--------------------------------------------------------------------------
+*/
 
 $router->get('/categoria-prueba', function () {
     die('Categoria OK');
