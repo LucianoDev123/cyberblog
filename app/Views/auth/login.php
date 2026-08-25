@@ -1,38 +1,119 @@
-<h2>Iniciar sesión</h2>
+<?php
 
-<hr>
+declare(strict_types=1);
 
-<form
-    action="/incuyo/cyberblog/public/login"
-    method="POST"
->
+?>
 
-    <p>
-        <label for="email">Correo electrónico</label>
-    </p>
+<section class="login-page">
 
-    <input
-        type="email"
-        id="email"
-        name="email"
-        required
-    >
+    <div class="login-card">
 
-    <p>
-        <label for="password">Contraseña</label>
-    </p>
+        <div class="login-icon">
+            <span>&gt;_</span>
+        </div>
 
-    <input
-        type="password"
-        id="password"
-        name="password"
-        required
-    >
+        <div class="login-header">
 
-    <br><br>
+            <span class="login-eyebrow">
+                ÁREA RESTRINGIDA
+            </span>
 
-    <button type="submit">
-        Iniciar sesión
-    </button>
+            <h1>
+                Panel de acceso
+            </h1>
 
-</form>
+            <p>
+                Inicia sesión para acceder al panel de administración de CyberBlog.
+            </p>
+
+        </div>
+
+
+        <form
+            class="login-form"
+            action="/incuyo/cyberblog/public/login"
+            method="POST"
+        >
+
+            <div class="form-group">
+
+                <label for="email">
+                    Correo electrónico
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        @
+                    </span>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="usuario@empresa.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Contraseña
+                </label>
+
+                <div class="input-wrapper">
+
+                    <span class="input-icon">
+                        #
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Introduce tu contraseña"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                <span>
+                    Iniciar sesión
+                </span>
+
+                <span>
+                    →
+                </span>
+            </button>
+
+        </form>
+
+
+        <div class="login-footer">
+
+            <a
+                href="/incuyo/cyberblog/public/"
+                class="back-to-site"
+            >
+                ← Volver al sitio
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

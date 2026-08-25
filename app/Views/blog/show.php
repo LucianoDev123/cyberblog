@@ -4,56 +4,119 @@ declare(strict_types=1);
 
 ?>
 
-<article>
+<section class="article-page">
 
-    <h2>
+    <div class="container article-container">
 
-        <?= htmlspecialchars($article['titulo']) ?>
+        <!-- VOLVER AL BLOG -->
+        <a
+            href="/incuyo/cyberblog/public/blog"
+            class="back-link"
+        >
+            <span>←</span>
+            Volver al blog
+        </a>
 
-    </h2>
 
-    <p>
+        <article class="article-full">
 
-        <strong>Autor:</strong>
+            <!-- CABECERA DEL ARTÍCULO -->
+            <header class="article-header">
 
-        <?= htmlspecialchars($article['autor']) ?>
+                <a
+                    href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug'] ?? '') ?>"
+                    class="article-category"
+                >
+                    <?= htmlspecialchars($article['categoria']) ?>
+                </a>
 
-    </p>
 
-    <p>
+                <h1>
 
-        <strong>Categoría:</strong>
+                    <?= htmlspecialchars($article['titulo']) ?>
 
-        <?= htmlspecialchars($article['categoria']) ?>
+                </h1>
 
-    </p>
 
-    <p>
+                <div class="article-meta">
 
-        <strong>Fecha:</strong>
+                    <span>
 
-        <?= htmlspecialchars($article['created_at']) ?>
+                        <strong>
+                            //
+                        </strong>
 
-    </p>
+                        <?= htmlspecialchars($article['autor']) ?>
 
-    <hr>
+                    </span>
 
-    <div>
 
-        <?= $article['contenido'] ?>
+                    <span class="meta-divider">
+                        |
+                    </span>
+
+
+                    <span>
+
+                        <?= htmlspecialchars($article['created_at']) ?>
+
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <!-- IMAGEN PRINCIPAL DEL ARTÍCULO -->
+            <?php if (!empty($article['imagen'])): ?>
+
+                <div class="article-featured-image">
+
+                    <img
+                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
+                        alt="<?= htmlspecialchars($article['titulo']) ?>"
+                    >
+
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- RESUMEN -->
+            <?php if (!empty($article['resumen'])): ?>
+
+                <div class="article-summary">
+
+                    <?= htmlspecialchars($article['resumen']) ?>
+
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- CONTENIDO -->
+            <div class="article-content">
+
+                <?= $article['contenido'] ?>
+
+            </div>
+
+
+            <!-- PIE -->
+            <footer class="article-footer">
+
+                <a
+                    href="/incuyo/cyberblog/public/blog"
+                    class="back-link"
+                >
+                    <span>←</span>
+                    Volver al listado
+                </a>
+
+            </footer>
+
+        </article>
 
     </div>
 
-    <hr>
-
-    <p>
-
-        <a href="/incuyo/cyberblog/public/blog">
-
-            ← Volver al listado
-
-        </a>
-
-    </p>
-
-</article>
+</section>

@@ -9,6 +9,7 @@ use App\Controllers\DashboardController;
 use App\Controllers\ArticleController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
+use App\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +29,18 @@ $router->get('/', [
     'index'
 ]);
 
+
 $router->get('/blog', [
     BlogController::class,
     'index'
 ]);
 
+
 $router->get('/blog/{slug}', [
     BlogController::class,
     'show'
 ]);
+
 
 $router->get('/category/{slug}', [
     CategoryController::class,
@@ -62,41 +66,73 @@ $router->get('/admin', [
 |--------------------------------------------------------------------------
 */
 
-// Listado de artículos.
+
+/*
+ * Listado de artículos.
+ */
 $router->get('/admin/articles', [
     ArticleController::class,
     'index'
 ]);
 
-// Formulario para crear un artículo.
+
+/*
+ * Formulario para crear un artículo.
+ */
 $router->get('/admin/articles/create', [
     ArticleController::class,
     'create'
 ]);
 
-// Procesar creación de artículo.
+
+/*
+ * Procesar creación de artículo.
+ */
 $router->post('/admin/articles', [
     ArticleController::class,
     'store'
 ]);
 
-// Formulario para editar un artículo.
+
+/*
+ * Formulario para editar un artículo.
+ */
 $router->get('/admin/articles/edit/{id}', [
     ArticleController::class,
     'edit'
 ]);
 
-// Procesar edición de artículo.
+
+/*
+ * Procesar edición de artículo.
+ */
 $router->post('/admin/articles/update/{id}', [
     ArticleController::class,
     'update'
 ]);
 
-// Eliminar artículo.
-// IMPORTANTE: usamos POST porque es una operación destructiva.
+
+/*
+ * Eliminar artículo.
+ *
+ * Usamos POST porque es una operación
+ * destructiva.
+ */
 $router->post('/admin/articles/delete/{id}', [
     ArticleController::class,
     'delete'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Subida de imágenes desde el editor
+|--------------------------------------------------------------------------
+*/
+
+$router->post('/admin/upload/image', [
+    UploadController::class,
+    'uploadImage'
 ]);
 
 
@@ -106,31 +142,46 @@ $router->post('/admin/articles/delete/{id}', [
 |--------------------------------------------------------------------------
 */
 
-// Listado de usuarios.
+
+/*
+ * Listado de usuarios.
+ */
 $router->get('/admin/users', [
     UserController::class,
     'index'
 ]);
 
-// Formulario para crear usuario.
+
+/*
+ * Formulario para crear usuario.
+ */
 $router->get('/admin/users/create', [
     UserController::class,
     'create'
 ]);
 
-// Procesar creación de usuario.
+
+/*
+ * Procesar creación de usuario.
+ */
 $router->post('/admin/users', [
     UserController::class,
     'store'
 ]);
 
-// Formulario para editar usuario.
+
+/*
+ * Formulario para editar usuario.
+ */
 $router->get('/admin/users/edit/{id}', [
     UserController::class,
     'edit'
 ]);
 
-// Procesar edición de usuario.
+
+/*
+ * Procesar edición de usuario.
+ */
 $router->post('/admin/users/update/{id}', [
     UserController::class,
     'update'
@@ -143,31 +194,29 @@ $router->post('/admin/users/update/{id}', [
 |--------------------------------------------------------------------------
 */
 
-// Formulario de login.
+
+/*
+ * Formulario de login.
+ */
 $router->get('/login', [
     AuthController::class,
     'login'
 ]);
 
-// Procesar login.
+
+/*
+ * Procesar login.
+ */
 $router->post('/login', [
     AuthController::class,
     'authenticate'
 ]);
 
-// Cerrar sesión.
+
+/*
+ * Cerrar sesión.
+ */
 $router->get('/logout', [
     AuthController::class,
     'logout'
 ]);
-
-
-/*
-|--------------------------------------------------------------------------
-| Prueba
-|--------------------------------------------------------------------------
-*/
-
-$router->get('/categoria-prueba', function () {
-    die('Categoria OK');
-});

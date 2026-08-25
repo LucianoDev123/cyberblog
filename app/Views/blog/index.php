@@ -4,58 +4,148 @@ declare(strict_types=1);
 
 ?>
 
-<h2>Artículos del Blog</h2>
+<section class="blog-page">
 
-<?php if (empty($articles)): ?>
+    <div class="container">
 
-    <p>No hay artículos publicados.</p>
+        <!-- ENCABEZADO -->
+        <div class="blog-page-header">
 
-<?php else: ?>
-
-    <?php foreach ($articles as $article): ?>
-
-        <article>
-
-            <h3>
-
-                <a href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>">
-
-                    <?= htmlspecialchars($article['titulo']) ?>
-
-                </a>
-
-            </h3>
-
-            <p>
-
-                <strong>Autor:</strong>
-
-                <?= htmlspecialchars($article['autor']) ?>
-
+            <p class="section-label">
+                // CYBERSECURITY BLOG
             </p>
 
-            <p>
-
-                <strong>Categoría:</strong>
-
-                <a href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug']) ?>">
-
-                    <?= htmlspecialchars($article['categoria']) ?>
-
-                </a>
-
-            </p>
+            <h1>
+                Últimos artículos
+            </h1>
 
             <p>
-
-                <?= htmlspecialchars($article['resumen']) ?>
-
+                Investigación, aprendizaje y conocimiento sobre
+                ciberseguridad, seguridad ofensiva y defensa.
             </p>
 
-            <hr>
+        </div>
 
-        </article>
 
-    <?php endforeach; ?>
+        <!-- LISTADO DE ARTÍCULOS -->
+        <?php if (empty($articles)): ?>
 
-<?php endif; ?>
+            <div class="empty-state">
+
+                <span class="empty-icon">
+                    &gt;_
+                </span>
+
+                <h2>
+                    No hay artículos publicados
+                </h2>
+
+                <p>
+                    Actualmente no hay contenido disponible.
+                    Próximamente encontrarás nuevos artículos aquí.
+                </p>
+
+            </div>
+
+        <?php else: ?>
+
+            <div class="articles-grid">
+
+                <?php foreach ($articles as $article): ?>
+
+                    <article class="article-card">
+
+                        <!-- IMAGEN DESTACADA -->
+                        <?php if (
+                            !empty($article['imagen'])
+                        ): ?>
+
+                            <a
+                                href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                class="article-image-link"
+                            >
+
+                                <div class="article-image-wrapper">
+
+                                    <img
+                                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
+                                        alt="<?= htmlspecialchars($article['titulo']) ?>"
+                                        class="article-image"
+                                        loading="lazy"
+                                    >
+
+                                </div>
+
+                            </a>
+
+                        <?php endif; ?>
+
+
+                        <div class="article-card-content">
+
+                            <div class="article-card-top">
+
+                                <a
+                                    href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug']) ?>"
+                                    class="article-category"
+                                >
+                                    <?= htmlspecialchars($article['categoria']) ?>
+                                </a>
+
+                            </div>
+
+
+                            <h2 class="article-title">
+
+                                <a
+                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                >
+                                    <?= htmlspecialchars($article['titulo']) ?>
+                                </a>
+
+                            </h2>
+
+
+                            <p class="article-excerpt">
+
+                                <?= htmlspecialchars($article['resumen']) ?>
+
+                            </p>
+
+
+                            <div class="article-card-footer">
+
+                                <span class="article-author">
+
+                                    <span>
+                                        //
+                                    </span>
+
+                                    <?= htmlspecialchars($article['autor']) ?>
+
+                                </span>
+
+
+                                <a
+                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                    class="read-more"
+                                >
+                                    Leer artículo
+                                    <span>→</span>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                <?php endforeach; ?>
+
+            </div>
+
+        <?php endif; ?>
+
+    </div>
+
+</section>

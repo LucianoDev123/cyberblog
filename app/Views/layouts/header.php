@@ -10,30 +10,122 @@ declare(strict_types=1);
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>CyberBlog</title>
+    <meta
+        name="description"
+        content="CyberBlog - Noticias, investigación y conocimiento sobre ciberseguridad."
+    >
 
-    <link rel="stylesheet" href="/incuyo/cyberblog/public/assets/css/style.css">
+    <title>
+        <?= htmlspecialchars($title ?? 'CyberBlog') ?>
+    </title>
+
+
+    <!-- Tipografías -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- Estilos globales -->
+
+    <link
+        rel="stylesheet"
+        href="/incuyo/cyberblog/public/assets/css/style.css"
+    >
 
 </head>
 
+
 <body>
 
-<header>
+<header class="site-header">
 
-    <h1>CyberBlog</h1>
+    <div class="container header-container">
 
-    <nav>
 
-        <a href="/incuyo/cyberblog/public/">Inicio</a> |
+        <!-- Logo -->
 
-        <a href="/incuyo/cyberblog/public/blog">Blog</a>
+        <a
+            href="/incuyo/cyberblog/public/"
+            class="brand"
+        >
 
-    </nav>
+            <span class="brand-mark">
+                &gt;_
+            </span>
 
-    <hr>
+
+            <span class="brand-text">
+
+                CYBER<span>BLOG</span>
+
+            </span>
+
+        </a>
+
+
+        <!-- Navegación -->
+
+        <nav
+            class="main-nav"
+            aria-label="Navegación principal"
+        >
+
+            <a
+                href="/incuyo/cyberblog/public/"
+                class="nav-link"
+            >
+                Inicio
+            </a>
+
+
+            <a
+                href="/incuyo/cyberblog/public/blog"
+                class="nav-link"
+            >
+                Blog
+            </a>
+
+
+            <a
+                href="/incuyo/cyberblog/public/admin"
+                class="nav-link nav-link-admin"
+            >
+
+                <span
+                    class="nav-admin-icon"
+                    aria-hidden="true"
+                >
+                    ⌘
+                </span>
+
+                Panel admin
+
+            </a>
+
+        </nav>
+
+    </div>
 
 </header>
 
-<main>
+
+<main class="site-main">

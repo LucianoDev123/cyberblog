@@ -8,6 +8,10 @@ class Article extends Model
 {
     protected string $table = 'articulos';
 
+
+    /**
+     * Obtiene todos los artículos publicados.
+     */
     public function getPublishedArticles(): array
     {
         $sql = "
@@ -16,6 +20,7 @@ class Article extends Model
                 a.titulo,
                 a.slug,
                 a.resumen,
+                a.imagen,
                 a.created_at,
 
                 CONCAT(u.nombre, ' ', u.apellido) AS autor,
@@ -41,6 +46,10 @@ class Article extends Model
         return $statement->fetchAll();
     }
 
+
+    /**
+     * Obtiene un artículo publicado mediante su slug.
+     */
     public function getArticleBySlug(string $slug): array|false
     {
         $sql = "
@@ -50,7 +59,7 @@ class Article extends Model
                 CONCAT(u.nombre, ' ', u.apellido) AS autor,
 
                 c.nombre AS categoria,
-                c.slug AS categoria_slug    
+                c.slug AS categoria_slug
 
             FROM articulos a
 
@@ -74,31 +83,30 @@ class Article extends Model
         return $statement->fetch();
     }
 
+
+    /**
+     * Obtiene todos los artículos para el panel administrativo.
+     */
     public function getAllArticles(): array
     {
         $sql = "
             SELECT
-
                 a.id,
-
                 a.titulo,
-
+                a.imagen,
                 a.estado,
-
                 a.created_at,
 
-                CONCAT(u.nombre,' ',u.apellido) AS autor,
+                CONCAT(u.nombre, ' ', u.apellido) AS autor,
 
                 c.nombre AS categoria
 
             FROM articulos a
 
             INNER JOIN usuarios u
-
                 ON a.usuario_id = u.id
 
             INNER JOIN categorias c
-
                 ON a.categoria_id = c.id
 
             ORDER BY a.created_at DESC
@@ -109,6 +117,85 @@ class Article extends Model
         return $statement->fetchAll();
     }
 
+
+    /**
+     * Genera un slug único.
+     *
+     * Ejemplo:
+     *
+     * mi-articulo
+     * mi-articulo-2
+     * mi-articulo-3
+     *
+     * Al editar un artículo se puede excluir
+     * el ID actual para que conserve su propio slug.
+     */
+    public function generateUniqueSlug(
+        string $baseSlug,
+        ?int $excludeId = null
+    ): string {
+        $slug = $baseSlug;
+        $counter = 2;
+
+        while ($this->slugExists($slug, $excludeId)) {
+
+            $slug = $baseSlug . '-' . $counter;
+
+            $counter++;
+        }
+
+        return $slug;
+    }
+
+
+    /**
+     * Comprueba si un slug ya existe.
+     *
+     * $excludeId se utiliza durante la edición
+     * para ignorar el artículo actual.
+     */
+    private function slugExists(
+        string $slug,
+        ?int $excludeId = null
+    ): bool {
+        $sql = "
+            SELECT id
+            FROM articulos
+            WHERE slug = :slug
+        ";
+
+        $params = [
+            'slug' => $slug
+        ];
+
+        /*
+         * Si estamos editando un artículo,
+         * excluimos su propio ID.
+         */
+        if ($excludeId !== null) {
+
+            $sql .= "
+                AND id != :id
+            ";
+
+            $params['id'] = $excludeId;
+        }
+
+        $sql .= "
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute($params);
+
+        return $statement->fetch() !== false;
+    }
+
+
+    /**
+     * Crea un nuevo artículo.
+     */
     public function create(array $data): bool
     {
         $sql = "
@@ -120,6 +207,7 @@ class Article extends Model
                 slug,
                 resumen,
                 contenido,
+                imagen,
                 estado
             )
             VALUES
@@ -130,6 +218,7 @@ class Article extends Model
                 :slug,
                 :resumen,
                 :contenido,
+                :imagen,
                 :estado
             )
         ";
@@ -139,17 +228,12 @@ class Article extends Model
         return $statement->execute($data);
     }
 
+
     /**
      * Actualiza un artículo existente.
-     *
-     * @param int $id ID del artículo que vamos a modificar.
-     * @param array $data Datos nuevos que llegarán desde el formulario.
-     *
-     * @return bool true si el UPDATE fue exitoso.
      */
     public function update(int $id, array $data): bool
     {
-        // Consulta SQL para actualizar un artículo
         $sql = "
             UPDATE articulos
             SET
@@ -158,45 +242,33 @@ class Article extends Model
                 slug         = :slug,
                 resumen      = :resumen,
                 contenido    = :contenido,
+                imagen       = :imagen,
                 estado       = :estado
             WHERE id = :id
         ";
 
-        // Preparamos la consulta para evitar SQL Injection
         $statement = $this->db->prepare($sql);
 
-        // Agregamos el ID al array de datos
         $data['id'] = $id;
 
-        // Ejecutamos el UPDATE
         return $statement->execute($data);
     }
 
 
-
-        /**
-     * Elimina definitivamente un artículo de la base de datos.
-     *
-     * @param int $id ID del artículo a eliminar.
-     *
-     * @return bool true si la eliminación fue exitosa.
+    /**
+     * Elimina definitivamente un artículo.
      */
     public function delete(int $id): bool
     {
-        // Consulta SQL para eliminar un artículo
         $sql = "
             DELETE FROM articulos
             WHERE id = :id
         ";
 
-        // Preparamos la consulta
         $statement = $this->db->prepare($sql);
 
-        // Ejecutamos la consulta enviando el ID
         return $statement->execute([
             'id' => $id
         ]);
     }
-
-
 }
