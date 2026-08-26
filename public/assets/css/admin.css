@@ -1364,4 +1364,312 @@ body {
             20px;
     }
 
+
+        /* ========================================= */
+    /* CORRECCIÓN DE DISEÑO - ADMINISTRACIÓN SERIES */
+    /* ========================================= */
+
+    .admin-page {
+        width: 100%;
+    }
+
+
+    /* ========================================= */
+    /* ENCABEZADO DE LA PÁGINA */
+    /* ========================================= */
+
+    .admin-page .admin-page-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        gap: 32px;
+
+        width: 100%;
+
+        margin-bottom: 32px;
+
+        padding-bottom: 28px;
+
+        border-bottom: 1px solid var(--admin-border);
+    }
+
+
+    .admin-page .admin-page-header > div {
+        flex: 1;
+
+        min-width: 0;
+    }
+
+
+    .admin-page .admin-page-header .section-label {
+        margin: 0 0 8px;
+
+        color: var(--admin-primary);
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        letter-spacing: 1px;
+
+        text-transform: uppercase;
+    }
+
+
+    .admin-page .admin-page-header h1 {
+        margin: 0 0 10px;
+
+        font-size: 30px;
+
+        line-height: 1.2;
+    }
+
+
+    .admin-page .admin-page-header p:last-child {
+        max-width: 700px;
+
+        margin: 0;
+
+        color: #64748b;
+
+        line-height: 1.6;
+    }
+
+
+    /* ========================================= */
+    /* BOTÓN NUEVA SERIE */
+    /* ========================================= */
+
+    .admin-page .admin-page-header .admin-button {
+        flex: 0 0 auto;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        min-height: 44px;
+
+        margin: 0;
+
+        padding: 0 20px;
+
+        white-space: nowrap;
+
+        text-decoration: none;
+
+        box-sizing: border-box;
+    }
+
+
+    /* ========================================= */
+    /* CONTENEDOR DE LA TABLA */
+    /* ========================================= */
+
+    .admin-page .admin-table-wrapper {
+        width: 100%;
+
+        overflow-x: auto;
+
+        box-sizing: border-box;
+    }
+
+
+    .admin-page .admin-table {
+        width: 100%;
+
+        min-width: 850px;
+
+        border-collapse: collapse;
+    }
+
+
+    /* ========================================= */
+    /* ACCIONES DE TABLA */
+    /* ========================================= */
+
+    .admin-page .admin-table-actions {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: flex-start;
+
+        gap: 12px;
+
+        white-space: nowrap;
+    }
+
+
+    .admin-page .admin-table-actions form {
+        display: inline-flex;
+
+        width: auto;
+
+        max-width: none;
+
+        margin: 0;
+    }
+
+
+    .admin-page .admin-table-actions .admin-action-link {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        min-height: auto;
+
+        margin: 0;
+
+        padding: 0;
+
+        border: none;
+
+        background: transparent;
+
+        text-decoration: none;
+
+        line-height: 1.4;
+    }
+
+
+    /* ========================================= */
+    /* ESTADO VACÍO */
+    /* ========================================= */
+
+    .admin-page .admin-empty-state {
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 100%;
+
+        min-height: 360px;
+
+        padding: 50px 32px;
+
+        text-align: center;
+
+        background: #ffffff;
+
+        border: 1px solid var(--admin-border);
+
+        border-radius: 12px;
+
+        box-sizing: border-box;
+    }
+
+
+    .admin-page .admin-empty-state .admin-empty-icon {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 56px;
+
+        height: 56px;
+
+        margin-bottom: 20px;
+
+        color: var(--admin-primary);
+
+        font-size: 22px;
+
+        font-weight: 700;
+
+        background: rgba(16, 185, 129, 0.08);
+
+        border-radius: 12px;
+    }
+
+
+    .admin-page .admin-empty-state h2 {
+        margin: 0 0 12px;
+    }
+
+
+    .admin-page .admin-empty-state p {
+        max-width: 500px;
+
+        margin: 0 0 24px;
+
+        color: #64748b;
+
+        line-height: 1.6;
+    }
+
+
+    .admin-page .admin-empty-state .admin-button {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        min-height: 44px;
+
+        margin: 0;
+
+        padding: 0 20px;
+
+        text-decoration: none;
+    }
+
+
+    /* ========================================= */
+    /* RESPONSIVE */
+    /* ========================================= */
+
+    @media (max-width: 900px) {
+
+        .admin-page .admin-page-header {
+            flex-direction: column;
+
+            align-items: stretch;
+        }
+
+
+        .admin-page .admin-page-header .admin-button {
+            align-self: flex-start;
+        }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+        .admin-page .admin-page-header {
+            gap: 20px;
+
+            margin-bottom: 24px;
+
+            padding-bottom: 20px;
+        }
+
+
+        .admin-page .admin-page-header .admin-button {
+            width: 100%;
+        }
+
+
+        .admin-page .admin-empty-state {
+            min-height: 300px;
+
+            padding: 40px 20px;
+        }
+
+    }
+
 }

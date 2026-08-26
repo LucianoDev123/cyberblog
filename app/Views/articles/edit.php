@@ -4,319 +4,469 @@ declare(strict_types=1);
 
 ?>
 
-<h2>Editar artículo</h2>
+<section class="series-page">
 
-<hr>
 
+    <!-- ========================================= -->
+    <!-- ENCABEZADO -->
+    <!-- ========================================= -->
 
-<?php if ($flashError !== null): ?>
+    <div class="series-page-header">
 
-    <p>
+        <div>
 
-        <strong>
+            <span class="series-eyebrow">
 
-            ❌ <?= htmlspecialchars($flashError) ?>
+                ADMINISTRACIÓN
 
-        </strong>
+            </span>
 
-    </p>
 
-<?php endif; ?>
+            <h2>
 
+                Editar artículo
 
-<?php if ($flashSuccess !== null): ?>
+            </h2>
 
-    <p>
 
-        <strong>
+            <p>
 
-            ✅ <?= htmlspecialchars($flashSuccess) ?>
+                Modifica el contenido, organización
+                y configuración del artículo.
 
-        </strong>
+            </p>
 
-    </p>
+        </div>
 
-<?php endif; ?>
 
-
-<form
-    action="/incuyo/cyberblog/public/admin/articles/update/<?= (int) $article['id'] ?>"
-    method="POST"
-    enctype="multipart/form-data"
->
-
-    <!-- Token CSRF -->
-    <input
-        type="hidden"
-        id="csrf_token"
-        name="csrf_token"
-        value="<?= htmlspecialchars($csrfToken) ?>"
-    >
-
-
-    <p>
-
-        <label for="titulo">
-
-            Título
-
-        </label>
-
-    </p>
-
-    <input
-        type="text"
-        id="titulo"
-        name="titulo"
-        value="<?= htmlspecialchars($article['titulo']) ?>"
-        style="width: 400px;"
-        required
-    >
-
-
-    <p>
-
-        <label for="categoria_id">
-
-            Categoría
-
-        </label>
-
-    </p>
-
-    <select
-        id="categoria_id"
-        name="categoria_id"
-        required
-    >
-
-        <?php foreach ($categories as $category): ?>
-
-            <option
-                value="<?= (int) $category['id'] ?>"
-
-                <?php if (
-                    (int) $category['id'] ===
-                    (int) $article['categoria_id']
-                ): ?>
-
-                    selected
-
-                <?php endif; ?>
-            >
-
-                <?= htmlspecialchars(
-                    $category['nombre']
-                ) ?>
-
-            </option>
-
-        <?php endforeach; ?>
-
-    </select>
-
-
-    <p>
-
-        <label for="resumen">
-
-            Resumen
-
-        </label>
-
-    </p>
-
-    <textarea
-        id="resumen"
-        name="resumen"
-        rows="4"
-        cols="60"
-        required
-    ><?= htmlspecialchars($article['resumen']) ?></textarea>
-
-
-    <p>
-
-        <label for="contenido-editor">
-
-            Contenido
-
-        </label>
-
-    </p>
-
-
-    <!--
-        Editor visual.
-
-        Mostramos directamente el HTML existente
-        para que las imágenes inline ya cargadas
-        se mantengan en su posición.
-    -->
-    <div
-        id="contenido-editor"
-        class="content-editor"
-        contenteditable="true"
-        data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar texto e imágenes directamente con Ctrl + V."
-    ><?= $article['contenido'] ?></div>
-
-
-    <!--
-        Campo oculto enviado al servidor.
-    -->
-    <textarea
-        id="contenido"
-        name="contenido"
-        hidden
-        required
-    ><?= htmlspecialchars($article['contenido']) ?></textarea>
-
-
-    <p>
-
-        <small>
-
-            💡 Puedes editar el texto existente y pegar
-            nuevas imágenes directamente con Ctrl + V.
-
-            Las imágenes permanecerán en el orden
-            exacto en el que las insertes.
-
-        </small>
-
-    </p>
-
-
-    <p>
-
-        <label for="imagen">
-
-            Cambiar imagen destacada
-
-        </label>
-
-    </p>
-
-
-    <?php if (
-        !empty($article['imagen'])
-    ): ?>
-
-        <p>
-
-            Imagen actual:
-
-        </p>
-
-        <img
-            src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
-            alt="Imagen actual del artículo"
-            style="
-                display: block;
-                max-width: 300px;
-                height: auto;
-                margin-bottom: 15px;
-            "
+        <a
+            href="/incuyo/cyberblog/public/admin/articles"
+            class="admin-button admin-button-secondary"
         >
 
-    <?php else: ?>
+            ← Volver a artículos
 
-        <p>
+        </a>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- FORMULARIO -->
+    <!-- ========================================= -->
+
+    <form
+        action="/incuyo/cyberblog/public/admin/articles/update/<?= (int) $article['id'] ?>"
+        method="POST"
+        enctype="multipart/form-data"
+        class="series-form article-form"
+    >
+
+
+        <!-- TOKEN CSRF -->
+
+        <input
+            type="hidden"
+            id="csrf_token"
+            name="csrf_token"
+            value="<?= htmlspecialchars(
+                $csrfToken ?? '',
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>"
+        >
+
+
+        <!-- ========================================= -->
+        <!-- TÍTULO -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="titulo">
+
+                Título del artículo
+
+            </label>
+
+
+            <input
+                type="text"
+                id="titulo"
+                name="titulo"
+                value="<?= htmlspecialchars(
+                    $article['titulo'] ?? '',
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>"
+                required
+                maxlength="255"
+            >
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- CATEGORÍA -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="categoria_id">
+
+                Categoría
+
+            </label>
+
+
+            <select
+                id="categoria_id"
+                name="categoria_id"
+                required
+            >
+
+                <?php foreach ($categories as $category): ?>
+
+                    <option
+                        value="<?= (int) $category['id'] ?>"
+
+                        <?php if (
+                            (int) $category['id']
+                            ===
+                            (int) $article['categoria_id']
+                        ): ?>
+
+                            selected
+
+                        <?php endif; ?>
+
+                    >
+
+                        <?= htmlspecialchars(
+                            $category['nombre'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- SERIE -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="serie_id">
+
+                Serie
+
+            </label>
+
+
+            <select
+                id="serie_id"
+                name="serie_id"
+            >
+
+                <option value="">
+
+                    Sin serie
+
+                </option>
+
+
+                <?php foreach ($series as $serie): ?>
+
+                    <option
+                        value="<?= (int) $serie['id'] ?>"
+
+                        <?php if (
+                            !empty($article['serie_id'])
+                            &&
+                            (int) $serie['id']
+                            ===
+                            (int) $article['serie_id']
+                        ): ?>
+
+                            selected
+
+                        <?php endif; ?>
+
+                    >
+
+                        <?= htmlspecialchars(
+                            $serie['titulo'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>
+
+                        <?php if (
+                            ($serie['estado'] ?? '')
+                            === 'borrador'
+                        ): ?>
+
+                            — Borrador
+
+                        <?php endif; ?>
+
+                    </option>
+
+                <?php endforeach; ?>
+
+            </select>
+
 
             <small>
 
-                Este artículo no tiene una imagen destacada.
+                Puedes mover el artículo a otra serie
+                o dejarlo sin una serie asociada.
 
             </small>
 
-        </p>
-
-    <?php endif; ?>
+        </div>
 
 
-    <input
-        type="file"
-        id="imagen"
-        name="imagen"
-        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-    >
+        <!-- ========================================= -->
+        <!-- RESUMEN -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="resumen">
+
+                Resumen
+
+            </label>
 
 
-    <p>
-
-        <small>
-
-            Si no seleccionas una nueva imagen,
-            se conservará la imagen actual.
-
-            Formatos permitidos:
-            JPG, PNG y WEBP.
-
-            Tamaño máximo:
-            5 MB.
-
-        </small>
-
-    </p>
+            <textarea
+                id="resumen"
+                name="resumen"
+                rows="5"
+                required
+            ><?= htmlspecialchars(
+                $article['resumen'] ?? '',
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?></textarea>
 
 
-    <p>
+            <small>
 
-        <label for="estado">
+                Este texto se utiliza en las tarjetas
+                y vistas previas del artículo.
 
-            Estado
+            </small>
 
-        </label>
-
-    </p>
-
-    <select
-        id="estado"
-        name="estado"
-    >
-
-        <option
-            value="borrador"
-
-            <?= $article['estado'] === 'borrador'
-                ? 'selected'
-                : ''
-            ?>
-        >
-
-            📝 Guardar como borrador
-
-        </option>
+        </div>
 
 
-        <option
-            value="publicado"
+        <!-- ========================================= -->
+        <!-- CONTENIDO -->
+        <!-- ========================================= -->
 
-            <?= $article['estado'] === 'publicado'
-                ? 'selected'
-                : ''
-            ?>
-        >
+        <div class="admin-form-group">
 
-            🌐 Publicar artículo
+            <label for="contenido-editor">
 
-        </option>
+                Contenido
 
-    </select>
+            </label>
 
 
-    <br><br>
+            <div
+                id="contenido-editor"
+                class="content-editor"
+                contenteditable="true"
+                data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar texto e imágenes directamente con Ctrl + V."
+            ><?= $article['contenido'] ?? '' ?></div>
 
 
-    <button type="submit">
+            <textarea
+                id="contenido"
+                name="contenido"
+                hidden
+                required
+            ><?= htmlspecialchars(
+                $article['contenido'] ?? '',
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?></textarea>
 
-        Guardar cambios
 
-    </button>
+            <small>
 
-</form>
+                💡 Puedes editar el contenido existente
+                y pegar nuevas imágenes directamente
+                dentro del editor.
+
+            </small>
+
+        </div>
 
 
-<script
-    src="/incuyo/cyberblog/public/assets/js/editor.js"
-></script>
+        <!-- ========================================= -->
+        <!-- IMAGEN DESTACADA -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="imagen">
+
+                Imagen destacada
+
+            </label>
+
+
+            <?php if (
+                !empty($article['imagen'])
+            ): ?>
+
+                <div class="article-current-image">
+
+                    <img
+                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
+                            $article['imagen'],
+                            ENT_QUOTES,
+                            'UTF-8'
+                        ) ?>"
+                        alt="Imagen actual del artículo"
+                    >
+
+                </div>
+
+
+                <small>
+
+                    Si no seleccionas una nueva imagen,
+                    se conservará la imagen actual.
+
+                </small>
+
+            <?php else: ?>
+
+                <small>
+
+                    Este artículo todavía no tiene
+                    una imagen destacada.
+
+                </small>
+
+            <?php endif; ?>
+
+
+            <input
+                type="file"
+                id="imagen"
+                name="imagen"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+            >
+
+
+            <small>
+
+                Formatos permitidos: JPG, PNG y WEBP.
+                Tamaño máximo: 5 MB.
+
+            </small>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- ESTADO -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-group">
+
+            <label for="estado">
+
+                Estado
+
+            </label>
+
+
+            <select
+                id="estado"
+                name="estado"
+            >
+
+                <option
+                    value="borrador"
+
+                    <?= (
+                        ($article['estado'] ?? '')
+                        === 'borrador'
+                    )
+                        ? 'selected'
+                        : ''
+                    ?>
+                >
+
+                    📝 Guardar como borrador
+
+                </option>
+
+
+                <option
+                    value="publicado"
+
+                    <?= (
+                        ($article['estado'] ?? '')
+                        === 'publicado'
+                    )
+                        ? 'selected'
+                        : ''
+                    ?>
+                >
+
+                    🌐 Publicar artículo
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- ACCIONES -->
+        <!-- ========================================= -->
+
+        <div class="admin-form-actions">
+
+
+            <a
+                href="/incuyo/cyberblog/public/admin/articles"
+                class="admin-button admin-button-secondary"
+            >
+
+                Cancelar
+
+            </a>
+
+
+            <button
+                type="submit"
+                class="admin-button"
+            >
+
+                Guardar cambios
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+</section>

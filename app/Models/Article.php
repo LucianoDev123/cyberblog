@@ -6,6 +6,9 @@ namespace App\Models;
 
 class Article extends Model
 {
+    /**
+     * Tabla principal utilizada por el modelo.
+     */
     protected string $table = 'articulos';
 
 
@@ -23,10 +26,18 @@ class Article extends Model
                 a.imagen,
                 a.created_at,
 
-                CONCAT(u.nombre, ' ', u.apellido) AS autor,
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
 
                 c.nombre AS categoria,
-                c.slug AS categoria_slug
+                c.slug AS categoria_slug,
+
+                s.id AS serie_id,
+                s.titulo AS serie,
+                s.slug AS serie_slug
 
             FROM articulos a
 
@@ -35,6 +46,9 @@ class Article extends Model
 
             INNER JOIN categorias c
                 ON a.categoria_id = c.id
+
+            LEFT JOIN series s
+                ON a.serie_id = s.id
 
             WHERE a.estado = 'publicado'
 
@@ -50,16 +64,25 @@ class Article extends Model
     /**
      * Obtiene un artículo publicado mediante su slug.
      */
-    public function getArticleBySlug(string $slug): array|false
-    {
+    public function getArticleBySlug(
+        string $slug
+    ): array|false {
         $sql = "
             SELECT
                 a.*,
 
-                CONCAT(u.nombre, ' ', u.apellido) AS autor,
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
 
                 c.nombre AS categoria,
-                c.slug AS categoria_slug
+                c.slug AS categoria_slug,
+
+                s.id AS serie_id,
+                s.titulo AS serie,
+                s.slug AS serie_slug
 
             FROM articulos a
 
@@ -69,7 +92,12 @@ class Article extends Model
             INNER JOIN categorias c
                 ON a.categoria_id = c.id
 
+            LEFT JOIN series s
+                ON a.serie_id = s.id
+
             WHERE a.slug = :slug
+
+            AND a.estado = 'publicado'
 
             LIMIT 1
         ";
@@ -97,9 +125,16 @@ class Article extends Model
                 a.estado,
                 a.created_at,
 
-                CONCAT(u.nombre, ' ', u.apellido) AS autor,
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
 
-                c.nombre AS categoria
+                c.nombre AS categoria,
+
+                s.id AS serie_id,
+                s.titulo AS serie
 
             FROM articulos a
 
@@ -108,6 +143,9 @@ class Article extends Model
 
             INNER JOIN categorias c
                 ON a.categoria_id = c.id
+
+            LEFT JOIN series s
+                ON a.serie_id = s.id
 
             ORDER BY a.created_at DESC
         ";
@@ -137,9 +175,16 @@ class Article extends Model
         $slug = $baseSlug;
         $counter = 2;
 
-        while ($this->slugExists($slug, $excludeId)) {
-
-            $slug = $baseSlug . '-' . $counter;
+        while (
+            $this->slugExists(
+                $slug,
+                $excludeId
+            )
+        ) {
+            $slug =
+                $baseSlug
+                . '-'
+                . $counter;
 
             $counter++;
         }
@@ -168,6 +213,7 @@ class Article extends Model
             'slug' => $slug
         ];
 
+
         /*
          * Si estamos editando un artículo,
          * excluimos su propio ID.
@@ -178,18 +224,22 @@ class Article extends Model
                 AND id != :id
             ";
 
-            $params['id'] = $excludeId;
+            $params['id'] =
+                $excludeId;
         }
+
 
         $sql .= "
             LIMIT 1
         ";
 
-        $statement = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
         $statement->execute($params);
 
-        return $statement->fetch() !== false;
+        return
+            $statement->fetch() !== false;
     }
 
 
@@ -203,6 +253,7 @@ class Article extends Model
             (
                 usuario_id,
                 categoria_id,
+                serie_id,
                 titulo,
                 slug,
                 resumen,
@@ -214,6 +265,7 @@ class Article extends Model
             (
                 :usuario_id,
                 :categoria_id,
+                :serie_id,
                 :titulo,
                 :slug,
                 :resumen,
@@ -223,7 +275,8 @@ class Article extends Model
             )
         ";
 
-        $statement = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
         return $statement->execute($data);
     }
@@ -232,22 +285,28 @@ class Article extends Model
     /**
      * Actualiza un artículo existente.
      */
-    public function update(int $id, array $data): bool
-    {
+    public function update(
+        int $id,
+        array $data
+    ): bool {
         $sql = "
             UPDATE articulos
+
             SET
                 categoria_id = :categoria_id,
+                serie_id     = :serie_id,
                 titulo       = :titulo,
                 slug         = :slug,
                 resumen      = :resumen,
                 contenido    = :contenido,
                 imagen       = :imagen,
                 estado       = :estado
+
             WHERE id = :id
         ";
 
-        $statement = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
         $data['id'] = $id;
 
@@ -258,20 +317,21 @@ class Article extends Model
     /**
      * Elimina definitivamente un artículo.
      */
-    public function delete(int $id): bool
-    {
+    public function delete(
+        int $id
+    ): bool {
         $sql = "
             DELETE FROM articulos
             WHERE id = :id
         ";
 
-        $statement = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
         return $statement->execute([
             'id' => $id
         ]);
     }
-
 
 
     /**
@@ -296,10 +356,6 @@ class Article extends Model
         string $search
     ): array {
 
-        /*
-        * Definimos la consulta SQL que utilizaremos
-        * para buscar artículos relacionados.
-        */
         $sql = "
             SELECT
                 a.id,
@@ -309,63 +365,32 @@ class Article extends Model
                 a.imagen,
                 a.created_at,
 
-                /*
-                * Unimos el nombre y el apellido del autor
-                * para devolverlos como un único campo llamado
-                * 'autor'.
-                */
                 CONCAT(
                     u.nombre,
                     ' ',
                     u.apellido
                 ) AS autor,
 
-                /*
-                * Obtenemos también el nombre y el slug
-                * de la categoría a la que pertenece
-                * cada artículo.
-                */
                 c.nombre AS categoria,
-                c.slug AS categoria_slug
+                c.slug AS categoria_slug,
 
-            /*
-            * La tabla principal de la consulta
-            * es la tabla 'articulos'.
-            *
-            * Utilizamos el alias 'a' para referirnos
-            * a ella de forma más corta.
-            */
+                s.id AS serie_id,
+                s.titulo AS serie,
+                s.slug AS serie_slug
+
             FROM articulos a
 
-            /*
-            * Relacionamos cada artículo con el usuario
-            * que lo creó.
-            */
             INNER JOIN usuarios u
                 ON a.usuario_id = u.id
 
-            /*
-            * Relacionamos cada artículo con su categoría.
-            */
             INNER JOIN categorias c
                 ON a.categoria_id = c.id
 
-            /*
-            * Solamente permitimos que aparezcan
-            * artículos publicados.
-            *
-            * De esta manera los artículos en estado
-            * borrador no pueden aparecer en la búsqueda
-            * pública.
-            */
+            LEFT JOIN series s
+                ON a.serie_id = s.id
+
             WHERE a.estado = 'publicado'
 
-            /*
-            * Agrupamos las condiciones de búsqueda.
-            *
-            * El término introducido por el usuario
-            * puede aparecer en cualquiera de estos campos.
-            */
             AND (
                 a.titulo LIKE :search_title
 
@@ -376,150 +401,74 @@ class Article extends Model
                 OR c.nombre LIKE :search_category
             )
 
-            /*
-            * Ordenamos los resultados según su relevancia.
-            */
             ORDER BY
 
-                /*
-                * CASE permite asignar una prioridad
-                * numérica a cada resultado.
-                */
                 CASE
 
-                    /*
-                    * Un resultado cuya coincidencia esté
-                    * en el título recibe prioridad 1.
-                    */
                     WHEN a.titulo LIKE :priority_title
                         THEN 1
 
-                    /*
-                    * Una coincidencia en el resumen
-                    * recibe prioridad 2.
-                    */
                     WHEN a.resumen LIKE :priority_summary
                         THEN 2
 
-                    /*
-                    * Una coincidencia en el contenido
-                    * recibe prioridad 3.
-                    */
                     WHEN a.contenido LIKE :priority_content
                         THEN 3
 
-                    /*
-                    * Las demás coincidencias reciben
-                    * prioridad 4.
-                    */
                     ELSE 4
 
                 END,
 
-                /*
-                * Cuando varios resultados tienen
-                * la misma prioridad, mostramos primero
-                * los artículos más recientes.
-                */
                 a.created_at DESC
         ";
 
-        /*
-        * Agregamos los caracteres '%' antes y después
-        * del término de búsqueda.
-        *
-        * Por ejemplo:
-        *
-        * OPNsense
-        *
-        * se convierte en:
-        *
-        * %OPNsense%
-        *
-        * Esto permite encontrar coincidencias parciales
-        * mediante el operador SQL LIKE.
-        */
-        $searchTerm = '%' . $search . '%';
 
         /*
-        * Preparamos la consulta SQL.
-        *
-        * prepare() todavía no ejecuta la consulta.
-        */
-        $statement = $this->db->prepare($sql);
+         * Agregamos '%' antes y después del término.
+         */
+        $searchTerm =
+            '%'
+            . $search
+            . '%';
+
 
         /*
-        * Ejecutamos la consulta y asociamos un valor
-        * independiente a cada placeholder.
-        *
-        * Aunque todos contienen el mismo término,
-        * cada placeholder tiene un nombre único.
-        *
-        * Esto evita el error:
-        *
-        * SQLSTATE[HY093]: Invalid parameter number
-        *
-        * cuando PDO trabaja con consultas preparadas
-        * reales y ATTR_EMULATE_PREPARES está configurado
-        * como false.
-        */
+         * Preparamos la consulta.
+         */
+        $statement =
+            $this->db->prepare($sql);
+
+
+        /*
+         * Ejecutamos la consulta.
+         */
         $statement->execute([
 
-            /*
-            * Término utilizado para buscar
-            * dentro del título.
-            */
-            'search_title' => $searchTerm,
+            'search_title' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para buscar
-            * dentro del resumen.
-            */
-            'search_summary' => $searchTerm,
+            'search_summary' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para buscar
-            * dentro del contenido.
-            */
-            'search_content' => $searchTerm,
+            'search_content' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para buscar
-            * dentro del nombre de la categoría.
-            */
-            'search_category' => $searchTerm,
+            'search_category' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para establecer
-            * la prioridad de coincidencias
-            * encontradas en el título.
-            */
-            'priority_title' => $searchTerm,
+            'priority_title' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para establecer
-            * la prioridad de coincidencias
-            * encontradas en el resumen.
-            */
-            'priority_summary' => $searchTerm,
+            'priority_summary' =>
+                $searchTerm,
 
-            /*
-            * Término utilizado para establecer
-            * la prioridad de coincidencias
-            * encontradas en el contenido.
-            */
-            'priority_content' => $searchTerm
+            'priority_content' =>
+                $searchTerm
         ]);
 
+
         /*
-        * fetchAll() obtiene todos los artículos
-        * encontrados por la consulta.
-        *
-        * El resultado será un array asociativo
-        * con los artículos encontrados.
-        */
+         * Devolvemos todos los artículos encontrados.
+         */
         return $statement->fetchAll();
     }
-
-
 }

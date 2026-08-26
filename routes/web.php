@@ -10,6 +10,8 @@ use App\Controllers\ArticleController;
 use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\UploadController;
+use App\Controllers\SeriesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,7 @@ $router->get('/blog', [
     'index'
 ]);
 
+
 /*
  * Buscador de artículos.
  */
@@ -44,6 +47,12 @@ $router->get('/blog/search', [
 ]);
 
 
+/*
+ * Vista individual de un artículo.
+ *
+ * Esta ruta debe permanecer después de /blog/search
+ * para evitar que "search" sea interpretado como un slug.
+ */
 $router->get('/blog/{slug}', [
     BlogController::class,
     'show'
@@ -123,11 +132,76 @@ $router->post('/admin/articles/update/{id}', [
 /*
  * Eliminar artículo.
  *
- * Usamos POST porque es una operación
- * destructiva.
+ * Usamos POST porque es una operación destructiva.
  */
 $router->post('/admin/articles/delete/{id}', [
     ArticleController::class,
+    'delete'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Series
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+ * Listado de series.
+ */
+$router->get('/admin/series', [
+    SeriesController::class,
+    'index'
+]);
+
+
+/*
+ * Formulario para crear una nueva serie.
+ */
+$router->get('/admin/series/create', [
+    SeriesController::class,
+    'create'
+]);
+
+
+/*
+ * Procesar creación de una nueva serie.
+ */
+$router->post('/admin/series', [
+    SeriesController::class,
+    'store'
+]);
+
+
+/*
+ * Formulario para editar una serie.
+ */
+$router->get('/admin/series/edit/{id}', [
+    SeriesController::class,
+    'edit'
+]);
+
+
+/*
+ * Procesar edición de una serie.
+ */
+$router->post('/admin/series/update/{id}', [
+    SeriesController::class,
+    'update'
+]);
+
+
+/*
+ * Eliminar una serie.
+ *
+ * Se utiliza POST porque es una operación destructiva.
+ *
+ * La relación ON DELETE SET NULL garantiza que
+ * los artículos asociados no sean eliminados.
+ */
+$router->post('/admin/series/delete/{id}', [
+    SeriesController::class,
     'delete'
 ]);
 
@@ -228,5 +302,3 @@ $router->get('/logout', [
     AuthController::class,
     'logout'
 ]);
-
-

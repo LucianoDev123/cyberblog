@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Series;
 use App\Middleware\RoleMiddleware;
 
 class ArticleController extends Controller
@@ -56,14 +57,36 @@ class ArticleController extends Controller
             'editor'
         ]);
 
+        /*
+         * Obtenemos todas las categorías disponibles.
+         */
         $categoryModel = new Category();
 
         $categories =
             $categoryModel->getAllCategories();
 
+
+        /*
+         * Obtenemos todas las series disponibles.
+         *
+         * Se muestran tanto las series publicadas como
+         * los borradores porque el panel administrativo
+         * debe permitir asociar artículos antes de que
+         * la serie sea publicada.
+         */
+        $seriesModel = new Series();
+
+        $series =
+            $seriesModel->getAllSeries();
+
+
+        /*
+         * Cargamos la vista.
+         */
         $this->adminView('articles/create', [
             'title' => 'Nuevo artículo',
-            'categories' => $categories
+            'categories' => $categories,
+            'series' => $series
         ]);
     }
 
@@ -92,6 +115,16 @@ class ArticleController extends Controller
 
         $categoriaId =
             (int) ($_POST['categoria_id'] ?? 0);
+
+
+        /*
+         * Obtenemos el ID de la serie.
+         *
+         * Si el usuario seleccionó "Sin serie",
+         * recibiremos un valor vacío.
+         */
+        $serieId =
+            (int) ($_POST['serie_id'] ?? 0);
 
 
         /*
@@ -139,6 +172,51 @@ class ArticleController extends Controller
 
             exit;
         }
+
+
+        /*
+         * Si se seleccionó una serie,
+         * verificamos que exista.
+         */
+        if ($serieId > 0) {
+
+            $seriesModel =
+                new Series();
+
+            $serie =
+                $seriesModel->getSeriesById(
+                    $serieId
+                );
+
+
+            /*
+             * Si la serie no existe,
+             * detenemos la operación.
+             */
+            if ($serie === false) {
+
+                $this->setFlash(
+                    'error',
+                    'La serie seleccionada no existe.'
+                );
+
+                header(
+                    'Location: /incuyo/cyberblog/public/admin/articles/create'
+                );
+
+                exit;
+            }
+        }
+
+
+        /*
+         * Si no se seleccionó ninguna serie,
+         * almacenamos NULL.
+         */
+        $serieId =
+            $serieId > 0
+                ? $serieId
+                : null;
 
 
         /*
@@ -207,6 +285,9 @@ class ArticleController extends Controller
 
             'categoria_id' =>
                 $categoriaId,
+
+            'serie_id' =>
+                $serieId,
 
             'titulo' =>
                 $titulo,
@@ -286,10 +367,22 @@ class ArticleController extends Controller
             $categoryModel->getAllCategories();
 
 
+        /*
+         * Obtenemos las series para
+         * el selector del formulario.
+         */
+        $seriesModel =
+            new Series();
+
+        $series =
+            $seriesModel->getAllSeries();
+
+
         $this->adminView('articles/edit', [
             'title' => 'Editar artículo',
             'article' => $article,
-            'categories' => $categories
+            'categories' => $categories,
+            'series' => $series
         ]);
     }
 
@@ -333,6 +426,13 @@ class ArticleController extends Controller
 
         $categoriaId =
             (int) ($_POST['categoria_id'] ?? 0);
+
+
+        /*
+         * Obtenemos la serie seleccionada.
+         */
+        $serieId =
+            (int) ($_POST['serie_id'] ?? 0);
 
 
         /*
@@ -381,6 +481,51 @@ class ArticleController extends Controller
 
             exit;
         }
+
+
+        /*
+         * Si se seleccionó una serie,
+         * verificamos que exista.
+         */
+        if ($serieId > 0) {
+
+            $seriesModel =
+                new Series();
+
+            $serie =
+                $seriesModel->getSeriesById(
+                    $serieId
+                );
+
+
+            /*
+             * Si la serie no existe,
+             * detenemos la actualización.
+             */
+            if ($serie === false) {
+
+                $this->setFlash(
+                    'error',
+                    'La serie seleccionada no existe.'
+                );
+
+                header(
+                    'Location: /incuyo/cyberblog/public/admin/articles/edit/' . $id
+                );
+
+                exit;
+            }
+        }
+
+
+        /*
+         * Si no se seleccionó ninguna serie,
+         * guardamos NULL.
+         */
+        $serieId =
+            $serieId > 0
+                ? $serieId
+                : null;
 
 
         /*
@@ -474,6 +619,9 @@ class ArticleController extends Controller
         $data = [
             'categoria_id' =>
                 $categoriaId,
+
+            'serie_id' =>
+                $serieId,
 
             'titulo' =>
                 $titulo,
