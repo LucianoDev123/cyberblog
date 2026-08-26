@@ -1,398 +1,338 @@
+<?php
+
+// Declaramos que este archivo utilizará tipado estricto.
+declare(strict_types=1);
+
+
+/*
+|--------------------------------------------------------------------------
+| VERSIÓN DEL ARCHIVO CSS
+|--------------------------------------------------------------------------
+|
+| filemtime() obtiene la fecha y hora de la última modificación
+| del archivo style.css.
+|
+| Esa fecha se utiliza como parámetro "v" dentro de la URL.
+|
+| Ejemplo:
+|
+| style.css?v=1756220000
+|
+| Si modificamos style.css, la fecha cambia.
+| Al cambiar la URL, el navegador descarga la versión nueva
+| del CSS en lugar de utilizar una versión guardada en caché.
+|
+*/
+
+
+// Definimos la ruta física del archivo CSS dentro del servidor.
+$cssFile = __DIR__ . '/../../../public/assets/css/style.css';
+
+
+// Verificamos que el archivo CSS realmente exista.
+if (file_exists($cssFile)) {
+
+    // Obtenemos la fecha de última modificación del archivo.
+    $cssVersion = filemtime($cssFile);
+
+} else {
+
+    /*
+    |--------------------------------------------------------------------------
+    | VALOR DE RESPALDO
+    |--------------------------------------------------------------------------
+    |
+    | Si por algún motivo PHP no encuentra el archivo,
+    | utilizamos una versión fija.
+    |
+    */
+
+    $cssVersion = '1';
+}
+
+?>
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
 
+    <!--
+    |--------------------------------------------------------------------------
+    | CONFIGURACIÓN BÁSICA DEL DOCUMENTO
+    |--------------------------------------------------------------------------
+    -->
+
+    <!-- Indicamos que utilizaremos codificación UTF-8. -->
     <meta charset="UTF-8">
 
+
+    <!--
+        Permitimos que el diseño se adapte correctamente
+        a dispositivos móviles y pantallas pequeñas.
+    -->
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        <?= htmlspecialchars(
-            $title ?? 'Panel de Administración',
-            ENT_QUOTES,
-            'UTF-8'
-        ) ?>
-    </title>
 
     <!--
-        Estilos generales del FrontOffice.
-        Puedes eliminarlo más adelante si quieres
-        separar completamente ambos diseños.
+        Descripción general del sitio.
+        Puede ser utilizada por motores de búsqueda.
     -->
-    <link
-        rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/style.css"
+    <meta
+        name="description"
+        content="CyberBlog - Noticias, investigación y conocimiento sobre ciberseguridad."
     >
 
+
     <!--
-        Estilos específicos del panel
-        de administración.
+        Mostramos el título definido por cada controlador.
+        Si no existe la variable $title, utilizamos CyberBlog.
+    -->
+    <title>
+        <?= htmlspecialchars($title ?? 'CyberBlog') ?>
+    </title>
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | TIPOGRAFÍAS
+    |--------------------------------------------------------------------------
+    -->
+
+
+    <!--
+        Creamos una conexión previa con Google Fonts.
+        Esto ayuda a mejorar la carga de las tipografías.
+    -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+
+    <!--
+        Creamos una conexión previa con el servidor
+        que entrega los archivos de las fuentes.
+    -->
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+
+    <!--
+        Cargamos las dos tipografías principales:
+
+        JetBrains Mono:
+        Se utiliza para elementos con estilo técnico
+        o similares a una terminal.
+
+        Inter:
+        Se utiliza como fuente principal del sitio.
+    -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!--
+    |--------------------------------------------------------------------------
+    | ESTILOS GLOBALES
+    |--------------------------------------------------------------------------
+    -->
+
+
+    <!--
+        Cargamos el archivo CSS principal del sitio.
+
+        Agregamos ?v= seguido de la fecha de última modificación.
+
+        De esta forma evitamos que el navegador continúe
+        mostrando una versión antigua almacenada en caché.
     -->
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/admin.css"
+        href="/incuyo/cyberblog/public/assets/css/style.css?v=<?= $cssVersion ?>"
     >
 
 </head>
 
-<body class="admin-body">
 
-    <!-- ========================================= -->
-    <!-- CONTENEDOR PRINCIPAL DEL ADMIN -->
-    <!-- ========================================= -->
-
-    <div class="admin-layout">
+<body>
 
 
-        <!-- ========================================= -->
-        <!-- SIDEBAR -->
-        <!-- ========================================= -->
+<!--
+|--------------------------------------------------------------------------
+| HEADER PRINCIPAL
+|--------------------------------------------------------------------------
+-->
 
-        <aside class="admin-sidebar">
+<header class="site-header">
 
-            <!-- LOGO -->
+    <!--
+        Contenedor principal del encabezado.
+    -->
+    <div class="container header-container">
 
-            <div class="admin-logo">
 
-                <a
-                    href="/incuyo/cyberblog/public/admin"
-                    class="admin-logo-link"
+        <!--
+        |--------------------------------------------------------------------------
+        | LOGO
+        |--------------------------------------------------------------------------
+        -->
+
+
+        <!--
+            El logo funciona también como enlace
+            hacia la página principal.
+        -->
+        <a
+            href="/incuyo/cyberblog/public/"
+            class="brand"
+        >
+
+            <!--
+                Icono visual con estética de terminal.
+            -->
+            <span class="brand-mark">
+
+                &gt;_
+
+            </span>
+
+
+            <!--
+                Nombre principal del sitio.
+            -->
+            <span class="brand-text">
+
+                CYBER<span>BLOG</span>
+
+            </span>
+
+        </a>
+
+
+        <!--
+        |--------------------------------------------------------------------------
+        | NAVEGACIÓN PRINCIPAL
+        |--------------------------------------------------------------------------
+        -->
+
+
+        <!--
+            aria-label permite identificar la navegación
+            para tecnologías de asistencia.
+        -->
+        <nav
+            class="main-nav"
+            aria-label="Navegación principal"
+        >
+
+
+            <!--
+                Enlace hacia la página principal.
+            -->
+            <a
+                href="/incuyo/cyberblog/public/"
+                class="nav-link"
+            >
+                Inicio
+            </a>
+
+
+            <!--
+                Enlace hacia el listado de artículos.
+            -->
+            <a
+                href="/incuyo/cyberblog/public/blog"
+                class="nav-link"
+            >
+                Blog
+            </a>
+
+
+            <!--
+                Enlace hacia el buscador interno.
+
+                El usuario puede acceder a la búsqueda
+                mediante la interfaz sin escribir
+                manualmente la URL.
+            -->
+            <a
+                href="/incuyo/cyberblog/public/blog/search"
+                class="nav-link nav-link-search"
+            >
+
+                <!--
+                    Icono decorativo del buscador.
+                -->
+                <span
+                    class="nav-search-icon"
+                    aria-hidden="true"
                 >
 
-                    <span class="admin-logo-symbol">
-                        &gt;_
-                    </span>
-
-                    <span class="admin-logo-text">
-                        CYBER<span>BLOG</span>
-                    </span>
-
-                </a>
-
-            </div>
-
-
-            <!-- NAVEGACIÓN -->
-
-            <nav class="admin-navigation">
-
-
-                <div class="admin-navigation-title">
-
-                    PANEL
-
-                </div>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/admin"
-                    class="admin-nav-link"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ⌂
-
-                    </span>
-
-                    <span>
-
-                        Dashboard
-
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/admin/articles"
-                    class="admin-nav-link"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ▤
-
-                    </span>
-
-                    <span>
-
-                        Artículos
-
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/admin/categories"
-                    class="admin-nav-link"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ▦
-
-                    </span>
-
-                    <span>
-
-                        Categorías
-
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/admin/users"
-                    class="admin-nav-link"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ◉
-
-                    </span>
-
-                    <span>
-
-                        Usuarios
-
-                    </span>
-
-                </a>
-
-
-                <!-- SEPARADOR -->
-
-                <div class="admin-navigation-separator"></div>
-
-
-                <div class="admin-navigation-title">
-
-                    SITIO
-
-                </div>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/"
-                    class="admin-nav-link"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ↗
-
-                    </span>
-
-                    <span>
-
-                        Ver Blog
-
-                    </span>
-
-                </a>
-
-
-                <a
-                    href="/incuyo/cyberblog/public/logout"
-                    class="admin-nav-link admin-nav-logout"
-                >
-
-                    <span class="admin-nav-icon">
-
-                        ⏻
-
-                    </span>
-
-                    <span>
-
-                        Cerrar sesión
-
-                    </span>
-
-                </a>
-
-
-            </nav>
-
-
-            <!-- PIE DEL SIDEBAR -->
-
-            <div class="admin-sidebar-footer">
-
-                <span class="admin-status-dot"></span>
-
-                <span>
-
-                    Sistema operativo
-
-                </span>
-
-            </div>
-
-
-        </aside>
-
-
-        <!-- ========================================= -->
-        <!-- ÁREA PRINCIPAL -->
-        <!-- ========================================= -->
-
-        <div class="admin-main">
-
-
-            <!-- ========================================= -->
-            <!-- HEADER SUPERIOR -->
-            <!-- ========================================= -->
-
-            <header class="admin-header">
-
-
-                <div class="admin-header-left">
-
-                    <h1 class="admin-page-title">
-
-                        <?= htmlspecialchars(
-                            $title ?? 'Panel de Administración',
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
-                    </h1>
-
-                </div>
-
-
-                <div class="admin-header-right">
-
-
-                    <a
-                        href="/incuyo/cyberblog/public/"
-                        class="admin-header-link"
-                        title="Ver Blog"
-                    >
-
-                        ↗
-
-                    </a>
-
-
-                    <a
-                        href="/incuyo/cyberblog/public/logout"
-                        class="admin-header-link admin-header-logout"
-                        title="Cerrar sesión"
-                    >
-
-                        ⏻
-
-                    </a>
-
-
-                </div>
-
-
-            </header>
-
-
-            <!-- ========================================= -->
-            <!-- CONTENIDO -->
-            <!-- ========================================= -->
-
-            <main class="admin-content">
-
-
-                <!-- MENSAJE DE ERROR -->
-
-                <?php if (!empty($flashError)): ?>
-
-                    <div
-                        class="admin-alert admin-alert-error"
-                    >
-
-                        <?= htmlspecialchars(
-                            $flashError,
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
-                    </div>
-
-                <?php endif; ?>
-
-
-                <!-- MENSAJE DE ÉXITO -->
-
-                <?php if (!empty($flashSuccess)): ?>
-
-                    <div
-                        class="admin-alert admin-alert-success"
-                    >
-
-                        <?= htmlspecialchars(
-                            $flashSuccess,
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
-                    </div>
-
-                <?php endif; ?>
-
-
-                <!-- VISTA DINÁMICA -->
-
-                <?= $content ?>
-
-
-            </main>
-
-
-            <!-- ========================================= -->
-            <!-- FOOTER -->
-            <!-- ========================================= -->
-
-            <footer class="admin-footer">
-
-                <span>
-
-                    © <?= date('Y') ?>
-
-                    CyberBlog
+                    ⌕
 
                 </span>
 
 
-                <span class="admin-footer-version">
+                <!--
+                    Texto visible del enlace.
+                -->
+                Buscar
 
-                    Panel de Administración
+            </a>
+
+
+            <!--
+                Enlace hacia el panel administrativo.
+            -->
+            <a
+                href="/incuyo/cyberblog/public/admin"
+                class="nav-link nav-link-admin"
+            >
+
+                <!--
+                    Icono visual del panel administrativo.
+                -->
+                <span
+                    class="nav-admin-icon"
+                    aria-hidden="true"
+                >
+
+                    ⌘
 
                 </span>
 
-            </footer>
 
+                <!--
+                    Texto visible del botón administrativo.
+                -->
+                Panel admin
 
-        </div>
+            </a>
 
+        </nav>
 
     </div>
 
-
-    <!-- ========================================= -->
-    <!-- JAVASCRIPT DEL EDITOR -->
-    <!-- ========================================= -->
-
-    <script
-        src="/incuyo/cyberblog/public/assets/js/editor.js"
-    ></script>
+</header>
 
 
-</body>
+<!--
+|--------------------------------------------------------------------------
+| CONTENIDO PRINCIPAL
+|--------------------------------------------------------------------------
+|
+| Esta etiqueta envuelve el contenido específico
+| de cada página de CyberBlog.
+|
+-->
 
-</html>
+<main class="site-main">

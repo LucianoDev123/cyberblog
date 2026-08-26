@@ -35,6 +35,14 @@ $router->get('/blog', [
     'index'
 ]);
 
+/*
+ * Buscador de artículos.
+ */
+$router->get('/blog/search', [
+    BlogController::class,
+    'search'
+]);
+
 
 $router->get('/blog/{slug}', [
     BlogController::class,
@@ -220,3 +228,5 @@ $router->get('/logout', [
     AuthController::class,
     'logout'
 ]);
+
+

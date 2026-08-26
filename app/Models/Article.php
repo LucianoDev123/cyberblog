@@ -271,4 +271,255 @@ class Article extends Model
             'id' => $id
         ]);
     }
+
+
+
+    /**
+     * Busca artículos publicados relacionados
+     * con el término introducido por el usuario.
+     *
+     * La búsqueda se realiza sobre:
+     *
+     * - El título.
+     * - El resumen.
+     * - El contenido.
+     * - La categoría.
+     *
+     * Solamente se devuelven artículos cuyo estado
+     * sea "publicado".
+     *
+     * Se utilizan consultas preparadas mediante PDO
+     * para separar los datos proporcionados por el usuario
+     * de la estructura de la consulta SQL.
+     */
+    public function searchPublishedArticles(
+        string $search
+    ): array {
+
+        /*
+        * Definimos la consulta SQL que utilizaremos
+        * para buscar artículos relacionados.
+        */
+        $sql = "
+            SELECT
+                a.id,
+                a.titulo,
+                a.slug,
+                a.resumen,
+                a.imagen,
+                a.created_at,
+
+                /*
+                * Unimos el nombre y el apellido del autor
+                * para devolverlos como un único campo llamado
+                * 'autor'.
+                */
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
+
+                /*
+                * Obtenemos también el nombre y el slug
+                * de la categoría a la que pertenece
+                * cada artículo.
+                */
+                c.nombre AS categoria,
+                c.slug AS categoria_slug
+
+            /*
+            * La tabla principal de la consulta
+            * es la tabla 'articulos'.
+            *
+            * Utilizamos el alias 'a' para referirnos
+            * a ella de forma más corta.
+            */
+            FROM articulos a
+
+            /*
+            * Relacionamos cada artículo con el usuario
+            * que lo creó.
+            */
+            INNER JOIN usuarios u
+                ON a.usuario_id = u.id
+
+            /*
+            * Relacionamos cada artículo con su categoría.
+            */
+            INNER JOIN categorias c
+                ON a.categoria_id = c.id
+
+            /*
+            * Solamente permitimos que aparezcan
+            * artículos publicados.
+            *
+            * De esta manera los artículos en estado
+            * borrador no pueden aparecer en la búsqueda
+            * pública.
+            */
+            WHERE a.estado = 'publicado'
+
+            /*
+            * Agrupamos las condiciones de búsqueda.
+            *
+            * El término introducido por el usuario
+            * puede aparecer en cualquiera de estos campos.
+            */
+            AND (
+                a.titulo LIKE :search_title
+
+                OR a.resumen LIKE :search_summary
+
+                OR a.contenido LIKE :search_content
+
+                OR c.nombre LIKE :search_category
+            )
+
+            /*
+            * Ordenamos los resultados según su relevancia.
+            */
+            ORDER BY
+
+                /*
+                * CASE permite asignar una prioridad
+                * numérica a cada resultado.
+                */
+                CASE
+
+                    /*
+                    * Un resultado cuya coincidencia esté
+                    * en el título recibe prioridad 1.
+                    */
+                    WHEN a.titulo LIKE :priority_title
+                        THEN 1
+
+                    /*
+                    * Una coincidencia en el resumen
+                    * recibe prioridad 2.
+                    */
+                    WHEN a.resumen LIKE :priority_summary
+                        THEN 2
+
+                    /*
+                    * Una coincidencia en el contenido
+                    * recibe prioridad 3.
+                    */
+                    WHEN a.contenido LIKE :priority_content
+                        THEN 3
+
+                    /*
+                    * Las demás coincidencias reciben
+                    * prioridad 4.
+                    */
+                    ELSE 4
+
+                END,
+
+                /*
+                * Cuando varios resultados tienen
+                * la misma prioridad, mostramos primero
+                * los artículos más recientes.
+                */
+                a.created_at DESC
+        ";
+
+        /*
+        * Agregamos los caracteres '%' antes y después
+        * del término de búsqueda.
+        *
+        * Por ejemplo:
+        *
+        * OPNsense
+        *
+        * se convierte en:
+        *
+        * %OPNsense%
+        *
+        * Esto permite encontrar coincidencias parciales
+        * mediante el operador SQL LIKE.
+        */
+        $searchTerm = '%' . $search . '%';
+
+        /*
+        * Preparamos la consulta SQL.
+        *
+        * prepare() todavía no ejecuta la consulta.
+        */
+        $statement = $this->db->prepare($sql);
+
+        /*
+        * Ejecutamos la consulta y asociamos un valor
+        * independiente a cada placeholder.
+        *
+        * Aunque todos contienen el mismo término,
+        * cada placeholder tiene un nombre único.
+        *
+        * Esto evita el error:
+        *
+        * SQLSTATE[HY093]: Invalid parameter number
+        *
+        * cuando PDO trabaja con consultas preparadas
+        * reales y ATTR_EMULATE_PREPARES está configurado
+        * como false.
+        */
+        $statement->execute([
+
+            /*
+            * Término utilizado para buscar
+            * dentro del título.
+            */
+            'search_title' => $searchTerm,
+
+            /*
+            * Término utilizado para buscar
+            * dentro del resumen.
+            */
+            'search_summary' => $searchTerm,
+
+            /*
+            * Término utilizado para buscar
+            * dentro del contenido.
+            */
+            'search_content' => $searchTerm,
+
+            /*
+            * Término utilizado para buscar
+            * dentro del nombre de la categoría.
+            */
+            'search_category' => $searchTerm,
+
+            /*
+            * Término utilizado para establecer
+            * la prioridad de coincidencias
+            * encontradas en el título.
+            */
+            'priority_title' => $searchTerm,
+
+            /*
+            * Término utilizado para establecer
+            * la prioridad de coincidencias
+            * encontradas en el resumen.
+            */
+            'priority_summary' => $searchTerm,
+
+            /*
+            * Término utilizado para establecer
+            * la prioridad de coincidencias
+            * encontradas en el contenido.
+            */
+            'priority_content' => $searchTerm
+        ]);
+
+        /*
+        * fetchAll() obtiene todos los artículos
+        * encontrados por la consulta.
+        *
+        * El resultado será un array asociativo
+        * con los artículos encontrados.
+        */
+        return $statement->fetchAll();
+    }
+
+
 }

@@ -104,6 +104,35 @@ declare(strict_types=1);
                 Blog
             </a>
 
+            <!--
+                Enlace al buscador interno del blog.
+
+                De esta forma el usuario puede acceder
+                a la funcionalidad de búsqueda sin tener
+                que escribir manualmente la URL.
+            -->
+            <a
+                href="/incuyo/cyberblog/public/blog/search"
+                class="nav-link nav-link-search"
+            >
+                <!--
+                    Icono visual con estilo terminal.
+                -->
+                <span
+                    class="nav-search-icon"
+                    aria-hidden="true"
+                >
+                    ⌕
+                </span>
+
+                <!--
+                    Texto visible del botón.
+                -->
+                Buscar
+            </a>
+
+
+
 
             <a
                 href="/incuyo/cyberblog/public/admin"

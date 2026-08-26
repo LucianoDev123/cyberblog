@@ -20,6 +20,30 @@ class BlogController extends Controller
         ]);
     }
 
+
+    public function search(): void
+    {
+        $search = trim(
+            $_GET['q'] ?? ''
+        );
+
+        $articles = [];
+
+        if ($search !== '') {
+
+            $articleModel = new Article();
+
+            $articles = $articleModel
+                ->searchPublishedArticles($search);
+        }
+
+        $this->view('blog/search', [
+            'search' => $search,
+            'articles' => $articles
+        ]);
+    }
+
+
     public function show(string $slug): void
     {
         $articleModel = new Article();
