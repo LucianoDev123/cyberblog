@@ -11,30 +11,47 @@ class Category extends Model
 
     /**
      * Obtiene todas las categorías.
+     *
+     * Incluye la cantidad de artículos
+     * asociados a cada categoría.
+     *
+     * Este método se utiliza principalmente
+     * desde el panel administrativo.
      */
     public function getAllCategories(): array
     {
         $sql = "
             SELECT
-                id,
-                nombre,
-                slug,
-                descripcion
-            FROM categorias
-            ORDER BY nombre ASC
+                c.id,
+                c.nombre,
+                c.slug,
+                c.descripcion,
+                COUNT(a.id) AS total_articulos
+            FROM categorias c
+            LEFT JOIN articulos a
+                ON a.categoria_id = c.id
+            GROUP BY
+                c.id,
+                c.nombre,
+                c.slug,
+                c.descripcion
+            ORDER BY
+                c.nombre ASC
         ";
 
-        $stmt = $this->db->query($sql);
+        $statement =
+            $this->db->query($sql);
 
-        return $stmt->fetchAll();
+        return $statement->fetchAll();
     }
 
 
     /**
      * Obtiene una categoría mediante su ID.
      */
-    public function getCategoryById(int $id): array|false
-    {
+    public function getCategoryById(
+        int $id
+    ): array|false {
         $sql = "
             SELECT
                 id,
@@ -46,21 +63,26 @@ class Category extends Model
             LIMIT 1
         ";
 
-        $stmt = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
-        $stmt->execute([
+        $statement->execute([
             'id' => $id
         ]);
 
-        return $stmt->fetch();
+        return $statement->fetch();
     }
 
 
     /**
      * Obtiene una categoría mediante su slug.
+     *
+     * Este método se utiliza desde la
+     * parte pública del sitio.
      */
-    public function getCategoryBySlug(string $slug): array|false
-    {
+    public function getCategoryBySlug(
+        string $slug
+    ): array|false {
         $sql = "
             SELECT
                 *
@@ -69,13 +91,14 @@ class Category extends Model
             LIMIT 1
         ";
 
-        $stmt = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
-        $stmt->execute([
+        $statement->execute([
             'slug' => $slug
         ]);
 
-        return $stmt->fetch();
+        return $statement->fetch();
     }
 
 
@@ -83,8 +106,9 @@ class Category extends Model
      * Obtiene todos los artículos publicados
      * pertenecientes a una categoría.
      */
-    public function getArticlesByCategory(string $slug): array
-    {
+    public function getArticlesByCategory(
+        string $slug
+    ): array {
         $sql = "
             SELECT
 
@@ -116,15 +140,222 @@ class Category extends Model
                 c.slug = :slug
                 AND a.estado = 'publicado'
 
-            ORDER BY a.created_at DESC
+            ORDER BY
+                a.created_at DESC
         ";
 
-        $stmt = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
-        $stmt->execute([
+        $statement->execute([
             'slug' => $slug
         ]);
 
-        return $stmt->fetchAll();
+        return $statement->fetchAll();
+    }
+
+
+    /**
+     * Obtiene la cantidad de artículos
+     * asociados a una categoría.
+     */
+    public function countArticles(
+        int $categoryId
+    ): int {
+        $sql = "
+            SELECT
+                COUNT(*) AS total
+            FROM articulos
+            WHERE categoria_id = :categoria_id
+        ";
+
+        $statement =
+            $this->db->prepare($sql);
+
+        $statement->execute([
+            'categoria_id' => $categoryId
+        ]);
+
+        return (int) $statement
+            ->fetchColumn();
+    }
+
+
+    /**
+     * Crea una nueva categoría.
+     */
+    public function create(
+        array $data
+    ): bool {
+        $sql = "
+            INSERT INTO categorias
+            (
+                nombre,
+                slug,
+                descripcion
+            )
+            VALUES
+            (
+                :nombre,
+                :slug,
+                :descripcion
+            )
+        ";
+
+        $statement =
+            $this->db->prepare($sql);
+
+        return $statement->execute([
+            'nombre' =>
+                $data['nombre'],
+
+            'slug' =>
+                $data['slug'],
+
+            'descripcion' =>
+                $data['descripcion']
+        ]);
+    }
+
+
+    /**
+     * Actualiza una categoría existente.
+     */
+    public function update(
+        int $id,
+        array $data
+    ): bool {
+        $sql = "
+            UPDATE categorias
+            SET
+                nombre = :nombre,
+                slug = :slug,
+                descripcion = :descripcion
+            WHERE id = :id
+        ";
+
+        $statement =
+            $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id' =>
+                $id,
+
+            'nombre' =>
+                $data['nombre'],
+
+            'slug' =>
+                $data['slug'],
+
+            'descripcion' =>
+                $data['descripcion']
+        ]);
+    }
+
+
+    /**
+     * Elimina una categoría.
+     *
+     * El controlador debe comprobar previamente
+     * que no tenga artículos asociados.
+     */
+    public function delete(
+        int $id
+    ): bool {
+        $sql = "
+            DELETE FROM categorias
+            WHERE id = :id
+        ";
+
+        $statement =
+            $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id' => $id
+        ]);
+    }
+
+
+    /**
+     * Comprueba si un slug ya existe.
+     *
+     * Durante una edición se puede excluir
+     * el ID de la categoría actual.
+     */
+    public function slugExists(
+        string $slug,
+        ?int $excludeId = null
+    ): bool {
+        $sql = "
+            SELECT
+                id
+            FROM categorias
+            WHERE slug = :slug
+        ";
+
+        $params = [
+            'slug' => $slug
+        ];
+
+        if ($excludeId !== null) {
+            $sql .= "
+                AND id != :id
+            ";
+
+            $params['id'] =
+                $excludeId;
+        }
+
+        $sql .= "
+            LIMIT 1
+        ";
+
+        $statement =
+            $this->db->prepare($sql);
+
+        $statement->execute(
+            $params
+        );
+
+        return
+            $statement->fetch()
+            !== false;
+    }
+
+
+    /**
+     * Genera un slug único.
+     *
+     * Ejemplo:
+     *
+     * seguridad-web
+     * seguridad-web-2
+     * seguridad-web-3
+     */
+    public function generateUniqueSlug(
+        string $baseSlug,
+        ?int $excludeId = null
+    ): string {
+        $slug =
+            $baseSlug;
+
+        $counter =
+            2;
+
+        while (
+            $this->slugExists(
+                $slug,
+                $excludeId
+            )
+        ) {
+            $slug =
+                $baseSlug
+                . '-'
+                . $counter;
+
+            $counter++;
+        }
+
+        return $slug;
     }
 }

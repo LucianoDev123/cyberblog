@@ -184,6 +184,73 @@ $router->post('/admin/articles/delete/{id}', [
     'delete'
 ]);
 
+/* 
+|-------------------------------------------------------------------------- 
+| Categorías administrativas
+|-------------------------------------------------------------------------- 
+*/
+
+
+/*
+ * Listado de categorías.
+ */
+$router->get('/admin/categories', [
+    CategoryController::class,
+    'index'
+]);
+
+
+/*
+ * Formulario para crear una categoría.
+ */
+$router->get('/admin/categories/create', [
+    CategoryController::class,
+    'create'
+]);
+
+
+/*
+ * Procesar creación de categoría.
+ */
+$router->post('/admin/categories', [
+    CategoryController::class,
+    'store'
+]);
+
+
+/*
+ * Formulario para editar una categoría.
+ */
+$router->get('/admin/categories/edit/{id}', [
+    CategoryController::class,
+    'edit'
+]);
+
+
+/*
+ * Procesar edición de categoría.
+ */
+$router->post('/admin/categories/update/{id}', [
+    CategoryController::class,
+    'update'
+]);
+
+
+/*
+ * Eliminar una categoría.
+ *
+ * Se utiliza POST porque es una operación destructiva.
+ */
+$router->post('/admin/categories/delete/{id}', [
+    CategoryController::class,
+    'delete'
+]);
+
+
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
