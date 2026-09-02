@@ -2,6 +2,21 @@
 
 declare(strict_types=1);
 
+/*
+ * Versión del CSS.
+ *
+ * Utilizamos la fecha de modificación del archivo
+ * para evitar problemas de caché del navegador.
+ */
+$cssPath =
+    dirname(__DIR__, 2) .
+    '/../public/assets/css/style.css';
+
+$cssVersion =
+    file_exists($cssPath)
+        ? (string) filemtime($cssPath)
+        : (string) time();
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -21,11 +36,17 @@ declare(strict_types=1);
     >
 
     <title>
-        <?= htmlspecialchars($title ?? 'CyberBlog') ?>
+        <?= htmlspecialchars(
+            $title ?? 'CyberBlog',
+            ENT_QUOTES,
+            'UTF-8'
+        ) ?>
     </title>
 
 
-    <!-- Tipografías -->
+    <!-- ===================================================== -->
+    <!-- TIPOGRAFÍAS -->
+    <!-- ===================================================== -->
 
     <link
         rel="preconnect"
@@ -44,12 +65,16 @@ declare(strict_types=1);
     >
 
 
-    <!-- Estilos globales -->
+    <!-- ===================================================== -->
+    <!-- ESTILOS GLOBALES -->
+    <!-- ===================================================== -->
 
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/style.css?v=<?= filemtime(
-            dirname(__DIR__, 2) . '/../public/assets/css/style.css'
+        href="/incuyo/cyberblog/public/assets/css/style.css?v=<?= htmlspecialchars(
+            $cssVersion,
+            ENT_QUOTES,
+            'UTF-8'
         ) ?>"
     >
 
@@ -63,7 +88,9 @@ declare(strict_types=1);
     <div class="container header-container">
 
 
-        <!-- Logo -->
+        <!-- ================================================= -->
+        <!-- LOGO -->
+        <!-- ================================================= -->
 
         <a
             href="/incuyo/cyberblog/public/"
@@ -84,12 +111,15 @@ declare(strict_types=1);
         </a>
 
 
-        <!-- Navegación -->
+        <!-- ================================================= -->
+        <!-- NAVEGACIÓN -->
+        <!-- ================================================= -->
 
         <nav
             class="main-nav"
             aria-label="Navegación principal"
         >
+
 
             <!-- Inicio -->
 
@@ -97,7 +127,9 @@ declare(strict_types=1);
                 href="/incuyo/cyberblog/public/"
                 class="nav-link"
             >
+
                 Inicio
+
             </a>
 
 
@@ -107,7 +139,9 @@ declare(strict_types=1);
                 href="/incuyo/cyberblog/public/blog"
                 class="nav-link"
             >
+
                 Blog
+
             </a>
 
 
@@ -117,7 +151,9 @@ declare(strict_types=1);
                 href="/incuyo/cyberblog/public/series"
                 class="nav-link"
             >
+
                 Series
+
             </a>
 
 
@@ -134,21 +170,12 @@ declare(strict_types=1);
                 class="nav-link nav-link-search"
             >
 
-                <!--
-                    Icono visual con estilo terminal.
-                -->
-
                 <span
                     class="nav-search-icon"
                     aria-hidden="true"
                 >
                     ⌕
                 </span>
-
-
-                <!--
-                    Texto visible del botón.
-                -->
 
                 Buscar
 
@@ -172,6 +199,7 @@ declare(strict_types=1);
                 Panel admin
 
             </a>
+
 
         </nav>
 
