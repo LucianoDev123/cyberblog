@@ -26,6 +26,7 @@ use App\Controllers\SeriesController;
 |--------------------------------------------------------------------------
 */
 
+
 $router->get('/', [
     HomeController::class,
     'index'
@@ -50,8 +51,9 @@ $router->get('/blog/search', [
 /*
  * Vista individual de un artículo.
  *
- * Esta ruta debe permanecer después de /blog/search
- * para evitar que "search" sea interpretado como un slug.
+ * Esta ruta debe permanecer después
+ * de /blog/search para evitar que
+ * "search" sea interpretado como slug.
  */
 $router->get('/blog/{slug}', [
     BlogController::class,
@@ -59,6 +61,9 @@ $router->get('/blog/{slug}', [
 ]);
 
 
+/*
+ * Vista individual de una categoría.
+ */
 $router->get('/category/{slug}', [
     CategoryController::class,
     'show'
@@ -67,9 +72,49 @@ $router->get('/category/{slug}', [
 
 /*
 |--------------------------------------------------------------------------
+| Series públicas
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+ * Listado público de series.
+ *
+ * URL:
+ *
+ * /series
+ */
+$router->get('/series', [
+    SeriesController::class,
+    'publicIndex'
+]);
+
+
+/*
+ * Vista pública individual de una serie.
+ *
+ * Ejemplo:
+ *
+ * /series/introduccion-a-wazuh
+ *
+ * IMPORTANTE:
+ *
+ * Esta ruta debe estar después de /series
+ * para que "/series" no sea interpretado
+ * como un slug.
+ */
+$router->get('/series/{slug}', [
+    SeriesController::class,
+    'publicShow'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
 | Administración
 |--------------------------------------------------------------------------
 */
+
 
 $router->get('/admin', [
     DashboardController::class,
@@ -142,13 +187,13 @@ $router->post('/admin/articles/delete/{id}', [
 
 /*
 |--------------------------------------------------------------------------
-| Series
+| Series administrativas
 |--------------------------------------------------------------------------
 */
 
 
 /*
- * Listado de series.
+ * Listado administrativo de series.
  */
 $router->get('/admin/series', [
     SeriesController::class,
@@ -197,8 +242,8 @@ $router->post('/admin/series/update/{id}', [
  *
  * Se utiliza POST porque es una operación destructiva.
  *
- * La relación ON DELETE SET NULL garantiza que
- * los artículos asociados no sean eliminados.
+ * La relación ON DELETE SET NULL garantiza
+ * que los artículos asociados no sean eliminados.
  */
 $router->post('/admin/series/delete/{id}', [
     SeriesController::class,
@@ -211,6 +256,7 @@ $router->post('/admin/series/delete/{id}', [
 | Subida de imágenes desde el editor
 |--------------------------------------------------------------------------
 */
+
 
 $router->post('/admin/upload/image', [
     UploadController::class,

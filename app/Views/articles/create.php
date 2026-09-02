@@ -564,14 +564,14 @@ declare(strict_types=1);
 
                 <option value="borrador">
 
-                    📝 Guardar como borrador
+                     Guardar como borrador
 
                 </option>
 
 
                 <option value="publicado">
 
-                    🌐 Publicar artículo
+                     Publicar artículo
 
                 </option>
 

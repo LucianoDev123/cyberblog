@@ -34,7 +34,7 @@ declare(strict_types=1);
 
     <link
         rel="preconnect"
-        href="https://fonts.gstatic.com"
+        href="https://fonts.googleapis.com"
         crossorigin
     >
 
@@ -48,7 +48,9 @@ declare(strict_types=1);
 
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/style.css"
+        href="/incuyo/cyberblog/public/assets/css/style.css?v=<?= filemtime(
+            dirname(__DIR__, 2) . '/../public/assets/css/style.css'
+        ) ?>"
     >
 
 </head>
@@ -89,6 +91,8 @@ declare(strict_types=1);
             aria-label="Navegación principal"
         >
 
+            <!-- Inicio -->
+
             <a
                 href="/incuyo/cyberblog/public/"
                 class="nav-link"
@@ -97,12 +101,25 @@ declare(strict_types=1);
             </a>
 
 
+            <!-- Blog -->
+
             <a
                 href="/incuyo/cyberblog/public/blog"
                 class="nav-link"
             >
                 Blog
             </a>
+
+
+            <!-- Series -->
+
+            <a
+                href="/incuyo/cyberblog/public/series"
+                class="nav-link"
+            >
+                Series
+            </a>
+
 
             <!--
                 Enlace al buscador interno del blog.
@@ -111,13 +128,16 @@ declare(strict_types=1);
                 a la funcionalidad de búsqueda sin tener
                 que escribir manualmente la URL.
             -->
+
             <a
                 href="/incuyo/cyberblog/public/blog/search"
                 class="nav-link nav-link-search"
             >
+
                 <!--
                     Icono visual con estilo terminal.
                 -->
+
                 <span
                     class="nav-search-icon"
                     aria-hidden="true"
@@ -125,14 +145,17 @@ declare(strict_types=1);
                     ⌕
                 </span>
 
+
                 <!--
                     Texto visible del botón.
                 -->
+
                 Buscar
+
             </a>
 
 
-
+            <!-- Panel administrativo -->
 
             <a
                 href="/incuyo/cyberblog/public/admin"

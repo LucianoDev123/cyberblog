@@ -35,6 +35,9 @@ class Series extends Model
      *
      * Incluye la cantidad de artículos asociados
      * a cada serie.
+     *
+     * Este método se utiliza principalmente
+     * desde el panel administrativo.
      */
     public function getAllSeries(): array
     {
@@ -70,7 +73,10 @@ class Series extends Model
                 s.created_at DESC
         ";
 
-        $statement = $this->db->query($sql);
+
+        $statement =
+            $this->db->query($sql);
+
 
         return $statement->fetchAll();
     }
@@ -79,8 +85,11 @@ class Series extends Model
     /**
      * Obtiene únicamente las series publicadas.
      *
-     * Este método será utilizado posteriormente
-     * en las páginas públicas del sitio.
+     * Incluye únicamente los artículos publicados
+     * al calcular la cantidad de artículos.
+     *
+     * Este método se utiliza en la página pública
+     * principal de series.
      */
     public function getPublishedSeries(): array
     {
@@ -119,8 +128,123 @@ class Series extends Model
                 s.created_at DESC
         ";
 
-        $statement = $this->db->query($sql);
 
+        $statement =
+            $this->db->query($sql);
+
+
+        return $statement->fetchAll();
+    }
+
+
+    /**
+     * Busca series publicadas.
+     *
+     * La búsqueda se realiza sobre:
+     *
+     * - El título.
+     * - La descripción.
+     *
+     * Solamente se devuelven series cuyo estado
+     * sea "publicada".
+     *
+     * También se incluye la cantidad de artículos
+     * publicados asociados a cada serie.
+     *
+     * La consulta utiliza una sentencia preparada
+     * para separar los datos introducidos por el usuario
+     * de la estructura SQL.
+     */
+    public function searchPublishedSeries(
+        string $search
+    ): array {
+
+        $sql = "
+            SELECT
+                s.id,
+                s.titulo,
+                s.slug,
+                s.descripcion,
+                s.imagen,
+                s.estado,
+                s.created_at,
+                s.updated_at,
+
+                COUNT(a.id) AS total_articulos
+
+            FROM series s
+
+            LEFT JOIN articulos a
+                ON a.serie_id = s.id
+                AND a.estado = 'publicado'
+
+            WHERE s.estado = 'publicada'
+
+            AND (
+                s.titulo LIKE :search_title
+
+                OR s.descripcion LIKE :search_description
+            )
+
+            GROUP BY
+                s.id,
+                s.titulo,
+                s.slug,
+                s.descripcion,
+                s.imagen,
+                s.estado,
+                s.created_at,
+                s.updated_at
+
+            ORDER BY
+                s.created_at DESC
+        ";
+
+
+        /*
+         * Agregamos "%" antes y después
+         * del término de búsqueda.
+         *
+         * Por ejemplo:
+         *
+         * wazuh
+         *
+         * se convierte en:
+         *
+         * %wazuh%
+         */
+        $searchTerm =
+            '%'
+            . $search
+            . '%';
+
+
+        /*
+         * Preparamos la consulta SQL.
+         */
+        $statement =
+            $this->db->prepare($sql);
+
+
+        /*
+         * Ejecutamos la consulta.
+         *
+         * El mismo término se utiliza
+         * tanto para el título como
+         * para la descripción.
+         */
+        $statement->execute([
+            'search_title' =>
+                $searchTerm,
+
+            'search_description' =>
+                $searchTerm
+        ]);
+
+
+        /*
+         * Devolvemos todas las series encontradas.
+         */
         return $statement->fetchAll();
     }
 
@@ -128,7 +252,7 @@ class Series extends Model
     /**
      * Obtiene una serie mediante su ID.
      *
-     * Este método será utilizado principalmente
+     * Este método se utiliza principalmente
      * desde el panel administrativo.
      */
     public function getSeriesById(
@@ -143,11 +267,15 @@ class Series extends Model
             LIMIT 1
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         $statement->execute([
             'id' => $id
         ]);
+
 
         return $statement->fetch();
     }
@@ -156,8 +284,9 @@ class Series extends Model
     /**
      * Obtiene una serie mediante su slug.
      *
-     * Este método será utilizado posteriormente
-     * en la parte pública del sitio.
+     * Este método puede utilizarse tanto
+     * desde el panel administrativo como
+     * desde la parte pública.
      */
     public function getSeriesBySlug(
         string $slug
@@ -171,11 +300,15 @@ class Series extends Model
             LIMIT 1
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         $statement->execute([
             'slug' => $slug
         ]);
+
 
         return $statement->fetch();
     }
@@ -228,11 +361,15 @@ class Series extends Model
                 a.created_at ASC
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         $statement->execute([
             'serie_id' => $seriesId
         ]);
+
 
         return $statement->fetchAll();
     }
@@ -264,14 +401,26 @@ class Series extends Model
             )
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         return $statement->execute([
-            'titulo' => $data['titulo'],
-            'slug' => $data['slug'],
-            'descripcion' => $data['descripcion'],
-            'imagen' => $data['imagen'],
-            'estado' => $data['estado']
+            'titulo' =>
+                $data['titulo'],
+
+            'slug' =>
+                $data['slug'],
+
+            'descripcion' =>
+                $data['descripcion'],
+
+            'imagen' =>
+                $data['imagen'],
+
+            'estado' =>
+                $data['estado']
         ]);
     }
 
@@ -297,15 +446,29 @@ class Series extends Model
             WHERE id = :id
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         return $statement->execute([
-            'id' => $id,
-            'titulo' => $data['titulo'],
-            'slug' => $data['slug'],
-            'descripcion' => $data['descripcion'],
-            'imagen' => $data['imagen'],
-            'estado' => $data['estado']
+            'id' =>
+                $id,
+
+            'titulo' =>
+                $data['titulo'],
+
+            'slug' =>
+                $data['slug'],
+
+            'descripcion' =>
+                $data['descripcion'],
+
+            'imagen' =>
+                $data['imagen'],
+
+            'estado' =>
+                $data['estado']
         ]);
     }
 
@@ -329,10 +492,14 @@ class Series extends Model
             WHERE id = :id
         ";
 
-        $statement = $this->db->prepare($sql);
+
+        $statement =
+            $this->db->prepare($sql);
+
 
         return $statement->execute([
-            'id' => $id
+            'id' =>
+                $id
         ]);
     }
 
@@ -351,9 +518,13 @@ class Series extends Model
         ?int $excludeId = null
     ): string {
 
-        $slug = $baseSlug;
+        $slug =
+            $baseSlug;
 
-        $counter = 2;
+
+        $counter =
+            2;
+
 
         while (
             $this->slugExists(
@@ -362,10 +533,15 @@ class Series extends Model
             )
         ) {
 
-            $slug = $baseSlug . '-' . $counter;
+            $slug =
+                $baseSlug
+                . '-'
+                . $counter;
+
 
             $counter++;
         }
+
 
         return $slug;
     }
@@ -388,8 +564,10 @@ class Series extends Model
             WHERE slug = :slug
         ";
 
+
         $params = [
-            'slug' => $slug
+            'slug' =>
+                $slug
         ];
 
 
@@ -397,13 +575,17 @@ class Series extends Model
          * Si estamos editando una serie,
          * ignoramos su propio registro.
          */
-        if ($excludeId !== null) {
+        if (
+            $excludeId !== null
+        ) {
 
             $sql .= "
                 AND id != :id
             ";
 
-            $params['id'] = $excludeId;
+
+            $params['id'] =
+                $excludeId;
         }
 
 
@@ -412,10 +594,17 @@ class Series extends Model
         ";
 
 
-        $statement = $this->db->prepare($sql);
+        $statement =
+            $this->db->prepare($sql);
 
-        $statement->execute($params);
 
-        return $statement->fetch() !== false;
+        $statement->execute(
+            $params
+        );
+
+
+        return
+            $statement->fetch()
+            !== false;
     }
 }

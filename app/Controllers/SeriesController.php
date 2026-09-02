@@ -10,14 +10,24 @@ use App\Middleware\RoleMiddleware;
 
 
 /**
- * Controlador encargado de administrar las series
- * de artículos desde el panel administrativo.
+ * Controlador encargado de gestionar las series
+ * tanto desde el panel administrativo como
+ * desde la parte pública de CyberBlog.
  *
- * Este controlador corresponde únicamente al BackOffice.
+ * La parte administrativa permite:
  *
- * La visualización pública de las series se implementará
- * posteriormente mediante rutas y métodos públicos
- * independientes.
+ * - Listar series.
+ * - Crear series.
+ * - Editar series.
+ * - Eliminar series.
+ *
+ * La parte pública permite:
+ *
+ * - Listar series publicadas.
+ * - Buscar series publicadas.
+ * - Mostrar una serie individual.
+ * - Mostrar los artículos publicados
+ *   pertenecientes a una serie.
  */
 class SeriesController extends Controller
 {
@@ -34,6 +44,177 @@ class SeriesController extends Controller
     {
         $this->seriesModel = new Series();
     }
+
+
+    /* =========================================================
+     * PARTE PÚBLICA
+     * ========================================================= */
+
+
+    /**
+     * Muestra el listado público de series.
+     *
+     * URL:
+     *
+     * /series
+     *
+     * Solamente se muestran series publicadas.
+     */
+    public function publicIndex(): void
+    {
+        /*
+         * Obtenemos únicamente las series
+         * que están publicadas.
+         */
+        $series =
+            $this->seriesModel->getPublishedSeries();
+
+
+        /*
+         * Cargamos la vista pública.
+         *
+         * La vista recibe únicamente
+         * las series que debe mostrar.
+         */
+        $this->view(
+            'series/public/index',
+            [
+                'title' =>
+                    'Series de artículos',
+
+                'series' =>
+                    $series
+            ]
+        );
+    }
+
+
+    /**
+     * Muestra una serie individual.
+     *
+     * URL:
+     *
+     * /series/{slug}
+     *
+     * Ejemplo:
+     *
+     * /series/introduccion-a-wazuh
+     *
+     * Solamente permite acceder a series
+     * que estén publicadas.
+     */
+    public function publicShow(
+        string $slug
+    ): void {
+
+        /*
+         * Buscamos la serie utilizando
+         * el slug recibido desde la URL.
+         */
+        $serie =
+            $this->seriesModel->getSeriesBySlug(
+                $slug
+            );
+
+
+        /*
+         * Si la serie no existe,
+         * devolvemos un error 404.
+         */
+        if ($serie === false) {
+
+            http_response_code(404);
+
+            die(
+                'La serie solicitada no existe.'
+            );
+        }
+
+
+        /*
+         * Una serie puede existir en la base de datos
+         * pero estar en estado "borrador".
+         *
+         * Las series borrador no deben ser accesibles
+         * desde la parte pública.
+         */
+        if (
+            $serie['estado'] !== 'publicada'
+        ) {
+
+            http_response_code(404);
+
+            die(
+                'La serie solicitada no existe.'
+            );
+        }
+
+
+        /*
+         * Obtenemos únicamente los artículos
+         * publicados pertenecientes a la serie.
+         *
+         * El modelo los devuelve ordenados
+         * desde el más antiguo al más reciente.
+         */
+        $articles =
+            $this->seriesModel
+                ->getPublishedArticlesBySeriesId(
+                    (int) $serie['id']
+                );
+
+
+        /*
+         * Calculamos la cantidad de artículos
+         * publicados que contiene la serie.
+         *
+         * count() cuenta los elementos del array
+         * recibido desde el modelo.
+         *
+         * Ejemplo:
+         *
+         * $articles = [
+         *     artículo 1,
+         *     artículo 2
+         * ];
+         *
+         * count($articles) devuelve:
+         *
+         * 2
+         */
+        $totalArticles =
+            count($articles);
+
+
+        /*
+         * Cargamos la vista pública
+         * de la serie.
+         *
+         * Enviamos todos los datos que
+         * la vista necesita.
+         */
+        $this->view(
+            'series/public/show',
+            [
+                'title' =>
+                    $serie['titulo'],
+
+                'serie' =>
+                    $serie,
+
+                'articles' =>
+                    $articles,
+
+                'totalArticles' =>
+                    $totalArticles
+            ]
+        );
+    }
+
+
+    /* =========================================================
+     * PARTE ADMINISTRATIVA
+     * ========================================================= */
 
 
     /**
@@ -55,22 +236,23 @@ class SeriesController extends Controller
 
         /*
          * Obtenemos todas las series,
-         * incluyendo borradores y publicadas,
-         * ya que estamos dentro del panel
-         * administrativo.
+         * incluyendo borradores y publicadas.
          */
-        $series = $this->seriesModel->getAllSeries();
+        $series =
+            $this->seriesModel->getAllSeries();
 
 
         /*
-         * Cargamos la vista utilizando
-         * el layout administrativo.
+         * Cargamos la vista administrativa.
          */
         $this->adminView(
             'series/index',
             [
-                'title' => 'Administración de Series',
-                'series' => $series
+                'title' =>
+                    'Administración de Series',
+
+                'series' =>
+                    $series
             ]
         );
     }
@@ -93,13 +275,14 @@ class SeriesController extends Controller
 
 
         /*
-         * Cargamos el formulario utilizando
-         * el layout administrativo.
+         * Cargamos el formulario
+         * administrativo.
          */
         $this->adminView(
             'series/create',
             [
-                'title' => 'Nueva Serie'
+                'title' =>
+                    'Nueva Serie'
             ]
         );
     }
@@ -122,17 +305,32 @@ class SeriesController extends Controller
 
         /*
          * Obtenemos y limpiamos
-         * los datos enviados.
+         * el título.
          */
-        $titulo = trim(
-            $_POST['titulo'] ?? ''
-        );
+        $titulo =
+            trim(
+                $_POST['titulo'] ?? ''
+            );
 
-        $descripcion = trim(
-            $_POST['descripcion'] ?? ''
-        );
 
-        $estado = $_POST['estado']
+        /*
+         * Obtenemos y limpiamos
+         * la descripción.
+         */
+        $descripcion =
+            trim(
+                $_POST['descripcion'] ?? ''
+            );
+
+
+        /*
+         * Obtenemos el estado.
+         *
+         * Si no se recibe ninguno,
+         * utilizamos "borrador".
+         */
+        $estado =
+            $_POST['estado']
             ?? 'borrador';
 
 
@@ -140,23 +338,28 @@ class SeriesController extends Controller
          * Validamos que el título
          * no esté vacío.
          */
-        if ($titulo === '') {
+        if (
+            $titulo === ''
+        ) {
 
             $this->setFlash(
                 'error',
                 'El título de la serie es obligatorio.'
             );
 
+
             header(
                 'Location: /incuyo/cyberblog/public/admin/series/create'
             );
+
 
             exit;
         }
 
 
         /*
-         * Validamos el estado recibido.
+         * Validamos que el estado
+         * recibido sea uno de los permitidos.
          */
         if (
             !in_array(
@@ -168,73 +371,93 @@ class SeriesController extends Controller
                 true
             )
         ) {
-            $estado = 'borrador';
+
+            $estado =
+                'borrador';
         }
 
 
         /*
-         * Generamos el slug base.
+         * Generamos el slug base
+         * a partir del título.
          */
-        $baseSlug = $this->generateSlug(
-            $titulo
-        );
+        $baseSlug =
+            $this->generateSlug(
+                $titulo
+            );
 
 
         /*
-         * Generamos un slug único.
+         * Nos aseguramos de que el slug
+         * sea único.
          */
-        $slug = $this->seriesModel->generateUniqueSlug(
-            $baseSlug
-        );
+        $slug =
+            $this->seriesModel->generateUniqueSlug(
+                $baseSlug
+            );
 
 
         /*
-         * Por ahora la imagen queda
-         * sin implementar.
+         * Preparamos los datos
+         * que serán enviados al modelo.
          */
         $data = [
-            'titulo' => $titulo,
-            'slug' => $slug,
-            'descripcion' => (
-                $descripcion !== ''
-                    ? $descripcion
-                    : null
-            ),
-            'imagen' => null,
-            'estado' => $estado
+
+            'titulo' =>
+                $titulo,
+
+            'slug' =>
+                $slug,
+
+            'descripcion' =>
+                (
+                    $descripcion !== ''
+                        ? $descripcion
+                        : null
+                ),
+
+            'imagen' =>
+                null,
+
+            'estado' =>
+                $estado
         ];
 
 
         /*
          * Creamos la serie.
          */
-        $created = $this->seriesModel->create(
-            $data
-        );
+        $created =
+            $this->seriesModel->create(
+                $data
+            );
 
 
         /*
-         * Verificamos que la creación
-         * se haya realizado correctamente.
+         * Verificamos el resultado.
          */
-        if ($created === false) {
+        if (
+            $created === false
+        ) {
 
             $this->setFlash(
                 'error',
                 'No fue posible crear la serie.'
             );
 
+
             header(
                 'Location: /incuyo/cyberblog/public/admin/series/create'
             );
+
 
             exit;
         }
 
 
         /*
-         * Informamos que la serie
-         * fue creada correctamente.
+         * Guardamos un mensaje
+         * de éxito en la sesión.
          */
         $this->setFlash(
             'success',
@@ -243,12 +466,12 @@ class SeriesController extends Controller
 
 
         /*
-         * Redirigimos al listado
-         * administrativo.
+         * Redirigimos al listado administrativo.
          */
         header(
             'Location: /incuyo/cyberblog/public/admin/series'
         );
+
 
         exit;
     }
@@ -273,18 +496,21 @@ class SeriesController extends Controller
 
 
         /*
-         * Obtenemos la serie.
+         * Buscamos la serie.
          */
-        $serie = $this->seriesModel->getSeriesById(
-            $id
-        );
+        $serie =
+            $this->seriesModel->getSeriesById(
+                $id
+            );
 
 
         /*
-         * Si la serie no existe,
-         * mostramos un error 404.
+         * Si no existe,
+         * devolvemos un error 404.
          */
-        if ($serie === false) {
+        if (
+            $serie === false
+        ) {
 
             http_response_code(404);
 
@@ -300,8 +526,11 @@ class SeriesController extends Controller
         $this->adminView(
             'series/edit',
             [
-                'title' => 'Editar Serie',
-                'serie' => $serie
+                'title' =>
+                    'Editar Serie',
+
+                'serie' =>
+                    $serie
             ]
         );
     }
@@ -327,12 +556,15 @@ class SeriesController extends Controller
         /*
          * Verificamos que la serie exista.
          */
-        $serie = $this->seriesModel->getSeriesById(
-            $id
-        );
+        $serie =
+            $this->seriesModel->getSeriesById(
+                $id
+            );
 
 
-        if ($serie === false) {
+        if (
+            $serie === false
+        ) {
 
             http_response_code(404);
 
@@ -345,31 +577,40 @@ class SeriesController extends Controller
         /*
          * Obtenemos los datos enviados.
          */
-        $titulo = trim(
-            $_POST['titulo'] ?? ''
-        );
+        $titulo =
+            trim(
+                $_POST['titulo'] ?? ''
+            );
 
-        $descripcion = trim(
-            $_POST['descripcion'] ?? ''
-        );
 
-        $estado = $_POST['estado']
+        $descripcion =
+            trim(
+                $_POST['descripcion'] ?? ''
+            );
+
+
+        $estado =
+            $_POST['estado']
             ?? 'borrador';
 
 
         /*
          * Validamos el título.
          */
-        if ($titulo === '') {
+        if (
+            $titulo === ''
+        ) {
 
             $this->setFlash(
                 'error',
                 'El título de la serie es obligatorio.'
             );
 
+
             header(
                 'Location: /incuyo/cyberblog/public/admin/series/edit/' . $id
             );
+
 
             exit;
         }
@@ -388,78 +629,92 @@ class SeriesController extends Controller
                 true
             )
         ) {
-            $estado = 'borrador';
+
+            $estado =
+                'borrador';
         }
 
 
         /*
-         * Generamos nuevamente el slug.
+         * Generamos el nuevo slug.
          */
-        $baseSlug = $this->generateSlug(
-            $titulo
-        );
+        $baseSlug =
+            $this->generateSlug(
+                $titulo
+            );
 
 
         /*
-         * Generamos un slug único
+         * Generamos un slug único,
          * excluyendo la serie actual.
          */
-        $slug = $this->seriesModel->generateUniqueSlug(
-            $baseSlug,
-            $id
-        );
+        $slug =
+            $this->seriesModel->generateUniqueSlug(
+                $baseSlug,
+                $id
+            );
 
 
         /*
          * Conservamos la imagen actual.
-         *
-         * La subida de imágenes para
-         * Series será implementada
-         * posteriormente.
          */
         $data = [
-            'titulo' => $titulo,
-            'slug' => $slug,
-            'descripcion' => (
-                $descripcion !== ''
-                    ? $descripcion
-                    : null
-            ),
-            'imagen' => $serie['imagen'],
-            'estado' => $estado
+
+            'titulo' =>
+                $titulo,
+
+            'slug' =>
+                $slug,
+
+            'descripcion' =>
+                (
+                    $descripcion !== ''
+                        ? $descripcion
+                        : null
+                ),
+
+            'imagen' =>
+                $serie['imagen'],
+
+            'estado' =>
+                $estado
         ];
 
 
         /*
          * Actualizamos la serie.
          */
-        $updated = $this->seriesModel->update(
-            $id,
-            $data
-        );
+        $updated =
+            $this->seriesModel->update(
+                $id,
+                $data
+            );
 
 
         /*
          * Verificamos el resultado.
          */
-        if ($updated === false) {
+        if (
+            $updated === false
+        ) {
 
             $this->setFlash(
                 'error',
                 'No fue posible actualizar la serie.'
             );
 
+
             header(
                 'Location: /incuyo/cyberblog/public/admin/series/edit/' . $id
             );
+
 
             exit;
         }
 
 
         /*
-         * Informamos que la actualización
-         * fue correcta.
+         * Mensaje de éxito.
          */
         $this->setFlash(
             'success',
@@ -468,11 +723,12 @@ class SeriesController extends Controller
 
 
         /*
-         * Redirigimos al listado.
+         * Volvemos al listado.
          */
         header(
             'Location: /incuyo/cyberblog/public/admin/series'
         );
+
 
         exit;
     }
@@ -481,16 +737,15 @@ class SeriesController extends Controller
     /**
      * Elimina una serie.
      *
-     * Solo los administradores pueden
-     * realizar esta operación.
+     * Solo administradores pueden realizar
+     * esta operación.
      */
     public function delete(
         int $id
     ): void
     {
         /*
-         * Solo los administradores
-         * pueden eliminar series.
+         * Solo administradores.
          */
         RoleMiddleware::handle([
             'admin'
@@ -500,16 +755,19 @@ class SeriesController extends Controller
         /*
          * Obtenemos la serie.
          */
-        $serie = $this->seriesModel->getSeriesById(
-            $id
-        );
+        $serie =
+            $this->seriesModel->getSeriesById(
+                $id
+            );
 
 
         /*
          * Si no existe,
-         * devolvemos un 404.
+         * devolvemos un error 404.
          */
-        if ($serie === false) {
+        if (
+            $serie === false
+        ) {
 
             http_response_code(404);
 
@@ -522,37 +780,39 @@ class SeriesController extends Controller
         /*
          * Eliminamos la serie.
          *
-         * Debido a ON DELETE SET NULL,
-         * los artículos asociados conservarán
-         * sus datos, pero quedarán
-         * sin serie asignada.
+         * ON DELETE SET NULL evita que
+         * los artículos asociados sean eliminados.
          */
-        $deleted = $this->seriesModel->delete(
-            $id
-        );
+        $deleted =
+            $this->seriesModel->delete(
+                $id
+            );
 
 
         /*
          * Verificamos el resultado.
          */
-        if ($deleted === false) {
+        if (
+            $deleted === false
+        ) {
 
             $this->setFlash(
                 'error',
                 'No fue posible eliminar la serie.'
             );
 
+
             header(
                 'Location: /incuyo/cyberblog/public/admin/series'
             );
+
 
             exit;
         }
 
 
         /*
-         * Informamos que la eliminación
-         * fue correcta.
+         * Mensaje de éxito.
          */
         $this->setFlash(
             'success',
@@ -561,14 +821,20 @@ class SeriesController extends Controller
 
 
         /*
-         * Redirigimos al listado.
+         * Redirección.
          */
         header(
             'Location: /incuyo/cyberblog/public/admin/series'
         );
 
+
         exit;
     }
+
+
+    /* =========================================================
+     * UTILIDADES
+     * ========================================================= */
 
 
     /**
@@ -590,44 +856,52 @@ class SeriesController extends Controller
          * Convertimos caracteres especiales
          * a su representación ASCII.
          */
-        $converted = iconv(
-            'UTF-8',
-            'ASCII//TRANSLIT',
-            $text
-        );
+        $converted =
+            iconv(
+                'UTF-8',
+                'ASCII//TRANSLIT',
+                $text
+            );
 
 
         /*
-         * Si iconv falla, conservamos
-         * el texto original.
+         * Si iconv funcionó,
+         * utilizamos el texto convertido.
          */
-        if ($converted !== false) {
-            $text = $converted;
+        if (
+            $converted !== false
+        ) {
+
+            $text =
+                $converted;
         }
 
 
         /*
-         * Convertimos a minúsculas.
+         * Convertimos todo a minúsculas.
          */
-        $text = strtolower(
-            $text
-        );
+        $text =
+            strtolower(
+                $text
+            );
 
 
         /*
-         * Reemplazamos grupos de caracteres
-         * no alfanuméricos por un guion.
+         * Reemplazamos cualquier grupo
+         * de caracteres que no sean letras
+         * o números por un guion.
          */
-        $text = preg_replace(
-            '/[^a-z0-9]+/',
-            '-',
-            $text
-        );
+        $text =
+            preg_replace(
+                '/[^a-z0-9]+/',
+                '-',
+                $text
+            );
 
 
         /*
-         * Eliminamos los guiones iniciales
-         * y finales.
+         * Eliminamos los guiones
+         * del principio y del final.
          */
         return trim(
             $text ?? '',

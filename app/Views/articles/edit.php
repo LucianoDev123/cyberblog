@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 ?>
 
-<section class="series-page">
+<section class="article-page">
 
 
     <!-- ========================================= -->
     <!-- ENCABEZADO -->
     <!-- ========================================= -->
 
-    <div class="series-page-header">
+    <div class="article-page-header">
 
         <div>
 
-            <span class="series-eyebrow">
+            <span class="article-eyebrow">
 
                 ADMINISTRACIÓN
 
@@ -31,8 +31,8 @@ declare(strict_types=1);
 
             <p>
 
-                Modifica el contenido, organización
-                y configuración del artículo.
+                Modifica el contenido, la información
+                y la configuración de este artículo.
 
             </p>
 
@@ -59,33 +59,35 @@ declare(strict_types=1);
         action="/incuyo/cyberblog/public/admin/articles/update/<?= (int) $article['id'] ?>"
         method="POST"
         enctype="multipart/form-data"
-        class="series-form article-form"
+        class="article-form"
     >
 
 
+        <!-- ===================================== -->
         <!-- TOKEN CSRF -->
+        <!-- ===================================== -->
 
         <input
             type="hidden"
             id="csrf_token"
             name="csrf_token"
             value="<?= htmlspecialchars(
-                $csrfToken ?? '',
+                $csrfToken,
                 ENT_QUOTES,
                 'UTF-8'
             ) ?>"
         >
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- TÍTULO -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
             <label for="titulo">
 
-                Título del artículo
+                Título
 
             </label>
 
@@ -100,15 +102,14 @@ declare(strict_types=1);
                     'UTF-8'
                 ) ?>"
                 required
-                maxlength="255"
             >
 
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- CATEGORÍA -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -131,15 +132,13 @@ declare(strict_types=1);
                         value="<?= (int) $category['id'] ?>"
 
                         <?php if (
-                            (int) $category['id']
-                            ===
+                            (int) $category['id'] ===
                             (int) $article['categoria_id']
                         ): ?>
 
                             selected
 
                         <?php endif; ?>
-
                     >
 
                         <?= htmlspecialchars(
@@ -157,9 +156,9 @@ declare(strict_types=1);
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- SERIE -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -188,17 +187,13 @@ declare(strict_types=1);
                         value="<?= (int) $serie['id'] ?>"
 
                         <?php if (
-                            !empty($article['serie_id'])
-                            &&
-                            (int) $serie['id']
-                            ===
-                            (int) $article['serie_id']
+                            (int) $serie['id'] ===
+                            (int) ($article['serie_id'] ?? 0)
                         ): ?>
 
                             selected
 
                         <?php endif; ?>
-
                     >
 
                         <?= htmlspecialchars(
@@ -206,15 +201,6 @@ declare(strict_types=1);
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
-
-                        <?php if (
-                            ($serie['estado'] ?? '')
-                            === 'borrador'
-                        ): ?>
-
-                            — Borrador
-
-                        <?php endif; ?>
 
                     </option>
 
@@ -225,17 +211,17 @@ declare(strict_types=1);
 
             <small>
 
-                Puedes mover el artículo a otra serie
-                o dejarlo sin una serie asociada.
+                Puedes asociar este artículo a una serie
+                o dejarlo sin serie.
 
             </small>
 
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- RESUMEN -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -249,7 +235,7 @@ declare(strict_types=1);
             <textarea
                 id="resumen"
                 name="resumen"
-                rows="5"
+                rows="4"
                 required
             ><?= htmlspecialchars(
                 $article['resumen'] ?? '',
@@ -257,20 +243,12 @@ declare(strict_types=1);
                 'UTF-8'
             ) ?></textarea>
 
-
-            <small>
-
-                Este texto se utiliza en las tarjetas
-                y vistas previas del artículo.
-
-            </small>
-
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- CONTENIDO -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -281,13 +259,17 @@ declare(strict_types=1);
             </label>
 
 
+            <!-- EDITOR VISUAL -->
+
             <div
                 id="contenido-editor"
                 class="content-editor"
                 contenteditable="true"
                 data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar texto e imágenes directamente con Ctrl + V."
-            ><?= $article['contenido'] ?? '' ?></div>
+            ><?= $article['contenido'] ?></div>
 
+
+            <!-- CONTENIDO REAL ENVIADO -->
 
             <textarea
                 id="contenido"
@@ -303,18 +285,20 @@ declare(strict_types=1);
 
             <small>
 
-                💡 Puedes editar el contenido existente
-                y pegar nuevas imágenes directamente
-                dentro del editor.
+                💡 Puedes editar el texto existente y pegar
+                nuevas imágenes directamente dentro del editor.
+
+                Las imágenes permanecerán en el orden
+                exacto en el que las insertes.
 
             </small>
 
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- IMAGEN DESTACADA -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -329,7 +313,19 @@ declare(strict_types=1);
                 !empty($article['imagen'])
             ): ?>
 
-                <div class="article-current-image">
+
+                <!-- ================================= -->
+                <!-- IMAGEN ACTUAL -->
+                <!-- ================================= -->
+
+                <div class="current-featured-image">
+
+                    <p>
+
+                        Imagen actual:
+
+                    </p>
+
 
                     <img
                         src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
@@ -338,29 +334,59 @@ declare(strict_types=1);
                             'UTF-8'
                         ) ?>"
                         alt="Imagen actual del artículo"
+                        class="article-current-image"
                     >
 
                 </div>
 
 
-                <small>
+                <!-- ================================= -->
+                <!-- ELIMINAR IMAGEN -->
+                <!-- ================================= -->
 
-                    Si no seleccionas una nueva imagen,
-                    se conservará la imagen actual.
+                <label
+                    class="delete-featured-image-option"
+                    for="eliminar_imagen"
+                >
 
-                </small>
+                    <input
+                        type="checkbox"
+                        id="eliminar_imagen"
+                        name="eliminar_imagen"
+                        value="1"
+                    >
+
+
+                    <span>
+
+                        Eliminar imagen destacada actual
+
+                    </span>
+
+                </label>
+
 
             <?php else: ?>
 
-                <small>
 
-                    Este artículo todavía no tiene
-                    una imagen destacada.
+                <p>
 
-                </small>
+                    <small>
+
+                        Este artículo actualmente no tiene
+                        una imagen destacada.
+
+                    </small>
+
+                </p>
+
 
             <?php endif; ?>
 
+
+            <!-- ================================= -->
+            <!-- NUEVA IMAGEN -->
+            <!-- ================================= -->
 
             <input
                 type="file"
@@ -372,17 +398,43 @@ declare(strict_types=1);
 
             <small>
 
-                Formatos permitidos: JPG, PNG y WEBP.
-                Tamaño máximo: 5 MB.
+                <?php if (
+                    !empty($article['imagen'])
+                ): ?>
+
+                    Si seleccionas una nueva imagen,
+                    reemplazará automáticamente la actual.
+
+                    <br><br>
+
+                    Si marcas la opción de eliminar,
+                    la imagen actual será eliminada.
+
+                    <?php else: ?>
+
+                    Puedes seleccionar una imagen
+                    destacada para el artículo.
+
+                <?php endif; ?>
+
+
+                <br><br>
+
+
+                Formatos permitidos:
+                JPG, PNG y WEBP.
+
+                Tamaño máximo:
+                5 MB.
 
             </small>
 
         </div>
 
 
-        <!-- ========================================= -->
+        <!-- ===================================== -->
         <!-- ESTADO -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
 
         <div class="admin-form-group">
 
@@ -402,8 +454,7 @@ declare(strict_types=1);
                     value="borrador"
 
                     <?= (
-                        ($article['estado'] ?? '')
-                        === 'borrador'
+                        ($article['estado'] ?? '') === 'borrador'
                     )
                         ? 'selected'
                         : ''
@@ -419,8 +470,7 @@ declare(strict_types=1);
                     value="publicado"
 
                     <?= (
-                        ($article['estado'] ?? '')
-                        === 'publicado'
+                        ($article['estado'] ?? '') === 'publicado'
                     )
                         ? 'selected'
                         : ''
@@ -433,12 +483,20 @@ declare(strict_types=1);
 
             </select>
 
+
+            <small>
+
+                Los artículos en borrador no serán visibles
+                públicamente.
+
+            </small>
+
         </div>
 
 
-        <!-- ========================================= -->
-        <!-- ACCIONES -->
-        <!-- ========================================= -->
+        <!-- ===================================== -->
+        <!-- BOTONES -->
+        <!-- ===================================== -->
 
         <div class="admin-form-actions">
 
@@ -470,3 +528,8 @@ declare(strict_types=1);
 
 
 </section>
+
+
+<script
+    src="/incuyo/cyberblog/public/assets/js/editor.js"
+></script>

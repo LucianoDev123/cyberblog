@@ -57,32 +57,18 @@ class ArticleController extends Controller
             'editor'
         ]);
 
-        /*
-         * Obtenemos todas las categorías disponibles.
-         */
         $categoryModel = new Category();
 
         $categories =
             $categoryModel->getAllCategories();
 
 
-        /*
-         * Obtenemos todas las series disponibles.
-         *
-         * Se muestran tanto las series publicadas como
-         * los borradores porque el panel administrativo
-         * debe permitir asociar artículos antes de que
-         * la serie sea publicada.
-         */
         $seriesModel = new Series();
 
         $series =
             $seriesModel->getAllSeries();
 
 
-        /*
-         * Cargamos la vista.
-         */
         $this->adminView('articles/create', [
             'title' => 'Nuevo artículo',
             'categories' => $categories,
@@ -116,13 +102,6 @@ class ArticleController extends Controller
         $categoriaId =
             (int) ($_POST['categoria_id'] ?? 0);
 
-
-        /*
-         * Obtenemos el ID de la serie.
-         *
-         * Si el usuario seleccionó "Sin serie",
-         * recibiremos un valor vacío.
-         */
         $serieId =
             (int) ($_POST['serie_id'] ?? 0);
 
@@ -188,11 +167,6 @@ class ArticleController extends Controller
                     $serieId
                 );
 
-
-            /*
-             * Si la serie no existe,
-             * detenemos la operación.
-             */
             if ($serie === false) {
 
                 $this->setFlash(
@@ -239,9 +213,9 @@ class ArticleController extends Controller
 
 
         /*
-         * Generamos el slug.
+         * Generamos el slug base.
          */
-        $slug = strtolower(
+        $baseSlug = strtolower(
             trim(
                 preg_replace(
                     '/[^a-zA-Z0-9]+/',
@@ -275,10 +249,23 @@ class ArticleController extends Controller
 
 
         /*
-         * Creamos el artículo.
+         * Creamos el modelo.
          */
         $articleModel = new Article();
 
+
+        /*
+         * Generamos un slug único.
+         */
+        $slug =
+            $articleModel->generateUniqueSlug(
+                $baseSlug
+            );
+
+
+        /*
+         * Creamos el artículo.
+         */
         $data = [
             'usuario_id' =>
                 $_SESSION['usuario_id'],
@@ -320,9 +307,6 @@ class ArticleController extends Controller
         );
 
 
-        /*
-         * Redirección.
-         */
         header(
             'Location: /incuyo/cyberblog/public/admin/articles'
         );
@@ -357,8 +341,7 @@ class ArticleController extends Controller
 
 
         /*
-         * Obtenemos las categorías para
-         * el selector del formulario.
+         * Obtenemos las categorías.
          */
         $categoryModel =
             new Category();
@@ -368,8 +351,7 @@ class ArticleController extends Controller
 
 
         /*
-         * Obtenemos las series para
-         * el selector del formulario.
+         * Obtenemos las series.
          */
         $seriesModel =
             new Series();
@@ -427,10 +409,6 @@ class ArticleController extends Controller
         $categoriaId =
             (int) ($_POST['categoria_id'] ?? 0);
 
-
-        /*
-         * Obtenemos la serie seleccionada.
-         */
         $serieId =
             (int) ($_POST['serie_id'] ?? 0);
 
@@ -497,11 +475,6 @@ class ArticleController extends Controller
                     $serieId
                 );
 
-
-            /*
-             * Si la serie no existe,
-             * detenemos la actualización.
-             */
             if ($serie === false) {
 
                 $this->setFlash(
@@ -548,9 +521,9 @@ class ArticleController extends Controller
 
 
         /*
-         * Generamos el slug.
+         * Generamos el slug base.
          */
-        $slug = strtolower(
+        $baseSlug = strtolower(
             trim(
                 preg_replace(
                     '/[^a-zA-Z0-9]+/',
@@ -563,21 +536,56 @@ class ArticleController extends Controller
 
 
         /*
-         * Por defecto conservamos
-         * la imagen actual.
+         * Generamos un slug único excluyendo
+         * el propio artículo.
+         */
+        $slug =
+            $articleModel->generateUniqueSlug(
+                $baseSlug,
+                $id
+            );
+
+
+        /*
+         * Conservamos la imagen actual
+         * por defecto.
          */
         $imageName =
             $article['imagen'] ?? null;
 
 
         /*
-         * Si se seleccionó una nueva imagen,
-         * procesamos el nuevo archivo.
+         * Comprobamos si el usuario solicitó
+         * eliminar la imagen actual.
          */
-        if (
+        $deleteCurrentImage =
+            ($_POST['eliminar_imagen'] ?? '') === '1';
+
+
+        /*
+         * Comprobamos si se seleccionó
+         * una nueva imagen.
+         */
+        $hasNewImage =
             isset($_FILES['imagen']) &&
-            $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE
-        ) {
+            $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE;
+
+
+        /*
+         * PRIORIDAD:
+         *
+         * 1. Nueva imagen.
+         * 2. Eliminar imagen.
+         * 3. Conservar imagen actual.
+         */
+
+
+        /*
+         * Si hay una nueva imagen,
+         * la procesamos.
+         */
+        if ($hasNewImage) {
+
             $uploadedImage =
                 $this->uploadImage();
 
@@ -593,23 +601,40 @@ class ArticleController extends Controller
 
 
             /*
-             * Eliminamos la imagen anterior.
+             * La nueva imagen se guardó
+             * correctamente.
+             *
+             * Ahora eliminamos la anterior.
              */
-            if (
-                $imageName !== null &&
-                $imageName !== '' &&
-                file_exists(
-                    self::UPLOAD_DIRECTORY . $imageName
-                )
-            ) {
-                unlink(
-                    self::UPLOAD_DIRECTORY . $imageName
-                );
-            }
+            $this->deleteImageFile(
+                $imageName
+            );
 
 
+            /*
+             * Guardamos el nuevo nombre.
+             */
             $imageName =
                 $uploadedImage;
+        }
+
+
+        /*
+         * Si no se subió una nueva imagen
+         * pero el usuario pidió eliminarla.
+         */
+        elseif ($deleteCurrentImage) {
+
+            $this->deleteImageFile(
+                $imageName
+            );
+
+
+            /*
+             * El campo imagen queda en NULL
+             * en la base de datos.
+             */
+            $imageName = null;
         }
 
 
@@ -696,17 +721,9 @@ class ArticleController extends Controller
             $article['imagen'] ?? null;
 
 
-        if (
-            $imageName !== null &&
-            $imageName !== '' &&
-            file_exists(
-                self::UPLOAD_DIRECTORY . $imageName
-            )
-        ) {
-            unlink(
-                self::UPLOAD_DIRECTORY . $imageName
-            );
-        }
+        $this->deleteImageFile(
+            $imageName
+        );
 
 
         /*
@@ -726,6 +743,43 @@ class ArticleController extends Controller
         );
 
         exit;
+    }
+
+
+    /**
+     * Elimina físicamente una imagen
+     * del directorio de artículos.
+     */
+    private function deleteImageFile(
+        ?string $imageName
+    ): void {
+        if (
+            $imageName === null ||
+            $imageName === ''
+        ) {
+            return;
+        }
+
+
+        /*
+         * Utilizamos basename para evitar
+         * problemas con rutas almacenadas.
+         */
+        $imageName =
+            basename($imageName);
+
+
+        $filePath =
+            self::UPLOAD_DIRECTORY
+            . $imageName;
+
+
+        if (
+            file_exists($filePath) &&
+            is_file($filePath)
+        ) {
+            unlink($filePath);
+        }
     }
 
 

@@ -49,7 +49,7 @@
         <a
             href="/incuyo/cyberblog/public/admin/articles/edit/<?= (int) $article['id'] ?>"
         >
-            ✏️ Editar
+             Editar
         </a>
 
 
@@ -79,7 +79,7 @@
                 >
 
                 <button type="submit">
-                    🗑️ Eliminar
+                     Eliminar
                 </button>
 
             </form>
