@@ -157,16 +157,118 @@ class Article extends Model
 
 
     /**
+     * Obtiene la cantidad total de artículos.
+     *
+     * Este método se utiliza para las estadísticas
+     * del Dashboard administrativo.
+     */
+    public function countAllArticles(): int
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM articulos
+        ";
+
+        $statement = $this->db->query($sql);
+
+        return (int) $statement->fetchColumn();
+    }
+
+
+    /**
+     * Obtiene la cantidad de artículos publicados.
+     *
+     * Este método se utiliza para las estadísticas
+     * del Dashboard administrativo.
+     */
+    public function countPublishedArticles(): int
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM articulos
+            WHERE estado = 'publicado'
+        ";
+
+        $statement = $this->db->query($sql);
+
+        return (int) $statement->fetchColumn();
+    }
+
+
+    /**
+     * Obtiene la cantidad de artículos en borrador.
+     *
+     * Este método se utiliza para las estadísticas
+     * del Dashboard administrativo.
+     */
+    public function countDraftArticles(): int
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM articulos
+            WHERE estado = 'borrador'
+        ";
+
+        $statement = $this->db->query($sql);
+
+        return (int) $statement->fetchColumn();
+    }
+
+
+    /**
+     * Obtiene los artículos más recientes.
+     *
+     * Se utiliza para mostrar actividad reciente
+     * en el Dashboard administrativo.
+     */
+    public function getRecentArticles(
+        int $limit = 5
+    ): array {
+        $limit = max(1, min($limit, 20));
+
+        $sql = "
+            SELECT
+                a.id,
+                a.titulo,
+                a.slug,
+                a.estado,
+                a.created_at,
+
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
+
+                c.nombre AS categoria,
+
+                s.id AS serie_id,
+                s.titulo AS serie
+
+            FROM articulos a
+
+            INNER JOIN usuarios u
+                ON a.usuario_id = u.id
+
+            INNER JOIN categorias c
+                ON a.categoria_id = c.id
+
+            LEFT JOIN series s
+                ON a.serie_id = s.id
+
+            ORDER BY a.created_at DESC
+
+            LIMIT {$limit}
+        ";
+
+        $statement = $this->db->query($sql);
+
+        return $statement->fetchAll();
+    }
+
+
+    /**
      * Genera un slug único.
-     *
-     * Ejemplo:
-     *
-     * mi-articulo
-     * mi-articulo-2
-     * mi-articulo-3
-     *
-     * Al editar un artículo se puede excluir
-     * el ID actual para que conserve su propio slug.
      */
     public function generateUniqueSlug(
         string $baseSlug,
@@ -195,9 +297,6 @@ class Article extends Model
 
     /**
      * Comprueba si un slug ya existe.
-     *
-     * $excludeId se utiliza durante la edición
-     * para ignorar el artículo actual.
      */
     private function slugExists(
         string $slug,
@@ -213,13 +312,7 @@ class Article extends Model
             'slug' => $slug
         ];
 
-
-        /*
-         * Si estamos editando un artículo,
-         * excluimos su propio ID.
-         */
         if ($excludeId !== null) {
-
             $sql .= "
                 AND id != :id
             ";
@@ -227,7 +320,6 @@ class Article extends Model
             $params['id'] =
                 $excludeId;
         }
-
 
         $sql .= "
             LIMIT 1
@@ -337,20 +429,6 @@ class Article extends Model
     /**
      * Busca artículos publicados relacionados
      * con el término introducido por el usuario.
-     *
-     * La búsqueda se realiza sobre:
-     *
-     * - El título.
-     * - El resumen.
-     * - El contenido.
-     * - La categoría.
-     *
-     * Solamente se devuelven artículos cuyo estado
-     * sea "publicado".
-     *
-     * Se utilizan consultas preparadas mediante PDO
-     * para separar los datos proporcionados por el usuario
-     * de la estructura de la consulta SQL.
      */
     public function searchPublishedArticles(
         string $search
@@ -421,26 +499,14 @@ class Article extends Model
                 a.created_at DESC
         ";
 
-
-        /*
-         * Agregamos '%' antes y después del término.
-         */
         $searchTerm =
             '%'
             . $search
             . '%';
 
-
-        /*
-         * Preparamos la consulta.
-         */
         $statement =
             $this->db->prepare($sql);
 
-
-        /*
-         * Ejecutamos la consulta.
-         */
         $statement->execute([
 
             'search_title' =>
@@ -465,10 +531,6 @@ class Article extends Model
                 $searchTerm
         ]);
 
-
-        /*
-         * Devolvemos todos los artículos encontrados.
-         */
         return $statement->fetchAll();
     }
 }

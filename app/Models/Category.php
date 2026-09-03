@@ -14,9 +14,6 @@ class Category extends Model
      *
      * Incluye la cantidad de artículos
      * asociados a cada categoría.
-     *
-     * Este método se utiliza principalmente
-     * desde el panel administrativo.
      */
     public function getAllCategories(): array
     {
@@ -43,6 +40,23 @@ class Category extends Model
             $this->db->query($sql);
 
         return $statement->fetchAll();
+    }
+
+
+    /**
+     * Obtiene la cantidad total de categorías.
+     */
+    public function countAllCategories(): int
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM categorias
+        ";
+
+        $statement =
+            $this->db->query($sql);
+
+        return (int) $statement->fetchColumn();
     }
 
 
@@ -76,9 +90,6 @@ class Category extends Model
 
     /**
      * Obtiene una categoría mediante su slug.
-     *
-     * Este método se utiliza desde la
-     * parte pública del sitio.
      */
     public function getCategoryBySlug(
         string $slug
@@ -255,9 +266,6 @@ class Category extends Model
 
     /**
      * Elimina una categoría.
-     *
-     * El controlador debe comprobar previamente
-     * que no tenga artículos asociados.
      */
     public function delete(
         int $id
@@ -278,9 +286,6 @@ class Category extends Model
 
     /**
      * Comprueba si un slug ya existe.
-     *
-     * Durante una edición se puede excluir
-     * el ID de la categoría actual.
      */
     public function slugExists(
         string $slug,
@@ -325,12 +330,6 @@ class Category extends Model
 
     /**
      * Genera un slug único.
-     *
-     * Ejemplo:
-     *
-     * seguridad-web
-     * seguridad-web-2
-     * seguridad-web-3
      */
     public function generateUniqueSlug(
         string $baseSlug,
