@@ -588,7 +588,7 @@
 
 
 /* ========================================= */
-/* RESPONSIVE */
+/* RESPONSIVE DEL LISTADO */
 /* ========================================= */
 
 @media (
@@ -643,6 +643,695 @@
     .articles-table-wrapper {
         border-radius:
             10px;
+    }
+
+}
+
+
+/* =========================================================
+   FORMULARIO DE ARTÍCULOS
+   ========================================================= */
+
+/*
+ * Este módulo corresponde exclusivamente
+ * a las vistas crear/editar artículo.
+ *
+ * Se utiliza .admin-content como contexto
+ * para evitar afectar las páginas públicas.
+ */
+
+
+/* ========================================= */
+/* CONTENEDOR PRINCIPAL */
+/* ========================================= */
+
+.admin-content .article-page {
+    width:
+        100%;
+}
+
+
+/* ========================================= */
+/* ENCABEZADO DEL FORMULARIO */
+/* ========================================= */
+
+.admin-content .article-page .article-page-header {
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        32px;
+
+    width:
+        100%;
+
+    margin:
+        0 0 34px;
+
+    padding:
+        0 0 28px;
+
+    border-bottom:
+        1px solid
+        var(--admin-border);
+}
+
+
+.admin-content .article-page .article-page-header > div {
+    flex:
+        1;
+
+    min-width:
+        0;
+}
+
+
+.admin-content .article-page .article-eyebrow {
+    display:
+        block;
+
+    margin:
+        0 0 8px;
+
+    color:
+        var(--admin-primary);
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.admin-content .article-page .article-page-header h2 {
+    margin:
+        0 0 10px;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        30px;
+
+    line-height:
+        1.2;
+}
+
+
+.admin-content .article-page .article-page-header p {
+    max-width:
+        760px;
+
+    margin:
+        0;
+
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        15px;
+
+    line-height:
+        1.6;
+}
+
+
+/* ========================================= */
+/* BOTÓN VOLVER */
+/* ========================================= */
+
+.admin-content .article-page .article-page-header .admin-button {
+    flex:
+        0 0 auto;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        42px;
+
+    margin:
+        0;
+
+    white-space:
+        nowrap;
+
+    text-decoration:
+        none;
+}
+
+
+/* ========================================= */
+/* FORMULARIO */
+/* ========================================= */
+
+.admin-content .article-page .article-form {
+    width:
+        100%;
+
+    max-width:
+        1200px;
+
+    margin:
+        0;
+}
+
+
+/* ========================================= */
+/* TARJETA */
+/* ========================================= */
+
+.admin-content .article-page .article-form-card {
+    width:
+        100%;
+
+    margin:
+        0;
+
+    padding:
+        30px;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--admin-border);
+
+    border-radius:
+        12px;
+
+    box-shadow:
+        var(--admin-shadow);
+
+    box-sizing:
+        border-box;
+}
+
+
+/* ========================================= */
+/* CABECERA DE SECCIÓN */
+/* ========================================= */
+
+.admin-content .article-page .article-form-section-header {
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        16px;
+
+    margin:
+        0 0 32px;
+
+    padding:
+        0 0 24px;
+
+    border-bottom:
+        1px solid
+        #edf0f2;
+}
+
+
+.admin-content .article-page .article-form-section-number {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex:
+        0 0 auto;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    color:
+        var(--admin-primary);
+
+    background:
+        rgba(16, 185, 129, 0.10);
+
+    border-radius:
+        8px;
+
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    box-sizing:
+        border-box;
+}
+
+
+.admin-content .article-page .article-form-section-header h3 {
+    margin:
+        1px 0 6px;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        20px;
+
+    line-height:
+        1.3;
+}
+
+
+.admin-content .article-page .article-form-section-header p {
+    margin:
+        0;
+
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        14px;
+
+    line-height:
+        1.5;
+}
+
+
+/* ========================================= */
+/* GRUPOS */
+/* ========================================= */
+
+.admin-content .article-page .admin-form-group {
+    margin:
+        0 0 26px;
+}
+
+
+.admin-content .article-page .admin-form-group > label {
+    display:
+        block;
+
+    margin:
+        0 0 8px;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+}
+
+
+/* ========================================= */
+/* AYUDA DE LOS CAMPOS */
+/* ========================================= */
+
+.admin-content .article-page .admin-form-group > small {
+    display:
+        block;
+
+    margin:
+        8px 0 0;
+
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.5;
+}
+
+
+/* ========================================= */
+/* INPUTS / SELECTS / TEXTAREA */
+/* ========================================= */
+
+.admin-content .article-page .admin-form-group input[type="text"],
+.admin-content .article-page .admin-form-group input[type="email"],
+.admin-content .article-page .admin-form-group input[type="number"],
+.admin-content .article-page .admin-form-group input[type="file"],
+.admin-content .article-page .admin-form-group select,
+.admin-content .article-page .admin-form-group textarea {
+    width:
+        100%;
+
+    box-sizing:
+        border-box;
+}
+
+
+/* ========================================= */
+/* EDITOR */
+/* ========================================= */
+
+.admin-content .article-page .content-editor {
+    width:
+        100%;
+
+    max-width:
+        1200px;
+
+    min-height:
+        600px;
+
+    box-sizing:
+        border-box;
+}
+
+
+/* ========================================= */
+/* IMAGEN ACTUAL */
+/* ========================================= */
+
+.admin-content .article-page .current-featured-image {
+    width:
+        100%;
+
+    margin:
+        0 0 16px;
+
+    padding:
+        16px;
+
+    background:
+        #f8fafc;
+
+    border:
+        1px solid
+        var(--admin-border);
+
+    border-radius:
+        8px;
+
+    box-sizing:
+        border-box;
+}
+
+
+.admin-content .article-page .current-featured-image p {
+    margin:
+        0 0 12px;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+}
+
+
+.admin-content .article-page .current-featured-image img {
+    display:
+        block;
+
+    max-width:
+        100%;
+
+    max-height:
+        280px;
+
+    border-radius:
+        8px;
+
+    object-fit:
+        contain;
+}
+
+
+/* ========================================= */
+/* ELIMINAR IMAGEN */
+/* ========================================= */
+
+.admin-content .article-page .delete-featured-image-option {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+    margin:
+        0 0 16px;
+
+    color:
+        #991b1b;
+
+    font-size:
+        13px;
+
+    font-weight:
+        500;
+
+    cursor:
+        pointer;
+}
+
+
+.admin-content .article-page .delete-featured-image-option input[type="checkbox"] {
+    width:
+        16px;
+
+    height:
+        16px;
+
+    margin:
+        0;
+
+    accent-color:
+        var(--admin-danger);
+}
+
+
+/* ========================================= */
+/* ACCIONES */
+/* ========================================= */
+
+.admin-content .article-page .admin-form-actions {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        flex-end;
+
+    gap:
+        12px;
+
+    margin:
+        34px 0 0;
+
+    padding:
+        24px 0 0;
+
+    border-top:
+        1px solid
+        #edf0f2;
+}
+
+
+.admin-content .article-page .admin-form-actions .admin-button {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        42px;
+
+    margin:
+        0;
+
+    text-decoration:
+        none;
+
+    box-sizing:
+        border-box;
+}
+
+
+/* ========================================= */
+/* BOTÓN SECUNDARIO */
+/* ========================================= */
+
+.admin-content .article-page .admin-button-secondary {
+    background:
+        #ffffff;
+
+    color:
+        #334155;
+
+    border:
+        1px solid
+        var(--admin-border);
+}
+
+
+.admin-content .article-page .admin-button-secondary:hover {
+    background:
+        #f8fafc;
+
+    color:
+        var(--admin-text);
+
+    border-color:
+        #94a3b8;
+}
+
+
+/* ========================================= */
+/* RESPONSIVE DEL FORMULARIO */
+/* ========================================= */
+
+@media (
+    max-width: 900px
+) {
+
+    .admin-content .article-page .article-page-header {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        gap:
+            20px;
+    }
+
+
+    .admin-content .article-page .article-page-header .admin-button {
+        align-self:
+            flex-start;
+    }
+
+
+    .admin-content .article-page .article-form {
+        max-width:
+            100%;
+    }
+
+}
+
+
+@media (
+    max-width: 700px
+) {
+
+    .admin-content .article-page .article-page-header {
+        gap:
+            20px;
+
+        margin-bottom:
+            24px;
+
+        padding-bottom:
+            20px;
+    }
+
+
+    .admin-content .article-page .article-page-header h2 {
+        font-size:
+            26px;
+    }
+
+
+    .admin-content .article-page .article-form-card {
+        padding:
+            20px;
+    }
+
+
+    .admin-content .article-page .article-form-section-header {
+        gap:
+            12px;
+
+        margin-bottom:
+            26px;
+
+        padding-bottom:
+            20px;
+    }
+
+
+    .admin-content .article-page .article-form-section-number {
+        width:
+            36px;
+
+        height:
+            36px;
+    }
+
+
+    .admin-content .article-page .article-form-section-header h3 {
+        font-size:
+            18px;
+    }
+
+
+    .admin-content .article-page .content-editor {
+        min-height:
+            450px;
+    }
+
+
+    .admin-content .article-page .admin-form-actions {
+        flex-direction:
+            column-reverse;
+
+        align-items:
+            stretch;
+    }
+
+
+    .admin-content .article-page .admin-form-actions .admin-button {
+        width:
+            100%;
     }
 
 }

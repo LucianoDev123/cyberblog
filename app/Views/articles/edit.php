@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 ?>
 
-<section class="article-page">
+<section class="article-page article-form-page">
 
 
     <!-- ========================================= -->
@@ -78,6 +78,30 @@ declare(strict_types=1);
             ) ?>"
         >
 
+
+        <!-- ===================================== -->
+        <!-- INFORMACIÓN DEL ARTÍCULO -->
+        <!-- ===================================== -->
+
+        <div class="article-form-card">
+
+            <div class="article-form-section-header">
+
+                <div class="article-form-section-number">
+                    01
+                </div>
+
+                <div>
+                    <h3>
+                        Información del artículo
+                    </h3>
+
+                    <p>
+                        Define los datos principales del contenido.
+                    </p>
+                </div>
+
+            </div>
 
         <!-- ===================================== -->
         <!-- TÍTULO -->
@@ -246,52 +270,220 @@ declare(strict_types=1);
         </div>
 
 
+        </div>
+
+
         <!-- ===================================== -->
         <!-- CONTENIDO -->
         <!-- ===================================== -->
 
-        <div class="admin-form-group">
+        <div class="article-form-card">
 
-            <label for="contenido-editor">
+            <div class="article-form-section-header">
 
-                Contenido
+                <div class="article-form-section-number">
+                    02
+                </div>
 
-            </label>
+                <div>
+                    <h3>
+                        Contenido
+                    </h3>
 
+                    <p>
+                        Escribe y da formato al contenido del artículo.
+                    </p>
+                </div>
 
-            <!-- EDITOR VISUAL -->
-
-            <div
-                id="contenido-editor"
-                class="content-editor"
-                contenteditable="true"
-                data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar texto e imágenes directamente con Ctrl + V."
-            ><?= $article['contenido'] ?></div>
-
-
-            <!-- CONTENIDO REAL ENVIADO -->
-
-            <textarea
-                id="contenido"
-                name="contenido"
-                hidden
-                required
-            ><?= htmlspecialchars(
-                $article['contenido'] ?? '',
-                ENT_QUOTES,
-                'UTF-8'
-            ) ?></textarea>
+            </div>
 
 
-            <small>
+            <div class="admin-form-group">
 
-                💡 Puedes editar el texto existente y pegar
-                nuevas imágenes directamente dentro del editor.
+                <label for="editor">
+                    Contenido
+                </label>
 
-                Las imágenes permanecerán en el orden
-                exacto en el que las insertes.
 
-            </small>
+                <!-- BARRA DE HERRAMIENTAS -->
+
+                <div
+                    id="editorToolbar"
+                    class="editor-toolbar"
+                >
+
+                    <button
+                        type="button"
+                        data-command="undo"
+                        title="Deshacer"
+                    >
+                        ↶
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="redo"
+                        title="Rehacer"
+                    >
+                        ↷
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        data-command="bold"
+                        title="Negrita"
+                    >
+                        <strong>B</strong>
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="italic"
+                        title="Cursiva"
+                    >
+                        <em>I</em>
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="underline"
+                        title="Subrayado"
+                    >
+                        <u>U</u>
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        data-format="p"
+                        title="Párrafo"
+                    >
+                        P
+                    </button>
+
+                    <button
+                        type="button"
+                        data-format="h2"
+                        title="Título H2"
+                    >
+                        H2
+                    </button>
+
+                    <button
+                        type="button"
+                        data-format="h3"
+                        title="Título H3"
+                    >
+                        H3
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        data-command="insertUnorderedList"
+                        title="Lista"
+                    >
+                        • Lista
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="insertOrderedList"
+                        title="Lista numerada"
+                    >
+                        1. Lista
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        data-format="blockquote"
+                        title="Cita"
+                    >
+                        ❝
+                    </button>
+
+                    <button
+                        type="button"
+                        data-code="true"
+                        title="Bloque de código"
+                    >
+                        &lt;/&gt;
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        id="linkButton"
+                        title="Insertar enlace"
+                    >
+                        🔗
+                    </button>
+
+                    <button
+                        type="button"
+                        id="horizontalRuleButton"
+                        title="Separador"
+                    >
+                        —
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <button
+                        type="button"
+                        id="removeFormatButton"
+                        title="Limpiar formato"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- EDITOR -->
+
+                <div
+                    id="editor"
+                    class="article-editor"
+                    contenteditable="true"
+                    data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar imágenes directamente con Ctrl + V."
+                ><?= $article['contenido'] ?></div>
+
+
+                <!-- CONTENIDO REAL ENVIADO -->
+
+                <textarea
+                    id="contenido"
+                    name="contenido"
+                    hidden
+                    required
+                ><?= htmlspecialchars(
+                    $article['contenido'] ?? '',
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?></textarea>
+
+
+                <small>
+                    💡 Puedes utilizar las herramientas de formato
+                    y editar el contenido existente directamente
+                    dentro del editor.
+                </small>
+
+            </div>
 
         </div>
 
@@ -300,196 +492,240 @@ declare(strict_types=1);
         <!-- IMAGEN DESTACADA -->
         <!-- ===================================== -->
 
-        <div class="admin-form-group">
+        <div class="article-form-card">
 
-            <label for="imagen">
+            <div class="article-form-section-header">
 
-                Imagen destacada
-
-            </label>
-
-
-            <?php if (
-                !empty($article['imagen'])
-            ): ?>
-
-
-                <!-- ================================= -->
-                <!-- IMAGEN ACTUAL -->
-                <!-- ================================= -->
-
-                <div class="current-featured-image">
-
-                    <p>
-
-                        Imagen actual:
-
-                    </p>
-
-
-                    <img
-                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
-                            $article['imagen'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
-                        alt="Imagen actual del artículo"
-                        class="article-current-image"
-                    >
-
+                <div class="article-form-section-number">
+                    03
                 </div>
 
+                <div>
+                    <h3>
+                        Imagen destacada
+                    </h3>
 
-                <!-- ================================= -->
-                <!-- ELIMINAR IMAGEN -->
-                <!-- ================================= -->
+                    <p>
+                        Añade o reemplaza la imagen de portada del artículo.
+                    </p>
+                </div>
 
-                <label
-                    class="delete-featured-image-option"
-                    for="eliminar_imagen"
-                >
-
-                    <input
-                        type="checkbox"
-                        id="eliminar_imagen"
-                        name="eliminar_imagen"
-                        value="1"
-                    >
+            </div>
 
 
-                    <span>
+            <div class="admin-form-group">
 
-                        Eliminar imagen destacada actual
-
-                    </span>
-
+                <label for="imagen">
+                    Imagen destacada
                 </label>
 
 
-            <?php else: ?>
+                <?php if (!empty($article['imagen'])): ?>
+
+                    <div class="current-featured-image">
+
+                        <p>
+                            Imagen actual
+                        </p>
+
+                        <img
+                            src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
+                                $article['imagen'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>"
+                            alt="Imagen actual del artículo"
+                            class="article-current-image"
+                        >
+
+                    </div>
 
 
-                <p>
+                    <label
+                        class="delete-featured-image-option"
+                        for="eliminar_imagen"
+                    >
 
-                    <small>
+                        <input
+                            type="checkbox"
+                            id="eliminar_imagen"
+                            name="eliminar_imagen"
+                            value="1"
+                        >
 
-                        Este artículo actualmente no tiene
-                        una imagen destacada.
+                        <span>
+                            Eliminar imagen destacada actual
+                        </span>
 
-                    </small>
-
-                </p>
-
-
-            <?php endif; ?>
-
-
-            <!-- ================================= -->
-            <!-- NUEVA IMAGEN -->
-            <!-- ================================= -->
-
-            <input
-                type="file"
-                id="imagen"
-                name="imagen"
-                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-            >
-
-
-            <small>
-
-                <?php if (
-                    !empty($article['imagen'])
-                ): ?>
-
-                    Si seleccionas una nueva imagen,
-                    reemplazará automáticamente la actual.
-
-                    <br><br>
-
-                    Si marcas la opción de eliminar,
-                    la imagen actual será eliminada.
-
-                    <?php else: ?>
-
-                    Puedes seleccionar una imagen
-                    destacada para el artículo.
+                    </label>
 
                 <?php endif; ?>
 
 
-                <br><br>
+                <div class="article-image-upload">
+
+                    <label
+                        class="article-image-dropzone"
+                        for="imagen"
+                    >
+
+                        <span class="article-image-upload-icon">
+                            ↑
+                        </span>
+
+                        <strong>
+                            <?= !empty($article['imagen'])
+                                ? 'Selecciona una nueva imagen'
+                                : 'Selecciona una imagen'
+                            ?>
+                        </strong>
+
+                        <span>
+                            JPG, PNG o WEBP · Máximo 5 MB
+                        </span>
+
+                        <span class="article-image-upload-button">
+                            Seleccionar imagen
+                        </span>
+
+                    </label>
 
 
-                Formatos permitidos:
-                JPG, PNG y WEBP.
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        class="article-image-input"
+                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    >
 
-                Tamaño máximo:
-                5 MB.
+                    <div
+                        id="selected-image-info"
+                        class="selected-image-info"
+                        hidden
+                    >
 
-            </small>
+                        <span
+                            id="selected-image-name"
+                            class="selected-image-name"
+                        ></span>
+
+                        <button
+                            type="button"
+                            id="remove-selected-image"
+                            class="admin-button admin-button-secondary"
+                        >
+                            ✕ Quitar imagen seleccionada
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <small>
+
+                    <?php if (!empty($article['imagen'])): ?>
+
+                        Si seleccionas una nueva imagen,
+                        reemplazará automáticamente la actual.
+
+                    <?php else: ?>
+
+                        Puedes seleccionar una imagen destacada
+                        para el artículo.
+
+                    <?php endif; ?>
+
+                    <br><br>
+
+                    Formatos permitidos:
+                    JPG, PNG y WEBP.
+
+                    <br>
+
+                    Tamaño máximo:
+                    5 MB.
+
+                </small>
+
+            </div>
 
         </div>
 
 
         <!-- ===================================== -->
-        <!-- ESTADO -->
+        <!-- PUBLICACIÓN -->
         <!-- ===================================== -->
 
-        <div class="admin-form-group">
+        <div class="article-form-card">
 
-            <label for="estado">
+            <div class="article-form-section-header">
 
-                Estado
+                <div class="article-form-section-number">
+                    04
+                </div>
 
-            </label>
+                <div>
+                    <h3>
+                        Publicación
+                    </h3>
+
+                    <p>
+                        Decide si el artículo quedará como borrador
+                        o será visible para los visitantes.
+                    </p>
+                </div>
+
+            </div>
 
 
-            <select
-                id="estado"
-                name="estado"
-            >
+            <div class="admin-form-group">
 
-                <option
-                    value="borrador"
+                <label for="estado">
+                    Estado
+                </label>
 
-                    <?= (
-                        ($article['estado'] ?? '') === 'borrador'
-                    )
-                        ? 'selected'
-                        : ''
-                    ?>
+
+                <select
+                    id="estado"
+                    name="estado"
                 >
 
-                    📝 Guardar como borrador
-
-                </option>
-
-
-                <option
-                    value="publicado"
-
-                    <?= (
-                        ($article['estado'] ?? '') === 'publicado'
-                    )
-                        ? 'selected'
-                        : ''
-                    ?>
-                >
-
-                    🌐 Publicar artículo
-
-                </option>
-
-            </select>
+                    <option
+                        value="borrador"
+                        <?= (
+                            ($article['estado'] ?? '') === 'borrador'
+                        )
+                            ? 'selected'
+                            : ''
+                        ?>
+                    >
+                        📝 Guardar como borrador
+                    </option>
 
 
-            <small>
+                    <option
+                        value="publicado"
+                        <?= (
+                            ($article['estado'] ?? '') === 'publicado'
+                        )
+                            ? 'selected'
+                            : ''
+                        ?>
+                    >
+                        🌐 Publicar artículo
+                    </option>
 
-                Los artículos en borrador no serán visibles
-                públicamente.
+                </select>
 
-            </small>
+
+                <small>
+                    Los artículos publicados serán visibles
+                    para los visitantes del blog.
+                </small>
+
+            </div>
 
         </div>
 
@@ -500,26 +736,19 @@ declare(strict_types=1);
 
         <div class="admin-form-actions">
 
-
             <a
                 href="/incuyo/cyberblog/public/admin/articles"
                 class="admin-button admin-button-secondary"
             >
-
                 Cancelar
-
             </a>
-
 
             <button
                 type="submit"
                 class="admin-button"
             >
-
                 Guardar cambios
-
             </button>
-
 
         </div>
 
@@ -533,3 +762,82 @@ declare(strict_types=1);
 <script
     src="/incuyo/cyberblog/public/assets/js/editor.js"
 ></script>
+
+<script>
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
+
+            const imageInput =
+                document.getElementById('imagen');
+
+            const selectedImageInfo =
+                document.getElementById('selected-image-info');
+
+            const selectedImageName =
+                document.getElementById('selected-image-name');
+
+            const removeSelectedImage =
+                document.getElementById('remove-selected-image');
+
+            const deleteCurrentImage =
+                document.getElementById('eliminar_imagen');
+
+
+            if (!imageInput || !selectedImageInfo ||
+                !selectedImageName || !removeSelectedImage) {
+                return;
+            }
+
+
+            imageInput.addEventListener(
+                'change',
+                function () {
+
+                    if (!imageInput.files || imageInput.files.length === 0) {
+
+                        selectedImageInfo.hidden = true;
+                        selectedImageName.textContent = '';
+
+                        return;
+                    }
+
+
+                    const file = imageInput.files[0];
+
+                    selectedImageName.textContent =
+                        'Imagen seleccionada: ' + file.name;
+
+                    selectedImageInfo.hidden = false;
+
+
+                    /*
+                     * Si se selecciona una nueva imagen,
+                     * no tiene sentido mantener marcada
+                     * la eliminación de la imagen actual.
+                     * La nueva imagen la reemplazará.
+                     */
+                    if (deleteCurrentImage) {
+                        deleteCurrentImage.checked = false;
+                    }
+                }
+            );
+
+
+            removeSelectedImage.addEventListener(
+                'click',
+                function () {
+
+                    imageInput.value = '';
+
+                    selectedImageInfo.hidden = true;
+                    selectedImageName.textContent = '';
+
+                }
+            );
+
+        }
+    );
+
+</script>
