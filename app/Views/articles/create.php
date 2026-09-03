@@ -4,51 +4,43 @@ declare(strict_types=1);
 
 ?>
 
-<section class="series-page">
-
+<section class="article-create-page">
 
     <!-- ========================================= -->
     <!-- ENCABEZADO -->
     <!-- ========================================= -->
 
-    <div class="series-page-header">
+    <header class="article-create-header">
 
-        <div>
+        <div class="article-create-header-content">
 
-            <span class="series-eyebrow">
-
+            <span class="article-create-eyebrow">
                 ADMINISTRACIÓN
-
             </span>
 
-
             <h2>
-
                 Nuevo artículo
-
             </h2>
 
-
             <p>
-
                 Crea un nuevo artículo y organízalo
                 dentro de una categoría o una serie temática.
-
             </p>
 
         </div>
 
-
         <a
             href="/incuyo/cyberblog/public/admin/articles"
-            class="admin-button admin-button-secondary"
+            class="article-create-back"
         >
+            <span aria-hidden="true">
+                ←
+            </span>
 
-            ← Volver a artículos
-
+            Volver a artículos
         </a>
 
-    </div>
+    </header>
 
 
     <!-- ========================================= -->
@@ -59,9 +51,8 @@ declare(strict_types=1);
         action="/incuyo/cyberblog/public/admin/articles"
         method="POST"
         enctype="multipart/form-data"
-        class="series-form article-form"
+        class="article-create-form"
     >
-
 
         <!-- ========================================= -->
         <!-- TOKEN CSRF -->
@@ -79,546 +70,760 @@ declare(strict_types=1);
 
 
         <!-- ========================================= -->
-        <!-- TÍTULO -->
+        <!-- INFORMACIÓN BÁSICA -->
         <!-- ========================================= -->
 
-        <div class="admin-form-group">
+        <section class="article-form-section">
 
-            <label for="titulo">
+            <div class="article-form-section-header">
 
-                Título del artículo
+                <span class="article-form-section-number">
+                    01
+                </span>
 
-            </label>
+                <div>
 
+                    <h3>
+                        Información del artículo
+                    </h3>
 
-            <input
-                type="text"
-                id="titulo"
-                name="titulo"
-                required
-                maxlength="255"
-                placeholder="Ejemplo: Instalación y configuración de Wazuh"
-            >
+                    <p>
+                        Define los datos principales del contenido.
+                    </p>
 
+                </div>
 
-            <small>
-
-                El título se utilizará para generar
-                automáticamente la URL del artículo.
-
-            </small>
-
-        </div>
+            </div>
 
 
-        <!-- ========================================= -->
-        <!-- CATEGORÍA -->
-        <!-- ========================================= -->
+            <!-- TÍTULO -->
 
-        <div class="admin-form-group">
+            <div class="article-form-group">
 
-            <label for="categoria_id">
+                <label for="titulo">
+                    Título del artículo
+                </label>
 
-                Categoría
+                <input
+                    type="text"
+                    id="titulo"
+                    name="titulo"
+                    required
+                    maxlength="255"
+                    placeholder="Ejemplo: Instalación y configuración de Wazuh"
+                >
 
-            </label>
+                <small>
+                    El título se utilizará para generar
+                    automáticamente la URL del artículo.
+                </small>
+
+            </div>
 
 
-            <select
-                id="categoria_id"
-                name="categoria_id"
-                required
-            >
+            <!-- CATEGORÍA -->
 
-                <option value="">
+            <div class="article-form-group">
 
-                    Selecciona una categoría
+                <label for="categoria_id">
+                    Categoría
+                </label>
 
-                </option>
+                <select
+                    id="categoria_id"
+                    name="categoria_id"
+                    required
+                >
 
-
-                <?php foreach ($categories as $category): ?>
-
-                    <option
-                        value="<?= (int) $category['id'] ?>"
-                    >
-
-                        <?= htmlspecialchars(
-                            $category['nombre'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
+                    <option value="">
+                        Selecciona una categoría
                     </option>
 
-                <?php endforeach; ?>
+                    <?php foreach ($categories as $category): ?>
 
-            </select>
+                        <option
+                            value="<?= (int) $category['id'] ?>"
+                        >
+                            <?= htmlspecialchars(
+                                $category['nombre'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </option>
 
+                    <?php endforeach; ?>
 
-            <small>
+                </select>
 
-                Selecciona la categoría principal
-                del artículo.
+                <small>
+                    Selecciona la categoría principal
+                    del artículo.
+                </small>
 
-            </small>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- SERIE -->
-        <!-- ========================================= -->
-
-        <div class="admin-form-group">
-
-            <label for="serie_id">
-
-                Serie
-
-            </label>
+            </div>
 
 
-            <select
-                id="serie_id"
-                name="serie_id"
-            >
+            <!-- SERIE -->
 
-                <option value="">
+            <div class="article-form-group">
 
-                    Sin serie
+                <label for="serie_id">
+                    Serie
+                </label>
 
-                </option>
+                <select
+                    id="serie_id"
+                    name="serie_id"
+                >
 
-
-                <?php foreach ($series as $serie): ?>
-
-                    <option
-                        value="<?= (int) $serie['id'] ?>"
-                    >
-
-                        <?= htmlspecialchars(
-                            $serie['titulo'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
-                        <?php if (
-                            ($serie['estado'] ?? '') === 'borrador'
-                        ): ?>
-
-                            — Borrador
-
-                        <?php endif; ?>
-
+                    <option value="">
+                        Sin serie
                     </option>
 
-                <?php endforeach; ?>
+                    <?php foreach ($series as $serie): ?>
 
-            </select>
+                        <option
+                            value="<?= (int) $serie['id'] ?>"
+                        >
 
+                            <?= htmlspecialchars(
+                                $serie['titulo'],
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
 
-            <small>
+                            <?php if (
+                                ($serie['estado'] ?? '') === 'borrador'
+                            ): ?>
 
-                Opcional. Puedes asociar este artículo
-                a una colección de artículos relacionados.
+                                — Borrador
 
-            </small>
+                            <?php endif; ?>
 
-        </div>
+                        </option>
 
+                    <?php endforeach; ?>
 
-        <!-- ========================================= -->
-        <!-- RESUMEN -->
-        <!-- ========================================= -->
+                </select>
 
-        <div class="admin-form-group">
+                <small>
+                    Opcional. Puedes asociar este artículo
+                    a una colección de artículos relacionados.
+                </small>
 
-            <label for="resumen">
-
-                Resumen
-
-            </label>
-
-
-            <textarea
-                id="resumen"
-                name="resumen"
-                rows="5"
-                required
-                placeholder="Escribe un resumen breve del artículo..."
-            ></textarea>
+            </div>
 
 
-            <small>
+            <!-- RESUMEN -->
 
-                El resumen se mostrará en las tarjetas
-                y vistas previas del artículo.
+            <div class="article-form-group">
 
-            </small>
+                <label for="resumen">
+                    Resumen
+                </label>
 
-        </div>
+                <textarea
+                    id="resumen"
+                    name="resumen"
+                    rows="5"
+                    required
+                    placeholder="Escribe un resumen breve del artículo..."
+                ></textarea>
+
+                <small>
+                    El resumen se mostrará en las tarjetas
+                    y vistas previas del artículo.
+                </small>
+
+            </div>
+
+        </section>
 
 
         <!-- ========================================= -->
         <!-- CONTENIDO -->
         <!-- ========================================= -->
 
-        <div class="admin-form-group">
+        <section class="article-form-section">
 
-            <label for="editor">
+            <div class="article-form-section-header">
 
-                Contenido
+                <span class="article-form-section-number">
+                    02
+                </span>
 
-            </label>
+                <div>
 
+                    <h3>
+                        Contenido
+                    </h3>
 
-            <!-- BARRA DE HERRAMIENTAS -->
+                    <p>
+                        Escribe y da formato al contenido del artículo.
+                    </p>
 
-            <div
-                id="editorToolbar"
-                class="editor-toolbar"
-            >
-
-                <!-- DESHACER / REHACER -->
-
-                <button
-                    type="button"
-                    data-command="undo"
-                    title="Deshacer"
-                >
-
-                    ↶
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-command="redo"
-                    title="Rehacer"
-                >
-
-                    ↷
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- FORMATO -->
-
-                <button
-                    type="button"
-                    data-command="bold"
-                    title="Negrita"
-                >
-
-                    <strong>B</strong>
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-command="italic"
-                    title="Cursiva"
-                >
-
-                    <em>I</em>
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-command="underline"
-                    title="Subrayado"
-                >
-
-                    <u>U</u>
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- ENCABEZADOS -->
-
-                <button
-                    type="button"
-                    data-format="p"
-                    title="Párrafo"
-                >
-
-                    P
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-format="h2"
-                    title="Título H2"
-                >
-
-                    H2
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-format="h3"
-                    title="Título H3"
-                >
-
-                    H3
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- LISTAS -->
-
-                <button
-                    type="button"
-                    data-command="insertUnorderedList"
-                    title="Lista"
-                >
-
-                    • Lista
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-command="insertOrderedList"
-                    title="Lista numerada"
-                >
-
-                    1. Lista
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- CITA -->
-
-                <button
-                    type="button"
-                    data-format="blockquote"
-                    title="Cita"
-                >
-
-                    ❝
-
-                </button>
-
-
-                <!-- CÓDIGO -->
-
-                <button
-                    type="button"
-                    data-code="true"
-                    title="Bloque de código"
-                >
-
-                    &lt;/&gt;
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- ENLACE -->
-
-                <button
-                    type="button"
-                    id="linkButton"
-                    title="Insertar enlace"
-                >
-
-                    🔗
-
-                </button>
-
-
-                <!-- SEPARADOR -->
-
-                <button
-                    type="button"
-                    id="horizontalRuleButton"
-                    title="Separador"
-                >
-
-                    ―
-
-                </button>
-
-
-                <span class="toolbar-separator"></span>
-
-
-                <!-- LIMPIAR FORMATO -->
-
-                <button
-                    type="button"
-                    id="removeFormatButton"
-                    title="Limpiar formato"
-                >
-
-                    ✖
-
-                </button>
+                </div>
 
             </div>
 
 
-            <!-- EDITOR -->
+            <div class="article-form-group">
 
-            <div
-                id="editor"
-                class="article-editor"
-                contenteditable="true"
-                data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar imágenes directamente con Ctrl + V."
-            ></div>
+                <label for="editor">
+                    Contenido
+                </label>
 
 
-            <!-- CONTENIDO REAL -->
+                <!-- BARRA DE HERRAMIENTAS -->
 
-            <textarea
-                id="contenido"
-                name="contenido"
-                hidden
-            ></textarea>
+                <div
+                    id="editorToolbar"
+                    class="editor-toolbar"
+                >
+
+                    <!-- DESHACER / REHACER -->
+
+                    <button
+                        type="button"
+                        data-command="undo"
+                        title="Deshacer"
+                    >
+                        ↶
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="redo"
+                        title="Rehacer"
+                    >
+                        ↷
+                    </button>
+
+                    <span class="toolbar-separator"></span>
 
 
-            <small>
+                    <!-- FORMATO -->
 
-                💡 Puedes utilizar las herramientas
-                de formato y pegar imágenes directamente
-                dentro del editor.
+                    <button
+                        type="button"
+                        data-command="bold"
+                        title="Negrita"
+                    >
+                        <strong>B</strong>
+                    </button>
 
-            </small>
+                    <button
+                        type="button"
+                        data-command="italic"
+                        title="Cursiva"
+                    >
+                        <em>I</em>
+                    </button>
 
-        </div>
+                    <button
+                        type="button"
+                        data-command="underline"
+                        title="Subrayado"
+                    >
+                        <u>U</u>
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <!-- ENCABEZADOS -->
+
+                    <button
+                        type="button"
+                        data-format="p"
+                        title="Párrafo"
+                    >
+                        P
+                    </button>
+
+                    <button
+                        type="button"
+                        data-format="h2"
+                        title="Título H2"
+                    >
+                        H2
+                    </button>
+
+                    <button
+                        type="button"
+                        data-format="h3"
+                        title="Título H3"
+                    >
+                        H3
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <!-- LISTAS -->
+
+                    <button
+                        type="button"
+                        data-command="insertUnorderedList"
+                        title="Lista"
+                    >
+                        • Lista
+                    </button>
+
+                    <button
+                        type="button"
+                        data-command="insertOrderedList"
+                        title="Lista numerada"
+                    >
+                        1. Lista
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <!-- CITA -->
+
+                    <button
+                        type="button"
+                        data-format="blockquote"
+                        title="Cita"
+                    >
+                        ❝
+                    </button>
+
+
+                    <!-- CÓDIGO -->
+
+                    <button
+                        type="button"
+                        data-code="true"
+                        title="Bloque de código"
+                    >
+                        &lt;/&gt;
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <!-- ENLACE -->
+
+                    <button
+                        type="button"
+                        id="linkButton"
+                        title="Insertar enlace"
+                    >
+                        🔗
+                    </button>
+
+
+                    <!-- SEPARADOR -->
+
+                    <button
+                        type="button"
+                        id="horizontalRuleButton"
+                        title="Separador"
+                    >
+                        ―
+                    </button>
+
+                    <span class="toolbar-separator"></span>
+
+
+                    <!-- LIMPIAR FORMATO -->
+
+                    <button
+                        type="button"
+                        id="removeFormatButton"
+                        title="Limpiar formato"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- EDITOR -->
+
+                <div
+                    id="editor"
+                    class="article-editor"
+                    contenteditable="true"
+                    data-placeholder="Escribe el contenido del artículo aquí. Puedes pegar imágenes directamente con Ctrl + V."
+                ></div>
+
+
+                <!-- CONTENIDO REAL -->
+
+                <textarea
+                    id="contenido"
+                    name="contenido"
+                    hidden
+                ></textarea>
+
+
+                <small class="article-editor-help">
+                    💡 Puedes utilizar las herramientas
+                    de formato y pegar imágenes directamente
+                    dentro del editor.
+                </small>
+
+            </div>
+
+        </section>
 
 
         <!-- ========================================= -->
         <!-- IMAGEN DESTACADA -->
         <!-- ========================================= -->
 
-        <div class="admin-form-group">
+        <section class="article-form-section">
 
-            <label for="imagen">
+            <div class="article-form-section-header">
 
-                Imagen destacada
+                <span class="article-form-section-number">
+                    03
+                </span>
 
-            </label>
+                <div>
+
+                    <h3>
+                        Imagen destacada
+                    </h3>
+
+                    <p>
+                        Añade una imagen de portada para representar
+                        visualmente el artículo.
+                    </p>
+
+                </div>
+
+            </div>
 
 
-            <input
-                type="file"
-                id="imagen"
-                name="imagen"
-                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-            >
+            <div class="article-form-group">
+
+                <div class="article-image-upload">
+
+                    <div
+                        id="articleImageEmpty"
+                        class="article-image-empty"
+                    >
+
+                        <div class="article-image-icon">
+                            ↑
+                        </div>
+
+                        <strong>
+                            Selecciona una imagen
+                        </strong>
+
+                        <span>
+                            JPG, PNG o WEBP · Máximo 5 MB
+                        </span>
+
+                        <label
+                            for="imagen"
+                            class="article-image-select"
+                        >
+                            Seleccionar imagen
+                        </label>
+
+                    </div>
 
 
-            <small>
+                    <div
+                        id="articleImagePreview"
+                        class="article-image-preview"
+                        hidden
+                    >
 
-                Opcional. Formatos permitidos:
-                JPG, PNG y WEBP. Tamaño máximo: 5 MB.
+                        <div class="article-image-preview-media">
 
-            </small>
+                            <img
+                                id="articleImagePreviewImg"
+                                src=""
+                                alt="Vista previa de la imagen destacada"
+                            >
 
-        </div>
+                        </div>
+
+                        <div class="article-image-preview-info">
+
+                            <div>
+
+                                <strong id="articleImageFileName">
+                                    Imagen seleccionada
+                                </strong>
+
+                                <span>
+                                    Imagen destacada del artículo
+                                </span>
+
+                            </div>
+
+                            <button
+                                type="button"
+                                id="removeArticleImage"
+                                class="article-image-remove"
+                            >
+                                Quitar imagen
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                    >
+
+                </div>
+
+
+                <small>
+                    Opcional. Puedes publicar el artículo
+                    sin una imagen destacada.
+                </small>
+
+            </div>
+
+        </section>
 
 
         <!-- ========================================= -->
-        <!-- ESTADO -->
+        <!-- PUBLICACIÓN -->
         <!-- ========================================= -->
 
-        <div class="admin-form-group">
+        <section class="article-form-section">
 
-            <label for="estado">
+            <div class="article-form-section-header">
 
-                Estado
+                <span class="article-form-section-number">
+                    04
+                </span>
 
-            </label>
+                <div>
 
+                    <h3>
+                        Publicación
+                    </h3>
 
-            <select
-                id="estado"
-                name="estado"
-            >
+                    <p>
+                        Decide si el artículo quedará como borrador
+                        o será visible para los visitantes.
+                    </p>
 
-                <option value="borrador">
+                </div>
 
-                     Guardar como borrador
-
-                </option>
-
-
-                <option value="publicado">
-
-                     Publicar artículo
-
-                </option>
-
-            </select>
+            </div>
 
 
-            <small>
+            <div class="article-form-group">
 
-                Los artículos publicados serán visibles
-                para los visitantes del blog.
+                <label for="estado">
+                    Estado
+                </label>
 
-            </small>
+                <select
+                    id="estado"
+                    name="estado"
+                >
 
-        </div>
+                    <option value="borrador">
+                        Guardar como borrador
+                    </option>
+
+                    <option value="publicado">
+                        Publicar artículo
+                    </option>
+
+                </select>
+
+                <small>
+                    Los artículos publicados serán visibles
+                    para los visitantes del blog.
+                </small>
+
+            </div>
+
+        </section>
 
 
         <!-- ========================================= -->
         <!-- ACCIONES -->
         <!-- ========================================= -->
 
-        <div class="admin-form-actions">
-
+        <div class="article-form-actions">
 
             <a
                 href="/incuyo/cyberblog/public/admin/articles"
-                class="admin-button admin-button-secondary"
+                class="article-form-cancel"
             >
-
                 Cancelar
-
             </a>
-
 
             <button
                 type="submit"
-                class="admin-button"
+                class="article-form-submit"
             >
-
                 Guardar artículo
-
             </button>
-
 
         </div>
 
-
     </form>
 
-
 </section>
+
+
+<!-- ========================================= -->
+<!-- ESTILOS ESPECÍFICOS DE ESTA VISTA -->
+<!-- ========================================= -->
+
+<link
+    rel="stylesheet"
+    href="/incuyo/cyberblog/public/assets/css/article-create.css"
+>
+
+
+<!-- ========================================= -->
+<!-- LÓGICA DE IMAGEN DESTACADA -->
+<!-- ========================================= -->
+
+<script>
+
+document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+
+        const imageInput =
+            document.getElementById('imagen');
+
+        const imageEmpty =
+            document.getElementById('articleImageEmpty');
+
+        const imagePreview =
+            document.getElementById('articleImagePreview');
+
+        const imagePreviewImg =
+            document.getElementById('articleImagePreviewImg');
+
+        const imageFileName =
+            document.getElementById('articleImageFileName');
+
+        const removeImageButton =
+            document.getElementById('removeArticleImage');
+
+
+        if (
+            !imageInput ||
+            !imageEmpty ||
+            !imagePreview ||
+            !imagePreviewImg ||
+            !imageFileName ||
+            !removeImageButton
+        ) {
+            return;
+        }
+
+
+        imageInput.addEventListener(
+            'change',
+            function () {
+
+                const file =
+                    this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                const allowedTypes = [
+                    'image/jpeg',
+                    'image/png',
+                    'image/webp'
+                ];
+
+
+                if (
+                    !allowedTypes.includes(file.type)
+                ) {
+
+                    this.value = '';
+
+                    alert(
+                        'Formato de imagen no permitido. Solo se permiten JPG, PNG y WEBP.'
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    file.size > 5 * 1024 * 1024
+                ) {
+
+                    this.value = '';
+
+                    alert(
+                        'La imagen no puede superar los 5 MB.'
+                    );
+
+                    return;
+                }
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        imagePreviewImg.src =
+                            event.target.result;
+
+                        imageFileName.textContent =
+                            file.name;
+
+                        imageEmpty.hidden =
+                            true;
+
+                        imagePreview.hidden =
+                            false;
+                    };
+
+
+                reader.readAsDataURL(file);
+            }
+        );
+
+
+        removeImageButton.addEventListener(
+            'click',
+            function () {
+
+                imageInput.value = '';
+
+                imagePreviewImg.src = '';
+
+                imageFileName.textContent =
+                    'Imagen seleccionada';
+
+                imagePreview.hidden =
+                    true;
+
+                imageEmpty.hidden =
+                    false;
+            }
+        );
+
+    }
+);
+
+</script>

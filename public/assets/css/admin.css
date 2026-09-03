@@ -1673,3 +1673,124 @@ body {
     }
 
 }
+
+/* =========================================================
+   PAGINACIÓN DE ARTÍCULOS
+   ========================================================= */
+
+.admin-pagination {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-top: 24px;
+
+    padding: 4px 0 8px;
+}
+
+
+.admin-pagination-info {
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        0.85rem;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.4;
+
+    text-align:
+        center;
+}
+
+
+.admin-pagination-links {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+}
+
+
+.admin-pagination-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 40px;
+
+    min-height: 38px;
+
+    padding:
+        8px 13px;
+
+    font-size:
+        0.85rem;
+
+    text-decoration:
+        none;
+
+    border-radius:
+        6px;
+}
+
+
+.admin-pagination-current {
+    cursor:
+        default;
+
+    background:
+        var(--admin-primary-hover);
+}
+
+
+.admin-pagination-link:hover {
+    text-decoration:
+        none;
+}
+
+
+/* =========================================================
+   PAGINACIÓN RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .admin-pagination {
+        gap: 12px;
+    }
+
+
+    .admin-pagination-links {
+        flex-wrap:
+            wrap;
+    }
+
+
+    .admin-pagination-link {
+        min-width:
+            38px;
+
+        min-height:
+            36px;
+
+        padding:
+            7px 10px;
+
+        font-size:
+            0.8rem;
+    }
+
+}

@@ -18,6 +18,7 @@
         ) ?>
     </title>
 
+
     <!--
         Estilos generales del FrontOffice.
     -->
@@ -26,28 +27,39 @@
         href="/incuyo/cyberblog/public/assets/css/style.css"
     >
 
+
     <!--
-        Estilos específicos del panel
-        de administración.
+        Estilos generales del BackOffice.
     -->
     <link
         rel="stylesheet"
         href="/incuyo/cyberblog/public/assets/css/admin.css"
     >
 
-    <!--
-        Estilos específicos del Dashboard.
-    -->
-    <link
-        rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/dashboard.css"
-    >
+
+    <?php if (!empty($adminModule)): ?>
+
+        <!--
+            Estilos específicos del módulo administrativo.
+        -->
+        <link
+            rel="stylesheet"
+            href="/incuyo/cyberblog/public/assets/css/<?= htmlspecialchars(
+                $adminModule,
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>.css"
+        >
+
+    <?php endif; ?>
 
 </head>
+
 
 <body class="admin-body">
 
     <div class="admin-layout">
+
 
         <aside class="admin-sidebar">
 
@@ -70,114 +82,151 @@
 
             </div>
 
+
             <nav class="admin-navigation">
 
                 <div class="admin-navigation-title">
                     PANEL
                 </div>
 
+
                 <a
                     href="/incuyo/cyberblog/public/admin"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ⌂
                     </span>
+
                     <span>
                         Dashboard
                     </span>
+
                 </a>
+
 
                 <a
                     href="/incuyo/cyberblog/public/admin/articles"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ▤
                     </span>
+
                     <span>
                         Artículos
                     </span>
+
                 </a>
+
 
                 <a
                     href="/incuyo/cyberblog/public/admin/series"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ≡
                     </span>
+
                     <span>
                         Series
                     </span>
+
                 </a>
+
 
                 <a
                     href="/incuyo/cyberblog/public/admin/categories"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ▦
                     </span>
+
                     <span>
                         Categorías
                     </span>
+
                 </a>
+
 
                 <a
                     href="/incuyo/cyberblog/public/admin/users"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ◉
                     </span>
+
                     <span>
                         Usuarios
                     </span>
+
                 </a>
 
+
                 <div class="admin-navigation-separator"></div>
+
 
                 <div class="admin-navigation-title">
                     SITIO
                 </div>
 
+
                 <a
                     href="/incuyo/cyberblog/public/"
                     class="admin-nav-link"
                 >
+
                     <span class="admin-nav-icon">
                         ↗
                     </span>
+
                     <span>
                         Ver Blog
                     </span>
+
                 </a>
+
 
                 <a
                     href="/incuyo/cyberblog/public/logout"
                     class="admin-nav-link admin-nav-logout"
                 >
+
                     <span class="admin-nav-icon">
                         ⏻
                     </span>
+
                     <span>
                         Cerrar sesión
                     </span>
+
                 </a>
 
             </nav>
 
+
             <div class="admin-sidebar-footer">
+
                 <span class="admin-status-dot"></span>
+
                 <span>
                     Sistema operativo
                 </span>
+
             </div>
 
         </aside>
 
+
         <div class="admin-main">
+
 
             <header class="admin-header">
 
@@ -195,6 +244,7 @@
 
                 </div>
 
+
                 <div class="admin-header-right">
 
                     <a
@@ -204,6 +254,7 @@
                     >
                         ↗
                     </a>
+
 
                     <a
                         href="/incuyo/cyberblog/public/logout"
@@ -217,6 +268,7 @@
 
             </header>
 
+
             <main class="admin-content">
 
                 <?php if (!empty($flashError)): ?>
@@ -224,42 +276,55 @@
                     <div
                         class="admin-alert admin-alert-error"
                     >
+
                         <?= htmlspecialchars(
                             $flashError,
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
+
                     </div>
 
                 <?php endif; ?>
+
 
                 <?php if (!empty($flashSuccess)): ?>
 
                     <div
                         class="admin-alert admin-alert-success"
                     >
+
                         <?= htmlspecialchars(
                             $flashSuccess,
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
+
                     </div>
 
                 <?php endif; ?>
+
 
                 <?= $content ?>
 
             </main>
 
+
             <footer class="admin-footer">
 
                 <span>
+
                     © <?= date('Y') ?>
+
                     CyberBlog
+
                 </span>
 
+
                 <span class="admin-footer-version">
+
                     Panel de Administración
+
                 </span>
 
             </footer>
@@ -267,6 +332,7 @@
         </div>
 
     </div>
+
 
     <script
         src="/incuyo/cyberblog/public/assets/js/editor.js"

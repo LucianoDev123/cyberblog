@@ -1,0 +1,648 @@
+/* ========================================= */
+/* CYBERBLOG - ARTÍCULOS */
+/* ========================================= */
+
+
+/* ========================================= */
+/* CONTENEDOR */
+/* ========================================= */
+
+.articles-admin-page {
+    width:
+        100%;
+}
+
+
+/* ========================================= */
+/* ENCABEZADO */
+/* ========================================= */
+
+.articles-page-header {
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    justify-content:
+        space-between;
+
+    gap:
+        32px;
+
+    width:
+        100%;
+
+    margin-bottom:
+        32px;
+
+    padding-bottom:
+        28px;
+
+    border-bottom:
+        1px solid
+        var(--admin-border);
+}
+
+
+.articles-page-header > div {
+    flex:
+        1;
+
+    min-width:
+        0;
+}
+
+
+.articles-section-label {
+    display:
+        block;
+
+    margin-bottom:
+        8px;
+
+    color:
+        var(--admin-primary);
+
+    font-size:
+        12px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1px;
+
+    text-transform:
+        uppercase;
+}
+
+
+.articles-page-header h2 {
+    margin:
+        0 0 10px;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        30px;
+
+    line-height:
+        1.2;
+}
+
+
+.articles-page-header p {
+    max-width:
+        700px;
+
+    margin:
+        0;
+
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        15px;
+
+    line-height:
+        1.6;
+}
+
+
+/* ========================================= */
+/* BOTÓN NUEVO ARTÍCULO */
+/* ========================================= */
+
+.articles-create-button {
+    flex:
+        0 0 auto;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    min-height:
+        44px;
+
+    margin:
+        0;
+
+    padding:
+        0 20px;
+
+    border:
+        none;
+
+    border-radius:
+        8px;
+
+    background:
+        var(--admin-primary);
+
+    color:
+        #ffffff;
+
+    text-decoration:
+        none;
+
+    white-space:
+        nowrap;
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.1s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.articles-create-button:hover {
+    background:
+        var(--admin-primary-hover);
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 4px 12px
+        rgba(16, 185, 129, 0.18);
+}
+
+
+.articles-create-button:active {
+    transform:
+        translateY(1px);
+}
+
+
+.articles-create-button span {
+    font-size:
+        20px;
+
+    line-height:
+        1;
+}
+
+
+/* ========================================= */
+/* TABLA */
+/* ========================================= */
+
+.articles-table-wrapper {
+    width:
+        100%;
+
+    overflow-x:
+        auto;
+
+    background:
+        #ffffff;
+
+    border:
+        1px solid
+        var(--admin-border);
+
+    border-radius:
+        12px;
+
+    box-shadow:
+        var(--admin-shadow);
+}
+
+
+.articles-table {
+    width:
+        100%;
+
+    min-width:
+        900px;
+
+    border:
+        none !important;
+
+    border-collapse:
+        collapse;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        none !important;
+}
+
+
+.articles-table th {
+    padding:
+        15px 18px;
+
+    background:
+        #f8fafc;
+
+    border:
+        none;
+
+    border-bottom:
+        1px solid
+        var(--admin-border);
+
+    color:
+        #475569;
+
+    text-align:
+        left;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.6px;
+
+    text-transform:
+        uppercase;
+
+    white-space:
+        nowrap;
+}
+
+
+.articles-table td {
+    padding:
+        17px 18px;
+
+    border:
+        none;
+
+    border-bottom:
+        1px solid
+        #edf0f2;
+
+    color:
+        var(--admin-text);
+
+    font-size:
+        14px;
+
+    vertical-align:
+        middle;
+}
+
+
+.articles-table tbody tr:last-child td {
+    border-bottom:
+        none;
+}
+
+
+.articles-table tbody tr {
+    transition:
+        background 0.15s ease;
+}
+
+
+.articles-table tbody tr:hover {
+    background:
+        #fafafa;
+}
+
+
+.articles-id {
+    width:
+        70px;
+
+    color:
+        var(--admin-text-muted);
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+}
+
+
+.articles-title {
+    display:
+        block;
+
+    max-width:
+        340px;
+
+    overflow:
+        hidden;
+
+    color:
+        var(--admin-text);
+
+    font-weight:
+        600;
+
+    text-overflow:
+        ellipsis;
+
+    white-space:
+        nowrap;
+}
+
+
+/* ========================================= */
+/* ESTADOS */
+/* ========================================= */
+
+.articles-status {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        26px;
+
+    padding:
+        4px 10px;
+
+    border-radius:
+        999px;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    line-height:
+        1;
+
+    text-transform:
+        lowercase;
+}
+
+
+.articles-status-publicado {
+    background:
+        #d1fae5;
+
+    color:
+        #065f46;
+}
+
+
+.articles-status-borrador {
+    background:
+        #fef3c7;
+
+    color:
+        #92400e;
+}
+
+
+/* ========================================= */
+/* ACCIONES */
+/* ========================================= */
+
+.articles-table-actions {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    white-space:
+        nowrap;
+}
+
+
+.articles-table-actions form {
+    width:
+        auto;
+
+    max-width:
+        none;
+
+    margin:
+        0;
+}
+
+
+.articles-action-edit {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        38px;
+
+    padding:
+        0 14px;
+
+    border:
+        1px solid
+        var(--admin-border);
+
+    border-radius:
+        7px;
+
+    background:
+        #ffffff;
+
+    color:
+        #334155;
+
+    text-decoration:
+        none;
+
+    font-size:
+        13px;
+
+    font-weight:
+        600;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.articles-action-edit:hover {
+    background:
+        #f8fafc;
+
+    border-color:
+        #94a3b8;
+
+    color:
+        #0f172a;
+}
+
+
+.articles-action-delete {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    min-height:
+        38px !important;
+
+    padding:
+        0 14px !important;
+
+    border:
+        1px solid
+        var(--admin-danger) !important;
+
+    border-radius:
+        7px !important;
+
+    background:
+        var(--admin-danger) !important;
+
+    color:
+        #ffffff !important;
+
+    cursor:
+        pointer;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px !important;
+
+    font-weight:
+        600 !important;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.1s ease;
+}
+
+
+.articles-action-delete:hover {
+    background:
+        #dc2626 !important;
+
+    border-color:
+        #dc2626 !important;
+}
+
+
+.articles-action-delete:active {
+    transform:
+        translateY(1px);
+}
+
+
+/* ========================================= */
+/* ESTADO VACÍO */
+/* ========================================= */
+
+.articles-empty {
+    padding:
+        50px 20px !important;
+
+    color:
+        var(--admin-text-muted) !important;
+
+    text-align:
+        center !important;
+
+    font-size:
+        14px !important;
+}
+
+
+/* ========================================= */
+/* RESPONSIVE */
+/* ========================================= */
+
+@media (
+    max-width: 900px
+) {
+
+    .articles-page-header {
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        gap:
+            20px;
+    }
+
+
+    .articles-create-button {
+        align-self:
+            flex-start;
+    }
+
+}
+
+
+@media (
+    max-width: 700px
+) {
+
+    .articles-page-header {
+        margin-bottom:
+            24px;
+
+        padding-bottom:
+            20px;
+    }
+
+
+    .articles-page-header h2 {
+        font-size:
+            25px;
+    }
+
+
+    .articles-create-button {
+        width:
+            100%;
+    }
+
+
+    .articles-table-wrapper {
+        border-radius:
+            10px;
+    }
+
+}

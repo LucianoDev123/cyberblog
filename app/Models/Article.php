@@ -426,6 +426,82 @@ class Article extends Model
     }
 
 
+
+    /**
+     * Obtiene una página de artículos para
+     * el panel administrativo.
+     *
+     * @param int $limit Cantidad máxima de artículos.
+     * @param int $offset Posición inicial.
+     */
+    public function getPaginatedArticles(
+        int $limit,
+        int $offset
+    ): array {
+        $limit = max(
+            1,
+            min($limit, 100)
+        );
+
+        $offset = max(
+            0,
+            $offset
+        );
+
+        $sql = "
+            SELECT
+                a.id,
+                a.titulo,
+                a.imagen,
+                a.estado,
+                a.created_at,
+
+                CONCAT(
+                    u.nombre,
+                    ' ',
+                    u.apellido
+                ) AS autor,
+
+                c.nombre AS categoria,
+
+                s.id AS serie_id,
+                s.titulo AS serie
+
+            FROM articulos a
+
+            INNER JOIN usuarios u
+                ON a.usuario_id = u.id
+
+            INNER JOIN categorias c
+                ON a.categoria_id = c.id
+
+            LEFT JOIN series s
+                ON a.serie_id = s.id
+
+            ORDER BY a.created_at DESC
+
+            LIMIT {$limit}
+            OFFSET {$offset}
+        ";
+
+        $statement =
+            $this->db->query($sql);
+
+        return $statement->fetchAll();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Busca artículos publicados relacionados
      * con el término introducido por el usuario.

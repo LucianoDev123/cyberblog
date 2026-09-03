@@ -29,6 +29,10 @@ class ArticleController extends Controller
     /**
      * Muestra el listado administrativo de artículos.
      */
+    /**
+     * Muestra el listado administrativo
+     * de artículos con paginación.
+     */
     public function index(): void
     {
         RoleMiddleware::handle([
@@ -38,11 +42,75 @@ class ArticleController extends Controller
 
         $articleModel = new Article();
 
-        $articles = $articleModel->getAllArticles();
+        /*
+        * Cantidad de artículos por página.
+        */
+        $perPage = 15;
 
+        /*
+        * Obtenemos el número de página
+        * enviado mediante GET.
+        *
+        * Ejemplo:
+        *
+        * /admin/articles?page=2
+        */
+        $requestedPage =
+            filter_input(
+                INPUT_GET,
+                'page',
+                FILTER_VALIDATE_INT
+            );
+
+        /*
+        * Si el parámetro no existe o no es
+        * un entero válido, comenzamos
+        * desde la página 1.
+        */
+        $requestedPage =
+            $requestedPage !== false &&
+            $requestedPage !== null
+                ? $requestedPage
+                : 1;
+
+        /*
+        * Obtenemos la cantidad total
+        * de artículos.
+        */
+        $totalArticles =
+            $articleModel->countAllArticles();
+
+        /*
+        * Creamos el objeto de paginación.
+        */
+        $pagination = new \App\Core\Pagination(
+            $totalArticles,
+            $requestedPage,
+            $perPage
+        );
+
+        /*
+        * Obtenemos únicamente los artículos
+        * correspondientes a la página actual.
+        */
+        $articles =
+            $articleModel->getPaginatedArticles(
+                $pagination->getPerPage(),
+                $pagination->getOffset()
+            );
+
+        /*
+        * Cargamos la vista.
+        */
         $this->adminView('articles/index', [
-            'title' => 'Administración de Artículos',
-            'articles' => $articles
+            'title' =>
+                'Administración de Artículos',
+
+            'articles' =>
+                $articles,
+
+            'pagination' =>
+                $pagination
         ]);
     }
 

@@ -11,171 +11,239 @@ abstract class Controller
      */
     protected function view(string $view, array $data = []): void
     {
-        // Convierte las claves del array $data
-        // en variables disponibles dentro de la vista.
         extract($data);
 
-        // Cargamos el encabezado general.
         require dirname(__DIR__) . '/Views/layouts/header.php';
-
-        // Cargamos la vista solicitada.
         require dirname(__DIR__) . "/Views/{$view}.php";
-
-        // Cargamos el pie de página.
         require dirname(__DIR__) . '/Views/layouts/footer.php';
     }
 
 
     /**
      * Carga una vista del BackOffice.
+     *
+     * Además de la vista administrativa general,
+     * determina automáticamente si existe un CSS
+     * específico para el módulo.
+     *
+     * Ejemplo:
+     *
+     * dashboard/index
+     *      ↓
+     * dashboard.css
+     *
+     * articles/index
+     *      ↓
+     * articles.css
      */
-    protected function adminView(string $view, array $data = []): void
-    {
-        // Obtenemos el mensaje de error guardado en la sesión.
-        $flashError = $this->getFlash('error');
+    protected function adminView(
+        string $view,
+        array $data = []
+    ): void {
+        $flashError =
+            $this->getFlash('error');
 
-        // Obtenemos el mensaje de éxito guardado en la sesión.
-        $flashSuccess = $this->getFlash('success');
+        $flashSuccess =
+            $this->getFlash('success');
 
-        // Generamos/obtenemos el token CSRF.
-        $csrfToken = $this->getCsrfToken();
+        $csrfToken =
+            $this->getCsrfToken();
 
-        // Convertimos los datos recibidos en variables.
+
+        /*
+         * Determinamos el módulo administrativo
+         * a partir de la vista.
+         *
+         * Ejemplo:
+         *
+         * articles/index
+         *
+         * módulo = articles
+         */
+        $viewParts =
+            explode(
+                '/',
+                trim($view, '/')
+            );
+
+        $adminModule =
+            $viewParts[0] ?? '';
+
+
+        /*
+         * Solamente permitimos módulos conocidos.
+         *
+         * Esto evita utilizar directamente
+         * cualquier valor recibido como nombre
+         * de archivo CSS.
+         */
+        $adminCssModules = [
+            'dashboard',
+            'articles',
+            'categories',
+            'series',
+            'users'
+        ];
+
+
+        if (
+            !in_array(
+                $adminModule,
+                $adminCssModules,
+                true
+            )
+        ) {
+            $adminModule = null;
+        }
+
+
+        /*
+         * Extraemos los datos enviados
+         * por el Controller.
+         */
         extract($data);
 
-        // Comenzamos a capturar la salida de la vista.
+
+        /*
+         * Renderizamos primero el contenido
+         * de la vista administrativa.
+         */
         ob_start();
 
-        // Cargamos la vista solicitada.
-        require dirname(__DIR__) . "/Views/{$view}.php";
+        require dirname(__DIR__)
+            . "/Views/{$view}.php";
 
-        // Guardamos el contenido generado.
-        $content = ob_get_clean();
+        $content =
+            ob_get_clean();
 
-        // Cargamos el layout administrativo.
-        require dirname(__DIR__) . '/Views/layouts/admin.php';
+
+        /*
+         * Finalmente cargamos el layout
+         * general del BackOffice.
+         */
+        require dirname(__DIR__)
+            . '/Views/layouts/admin.php';
     }
 
 
-    /**
-     * Guarda un mensaje temporal en la sesión.
-     */
-    protected function setFlash(string $type, string $message): void
-    {
-        // Guardamos el mensaje dentro de la sesión.
-        $_SESSION['flash'][$type] = $message;
+    protected function setFlash(
+        string $type,
+        string $message
+    ): void {
+        $_SESSION['flash'][$type] =
+            $message;
     }
 
 
-    /**
-     * Obtiene un mensaje temporal de la sesión.
-     *
-     * Después de obtenerlo, lo elimina.
-     */
-    protected function getFlash(string $type): ?string
-    {
-        // Si no existe el mensaje, devolvemos null.
-        if (!isset($_SESSION['flash'][$type])) {
+    protected function getFlash(
+        string $type
+    ): ?string {
+        if (
+            !isset(
+                $_SESSION['flash'][$type]
+            )
+        ) {
             return null;
         }
 
-        // Guardamos temporalmente el mensaje.
-        $message = $_SESSION['flash'][$type];
+        $message =
+            $_SESSION['flash'][$type];
 
-        // Eliminamos el mensaje.
-        unset($_SESSION['flash'][$type]);
+        unset(
+            $_SESSION['flash'][$type]
+        );
 
-        // Devolvemos el mensaje.
         return $message;
     }
 
 
-    /**
-     * Guarda temporalmente los datos no sensibles
-     * enviados por un formulario.
-     */
-    protected function setOldInput(array $data): void
-    {
-        // Guardamos los datos en la sesión.
-        $_SESSION['old_input'] = $data;
+    protected function setOldInput(
+        array $data
+    ): void {
+        $_SESSION['old_input'] =
+            $data;
     }
 
 
-    /**
-     * Recupera los datos temporales del formulario.
-     *
-     * Después de recuperarlos, los elimina.
-     */
     protected function getOldInput(): array
     {
-        // Si no existen datos anteriores,
-        // devolvemos un array vacío.
-        if (!isset($_SESSION['old_input'])) {
+        if (
+            !isset(
+                $_SESSION['old_input']
+            )
+        ) {
             return [];
         }
 
-        // Guardamos temporalmente los datos.
-        $data = $_SESSION['old_input'];
+        $data =
+            $_SESSION['old_input'];
 
-        // Eliminamos los datos de la sesión.
-        unset($_SESSION['old_input']);
+        unset(
+            $_SESSION['old_input']
+        );
 
-        // Devolvemos los datos.
         return $data;
     }
 
 
-    /**
-     * Genera y devuelve el token CSRF de la sesión.
-     */
     protected function getCsrfToken(): string
     {
-        // Si todavía no existe un token,
-        // generamos uno criptográficamente seguro.
         if (
-            !isset($_SESSION['csrf_token']) ||
-            !is_string($_SESSION['csrf_token'])
+            !isset(
+                $_SESSION['csrf_token']
+            )
+            ||
+            !is_string(
+                $_SESSION['csrf_token']
+            )
         ) {
-            $_SESSION['csrf_token'] = bin2hex(
-                random_bytes(32)
-            );
+            $_SESSION['csrf_token'] =
+                bin2hex(
+                    random_bytes(32)
+                );
         }
 
-        // Devolvemos el token.
         return $_SESSION['csrf_token'];
     }
 
 
-    /**
-     * Comprueba que el token CSRF recibido sea válido.
-     */
     protected function verifyCsrfToken(): void
     {
-        // Obtenemos el token enviado por POST.
-        $submittedToken = $_POST['csrf_token'] ?? '';
+        $submittedToken =
+            $_POST['csrf_token'] ?? '';
 
-        // Obtenemos el token almacenado en la sesión.
-        $sessionToken = $_SESSION['csrf_token'] ?? '';
+        $sessionToken =
+            $_SESSION['csrf_token'] ?? '';
 
-        // Comprobamos que ambos sean strings.
+
         if (
-            !is_string($submittedToken) ||
+            !is_string($submittedToken)
+            ||
             !is_string($sessionToken)
         ) {
             http_response_code(403);
 
-            die('403 - Token CSRF inválido.');
+            die(
+                '403 - Token CSRF inválido.'
+            );
         }
 
-        // Comparamos los tokens de forma segura.
+
         if (
-            $submittedToken === '' ||
-            $sessionToken === '' ||
-            !hash_equals($sessionToken, $submittedToken)
+            $submittedToken === ''
+            ||
+            $sessionToken === ''
+            ||
+            !hash_equals(
+                $sessionToken,
+                $submittedToken
+            )
         ) {
             http_response_code(403);
 
-            die('403 - Token CSRF inválido.');
+            die(
+                '403 - Token CSRF inválido.'
+            );
         }
     }
 }
