@@ -4,34 +4,30 @@ declare(strict_types=1);
 
 ?>
 
-<section class="series-page">
+<section class="series-admin-page series-form-page">
 
 
-    <!-- ENCABEZADO -->
+    <!-- =========================================================
+         ENCABEZADO
+         ========================================================= -->
 
-    <div class="series-page-header">
+    <div class="admin-page-header">
 
         <div>
 
-            <span class="series-eyebrow">
-
+            <p class="section-label">
                 ADMINISTRACIÓN
+            </p>
 
-            </span>
 
-
-            <h2>
-
+            <h1>
                 Nueva serie
-
-            </h2>
+            </h1>
 
 
             <p>
-
                 Crea una colección para agrupar
                 artículos relacionados dentro de CyberBlog.
-
             </p>
 
         </div>
@@ -49,138 +45,187 @@ declare(strict_types=1);
     </div>
 
 
-    <!-- FORMULARIO -->
+    <!-- =========================================================
+         FORMULARIO
+         ========================================================= -->
 
-    <form
-        action="/incuyo/cyberblog/public/admin/series"
-        method="POST"
-        class="series-form"
-    >
+    <div class="series-form-card">
 
+        <div class="series-form-header">
 
-        <!-- TÍTULO -->
+            <div>
 
-        <div class="admin-form-group">
-
-            <label for="titulo">
-
-                Título de la serie
-
-            </label>
+                <p class="series-form-label">
+                    INFORMACIÓN DE LA SERIE
+                </p>
 
 
-            <input
-                type="text"
-                id="titulo"
-                name="titulo"
-                required
-                maxlength="255"
-                placeholder="Ejemplo: Introducción a Wazuh"
-            >
+                <h2>
+                    Datos principales
+                </h2>
+
+
+                <p>
+                    Completa la información que utilizará
+                    CyberBlog para identificar y mostrar la serie.
+                </p>
+
+            </div>
 
         </div>
 
 
-        <!-- DESCRIPCIÓN -->
-
-        <div class="admin-form-group">
-
-            <label for="descripcion">
-
-                Descripción
-
-            </label>
+        <form
+            action="/incuyo/cyberblog/public/admin/series"
+            method="POST"
+            class="series-form"
+        >
 
 
-            <textarea
-                id="descripcion"
-                name="descripcion"
-                rows="6"
-                placeholder="Describe de qué trata esta serie..."
-            ></textarea>
+            <!-- =================================================
+                 TÍTULO
+                 ================================================= -->
+
+            <div class="admin-form-group">
+
+                <label for="titulo">
+
+                    Título de la serie
+
+                    <span class="series-required">
+                        *
+                    </span>
+
+                </label>
 
 
-            <small>
-
-                La descripción ayudará a los visitantes
-                a comprender el objetivo de la serie.
-
-            </small>
-
-        </div>
-
-
-        <!-- ESTADO -->
-
-        <div class="admin-form-group">
-
-            <label for="estado">
-
-                Estado
-
-            </label>
+                <input
+                    type="text"
+                    id="titulo"
+                    name="titulo"
+                    required
+                    maxlength="255"
+                    placeholder="Ejemplo: Introducción a Wazuh"
+                    autocomplete="off"
+                >
 
 
-            <select
-                id="estado"
-                name="estado"
-            >
+                <small>
 
-                <option value="borrador">
+                    Utiliza un título claro que identifique
+                    el recorrido de aprendizaje.
 
-                    Borrador
+                </small>
 
-                </option>
+            </div>
 
 
-                <option value="publicada">
+            <!-- =================================================
+                 DESCRIPCIÓN
+                 ================================================= -->
 
-                    Publicada
+            <div class="admin-form-group">
 
-                </option>
+                <label for="descripcion">
 
-            </select>
+                    Descripción
 
-
-            <small>
-
-                Las series en borrador todavía no estarán
-                disponibles en la sección pública.
-
-            </small>
-
-        </div>
+                </label>
 
 
-        <!-- BOTONES -->
-
-        <div class="admin-form-actions">
-
-
-            <a
-                href="/incuyo/cyberblog/public/admin/series"
-                class="admin-button admin-button-secondary"
-            >
-
-                Cancelar
-
-            </a>
+                <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    rows="6"
+                    maxlength="1000"
+                    placeholder="Describe de qué trata esta serie..."
+                ></textarea>
 
 
-            <button
-                type="submit"
-                class="admin-button"
-            >
+                <small>
 
-                Crear serie
+                    La descripción ayudará a los visitantes
+                    a comprender el objetivo de la serie.
 
-            </button>
+                </small>
 
-
-        </div>
+            </div>
 
 
-    </form>
+            <!-- =================================================
+                 ESTADO
+                 ================================================= -->
 
+            <div class="admin-form-group">
+
+                <label for="estado">
+
+                    Estado
+
+                </label>
+
+
+                <select
+                    id="estado"
+                    name="estado"
+                >
+
+                    <option value="borrador">
+
+                        Borrador
+
+                    </option>
+
+
+                    <option value="publicada">
+
+                        Publicada
+
+                    </option>
+
+                </select>
+
+
+                <small>
+
+                    Las series en borrador todavía no estarán
+                    disponibles en la sección pública.
+
+                </small>
+
+            </div>
+
+
+            <!-- =================================================
+                 ACCIONES
+                 ================================================= -->
+
+            <div class="admin-form-actions series-form-actions">
+
+                <a
+                    href="/incuyo/cyberblog/public/admin/series"
+                    class="admin-button admin-button-secondary"
+                >
+
+                    Cancelar
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="admin-button admin-button-primary"
+                >
+
+                    Crear serie
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
 
 </section>

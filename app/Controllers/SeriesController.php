@@ -243,7 +243,9 @@ class SeriesController extends Controller
 
 
         /*
-         * Cargamos la vista administrativa.
+         * Cargamos la vista administrativa
+         * junto con los estilos específicos
+         * del módulo de Series.
          */
         $this->adminView(
             'series/index',
@@ -253,6 +255,9 @@ class SeriesController extends Controller
 
                 'series' =>
                     $series
+            ],
+            [
+                'series'
             ]
         );
     }
@@ -276,13 +281,17 @@ class SeriesController extends Controller
 
         /*
          * Cargamos el formulario
-         * administrativo.
+         * administrativo junto con los
+         * estilos específicos de Series.
          */
         $this->adminView(
             'series/create',
             [
                 'title' =>
                     'Nueva Serie'
+            ],
+            [
+                'series'
             ]
         );
     }
@@ -521,7 +530,9 @@ class SeriesController extends Controller
 
 
         /*
-         * Cargamos la vista administrativa.
+         * Cargamos el formulario administrativo
+         * junto con los estilos específicos
+         * del módulo de Series.
          */
         $this->adminView(
             'series/edit',
@@ -531,6 +542,9 @@ class SeriesController extends Controller
 
                 'serie' =>
                     $serie
+            ],
+            [
+                'series'
             ]
         );
     }
