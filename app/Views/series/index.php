@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 ?>
 
-<section class="admin-page">
+<link
+    rel="stylesheet"
+    href="/incuyo/cyberblog/public/assets/css/series.css"
+>
 
-    <!-- ========================================= -->
-    <!-- ENCABEZADO DE LA PÁGINA -->
-    <!-- ========================================= -->
+<section class="admin-page series-admin-page">
 
     <div class="admin-page-header">
 
@@ -32,10 +33,6 @@ declare(strict_types=1);
     </div>
 
 
-    <!-- ========================================= -->
-    <!-- ACCIONES -->
-    <!-- ========================================= -->
-
     <div class="series-actions">
 
         <a
@@ -53,10 +50,6 @@ declare(strict_types=1);
 
     </div>
 
-
-    <!-- ========================================= -->
-    <!-- LISTADO DE SERIES -->
-    <!-- ========================================= -->
 
     <div class="admin-table-wrapper">
 
@@ -92,7 +85,6 @@ declare(strict_types=1);
 
                 </thead>
 
-
                 <tbody>
 
                     <?php foreach ($series as $serie): ?>
@@ -106,16 +98,19 @@ declare(strict_types=1);
                                     <strong>
 
                                         <?= htmlspecialchars(
-                                            $serie['titulo']
+                                            $serie['titulo'],
+                                            ENT_QUOTES,
+                                            'UTF-8'
                                         ) ?>
 
                                     </strong>
 
-
                                     <span>
 
                                         /<?= htmlspecialchars(
-                                            $serie['slug']
+                                            $serie['slug'],
+                                            ENT_QUOTES,
+                                            'UTF-8'
                                         ) ?>
 
                                     </span>
@@ -167,7 +162,9 @@ declare(strict_types=1);
                                         strtotime(
                                             $serie['created_at']
                                         )
-                                    )
+                                    ),
+                                    ENT_QUOTES,
+                                    'UTF-8'
                                 ) ?>
 
                             </td>
@@ -190,6 +187,16 @@ declare(strict_types=1);
                                         method="POST"
                                         onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta serie? Los artículos no serán eliminados.')"
                                     >
+
+                                        <input
+                                            type="hidden"
+                                            name="csrf_token"
+                                            value="<?= htmlspecialchars(
+                                                $csrfToken,
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>"
+                                        >
 
                                         <button
                                             type="submit"
@@ -223,17 +230,14 @@ declare(strict_types=1);
                     >_
                 </span>
 
-
                 <h2>
                     Todavía no hay series
                 </h2>
-
 
                 <p>
                     Crea una serie para comenzar a agrupar
                     artículos relacionados dentro de CyberBlog.
                 </p>
-
 
                 <a
                     href="/incuyo/cyberblog/public/admin/series/create"

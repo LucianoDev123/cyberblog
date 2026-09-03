@@ -1,0 +1,427 @@
+/* =========================================================
+   CYBERBLOG - ADMINISTRACIÓN DE SERIES
+   ========================================================= */
+
+/*
+ * Los estilos de este archivo están aislados mediante
+ * .series-admin-page para no modificar otros módulos
+ * del BackOffice.
+ */
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
+
+.series-admin-page {
+    width: 100%;
+}
+
+
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
+.series-admin-page .admin-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 32px;
+
+    width: 100%;
+
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.series-admin-page .admin-page-header > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.series-admin-page .admin-page-header .section-label {
+    margin: 0 0 8px;
+
+    color: var(--admin-primary);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.series-admin-page .admin-page-header h1 {
+    margin: 0 0 10px;
+
+    color: var(--admin-text);
+
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.series-admin-page .admin-page-header p:last-child {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: var(--admin-text-muted);
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ACCIONES PRINCIPALES
+   ========================================================= */
+
+.series-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.series-actions .admin-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 44px;
+
+    margin: 0;
+    padding: 0 20px;
+
+    box-sizing: border-box;
+
+    white-space: nowrap;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.series-admin-page .admin-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    box-sizing: border-box;
+}
+
+.series-admin-page .admin-table {
+    width: 100%;
+
+    min-width: 850px;
+
+    border-collapse: collapse;
+}
+
+
+/* =========================================================
+   INFORMACIÓN DE LA SERIE
+   ========================================================= */
+
+.series-admin-page .admin-table-title {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.series-admin-page .admin-table-title strong {
+    color: var(--admin-text);
+
+    font-weight: 600;
+}
+
+.series-admin-page .admin-table-title span {
+    color: var(--admin-text-muted);
+
+    font-family: monospace;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   ESTADOS
+   ========================================================= */
+
+.series-admin-page .status {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+.series-admin-page .status-published {
+    color: #047857;
+
+    background: #d1fae5;
+}
+
+.series-admin-page .status-draft {
+    color: #92400e;
+
+    background: #fef3c7;
+}
+
+
+/* =========================================================
+   CANTIDAD DE ARTÍCULOS
+   ========================================================= */
+
+.series-admin-page .series-article-count {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 32px;
+    min-height: 32px;
+
+    padding: 4px 9px;
+
+    box-sizing: border-box;
+
+    color: var(--admin-primary);
+
+    font-weight: 700;
+
+    background: rgba(16, 185, 129, 0.08);
+
+    border-radius: 7px;
+}
+
+
+/* =========================================================
+   ACCIONES DE LA TABLA
+   ========================================================= */
+
+.series-admin-page .admin-table-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 12px;
+
+    white-space: nowrap;
+}
+
+.series-admin-page .admin-table-actions form {
+    display: inline-flex;
+
+    width: auto;
+    max-width: none;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   EDITAR / ELIMINAR
+   ========================================================= */
+
+.series-admin-page .admin-table-actions .admin-action-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--admin-text);
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 500;
+
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.series-admin-page .admin-table-actions .admin-action-link:hover {
+    background: transparent;
+
+    color: var(--admin-primary);
+}
+
+
+/* =========================================================
+   ELIMINAR
+   ========================================================= */
+
+.series-admin-page .admin-table-actions .admin-action-danger {
+    color: var(--admin-danger);
+
+    cursor: pointer;
+}
+
+.series-admin-page .admin-table-actions .admin-action-danger:hover {
+    color: #b91c1c;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+   ESTADO VACÍO
+   ========================================================= */
+
+.series-admin-page .admin-empty-state {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 360px;
+
+    padding: 50px 32px;
+
+    box-sizing: border-box;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid var(--admin-border);
+
+    border-radius: 12px;
+}
+
+.series-admin-page .admin-empty-state .admin-empty-icon {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 56px;
+    height: 56px;
+
+    margin-bottom: 20px;
+
+    color: var(--admin-primary);
+
+    font-size: 22px;
+    font-weight: 700;
+
+    background: rgba(16, 185, 129, 0.08);
+
+    border-radius: 12px;
+}
+
+.series-admin-page .admin-empty-state h2 {
+    margin: 0 0 12px;
+}
+
+.series-admin-page .admin-empty-state p {
+    max-width: 500px;
+
+    margin: 0 0 24px;
+
+    color: var(--admin-text-muted);
+
+    line-height: 1.6;
+}
+
+.series-admin-page .admin-empty-state .admin-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+
+    margin: 0;
+    padding: 0 20px;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .series-admin-page .admin-page-header {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .series-actions {
+        justify-content: flex-start;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .series-admin-page .admin-page-header {
+        gap: 20px;
+
+        margin-bottom: 24px;
+        padding-bottom: 20px;
+    }
+
+    .series-admin-page .admin-page-header h1 {
+        font-size: 26px;
+    }
+
+    .series-actions {
+        width: 100%;
+    }
+
+    .series-actions .admin-button {
+        width: 100%;
+    }
+
+    .series-admin-page .admin-empty-state {
+        min-height: 300px;
+
+        padding: 40px 20px;
+    }
+
+}
