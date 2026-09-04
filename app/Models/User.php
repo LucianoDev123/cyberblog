@@ -6,11 +6,17 @@ namespace App\Models;
 
 class User extends Model
 {
+    /**
+     * Nombre de la tabla utilizada por el modelo.
+     */
     protected string $table = 'usuarios';
 
 
     /**
      * Busca un usuario mediante su correo electrónico.
+     *
+     * Devuelve los datos del usuario encontrado o false
+     * si no existe un usuario con ese correo.
      */
     public function findByEmail(string $email): array|false
     {
@@ -21,11 +27,43 @@ class User extends Model
             LIMIT 1
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         $statement->execute([
             'email' => $email
+        ]);
+
+        return $statement->fetch();
+    }
+
+
+    /**
+     * Busca un usuario mediante su ID.
+     *
+     * Devuelve los datos del usuario encontrado o false
+     * si no existe un usuario con ese identificador.
+     */
+    public function findById(int $id): array|false
+    {
+        $sql = "
+            SELECT
+                id,
+                nombre,
+                apellido,
+                username,
+                email,
+                rol,
+                estado,
+                created_at
+            FROM usuarios
+            WHERE id = :id
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'id' => $id
         ]);
 
         return $statement->fetch();
@@ -44,8 +82,7 @@ class User extends Model
             LIMIT 1
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         $statement->execute([
             'email' => $email
@@ -57,6 +94,9 @@ class User extends Model
 
     /**
      * Comprueba si un email pertenece a otro usuario.
+     *
+     * Se utiliza durante la edición para permitir que el usuario
+     * conserve su propio email sin considerarlo duplicado.
      */
     public function emailExistsForOtherUser(
         string $email,
@@ -70,8 +110,7 @@ class User extends Model
             LIMIT 1
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         $statement->execute([
             'email' => $email,
@@ -94,8 +133,7 @@ class User extends Model
             LIMIT 1
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         $statement->execute([
             'username' => $username
@@ -107,6 +145,9 @@ class User extends Model
 
     /**
      * Obtiene todos los usuarios.
+     *
+     * Este método se conserva para mantener compatibilidad
+     * con otras partes del sistema que puedan utilizarlo.
      */
     public function getAllUsers(): array
     {
@@ -124,8 +165,63 @@ class User extends Model
             ORDER BY created_at DESC
         ";
 
-        $statement =
-            $this->db->query($sql);
+        $statement = $this->db->query($sql);
+
+        return $statement->fetchAll();
+    }
+
+
+    /**
+     * Obtiene una página de usuarios.
+     *
+     * El parámetro $limit indica cuántos usuarios se devolverán.
+     * El parámetro $offset indica desde qué registro comenzar.
+     *
+     * Ejemplo:
+     *
+     * Página 1:
+     * LIMIT 15 OFFSET 0
+     *
+     * Página 2:
+     * LIMIT 15 OFFSET 15
+     *
+     * Página 3:
+     * LIMIT 15 OFFSET 30
+     */
+    public function getPaginatedUsers(
+        int $limit,
+        int $offset
+    ): array {
+        $sql = "
+            SELECT
+                id,
+                nombre,
+                apellido,
+                username,
+                email,
+                rol,
+                estado,
+                created_at
+            FROM usuarios
+            ORDER BY created_at DESC
+            LIMIT :limit OFFSET :offset
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->bindValue(
+            ':limit',
+            $limit,
+            \PDO::PARAM_INT
+        );
+
+        $statement->bindValue(
+            ':offset',
+            $offset,
+            \PDO::PARAM_INT
+        );
+
+        $statement->execute();
 
         return $statement->fetchAll();
     }
@@ -141,8 +237,27 @@ class User extends Model
             FROM usuarios
         ";
 
-        $statement =
-            $this->db->query($sql);
+        $statement = $this->db->query($sql);
+
+        return (int) $statement->fetchColumn();
+    }
+
+
+    /**
+     * Obtiene la cantidad de usuarios administradores.
+     *
+     * Se utiliza antes de eliminar un administrador para evitar
+     * que el sistema quede sin ninguna cuenta administrativa.
+     */
+    public function countAdmins(): int
+    {
+        $sql = "
+            SELECT COUNT(*)
+            FROM usuarios
+            WHERE rol = 'admin'
+        ";
+
+        $statement = $this->db->query($sql);
 
         return (int) $statement->fetchColumn();
     }
@@ -166,8 +281,7 @@ class User extends Model
             WHERE id = :id
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         return $statement->execute([
             'id'       => $id,
@@ -209,8 +323,7 @@ class User extends Model
             )
         ";
 
-        $statement =
-            $this->db->prepare($sql);
+        $statement = $this->db->prepare($sql);
 
         return $statement->execute([
             'nombre'   => $data['nombre'],
@@ -220,6 +333,27 @@ class User extends Model
             'password' => $data['password'],
             'rol'      => $data['rol'],
             'estado'   => $data['estado']
+        ]);
+    }
+
+
+    /**
+     * Elimina un usuario mediante su ID.
+     *
+     * Las validaciones de permisos, CSRF y reglas de negocio
+     * se realizan previamente en el controlador.
+     */
+    public function delete(int $id): bool
+    {
+        $sql = "
+            DELETE FROM usuarios
+            WHERE id = :id
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id' => $id
         ]);
     }
 }

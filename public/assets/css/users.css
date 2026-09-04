@@ -1,0 +1,1189 @@
+/*
+ * ==========================================================
+ * CYBERBLOG - ESTILOS DEL MÓDULO DE USUARIOS
+ * ==========================================================
+ *
+ * Estos estilos se aplican únicamente a las vistas del módulo
+ * administrativo de usuarios.
+ *
+ * Todas las clases utilizan el prefijo "users-" para evitar
+ * conflictos con los estilos generales del BackOffice.
+ */
+
+
+/*
+ * ==========================================================
+ * VARIABLES LOCALES
+ * ==========================================================
+ */
+
+.users-admin-page {
+    --users-primary: #10b981;
+    --users-primary-hover: #059669;
+    --users-primary-light: #d1fae5;
+
+    --users-text: #1f2937;
+    --users-text-muted: #6b7280;
+    --users-text-light: #94a3b8;
+
+    --users-border: #e2e8f0;
+    --users-border-dark: #cbd5e1;
+
+    --users-background: #f8fafc;
+    --users-card: #ffffff;
+
+    --users-danger: #ef4444;
+    --users-danger-hover: #dc2626;
+    --users-danger-light: #fee2e2;
+
+    --users-warning: #d97706;
+    --users-warning-light: #fef3c7;
+
+    --users-shadow:
+        0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+
+/*
+ * ==========================================================
+ * CONTENEDOR PRINCIPAL
+ * ==========================================================
+ */
+
+.users-admin-page {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+
+/*
+ * ==========================================================
+ * ENCABEZADO DE LA PÁGINA
+ * ==========================================================
+ */
+
+.users-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 28px;
+}
+
+.users-page-heading {
+    min-width: 0;
+}
+
+.users-page-eyebrow {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--users-primary);
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.users-page-title {
+    margin: 0;
+
+    color: var(--users-text);
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.users-page-description {
+    max-width: 650px;
+    margin: 10px 0 0;
+
+    color: var(--users-text-muted);
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/*
+ * ==========================================================
+ * BOTONES PRINCIPALES
+ * ==========================================================
+ */
+
+.users-primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 44px;
+    padding: 0 18px;
+
+    border: 1px solid var(--users-primary);
+    border-radius: 8px;
+
+    background: var(--users-primary);
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.users-primary-button:hover {
+    border-color: var(--users-primary-hover);
+
+    background: var(--users-primary-hover);
+    color: #ffffff;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 4px 12px rgba(16, 185, 129, 0.22);
+
+    transform: translateY(-1px);
+}
+
+.users-primary-button:focus-visible {
+    outline: 3px solid rgba(16, 185, 129, 0.25);
+    outline-offset: 2px;
+}
+
+.users-primary-button:active {
+    transform: translateY(0);
+}
+
+
+/*
+ * ==========================================================
+ * BOTONES SECUNDARIOS
+ * ==========================================================
+ *
+ * Se utilizan para:
+ * - Cancelar.
+ * - Volver al listado de usuarios.
+ */
+
+.users-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 44px;
+    padding: 0 18px;
+
+    border: 1px solid var(--users-border-dark);
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #334155;
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.users-secondary-button:hover {
+    border-color: #94a3b8;
+
+    background: #f1f5f9;
+    color: #0f172a;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+.users-secondary-button:focus-visible {
+    outline: 3px solid rgba(16, 185, 129, 0.25);
+    outline-offset: 2px;
+}
+
+.users-secondary-button:active {
+    background: #e2e8f0;
+}
+
+
+/*
+ * ==========================================================
+ * TARJETA DE RESUMEN
+ * ==========================================================
+ */
+
+.users-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    width: 100%;
+    max-width: 360px;
+
+    margin-bottom: 28px;
+    padding: 20px 24px;
+
+    border: 1px solid var(--users-border);
+    border-radius: 12px;
+
+    background: var(--users-card);
+
+    box-shadow: var(--users-shadow);
+}
+
+.users-summary-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 10px;
+
+    background: var(--users-primary-light);
+
+    font-size: 24px;
+}
+
+.users-summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.users-summary-label {
+    color: var(--users-text-muted);
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.users-summary-value {
+    color: var(--users-text);
+
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+
+/*
+ * ==========================================================
+ * TARJETA DE LA TABLA
+ * ==========================================================
+ */
+
+.users-table-card {
+    width: 100%;
+
+    overflow: hidden;
+
+    border: 1px solid var(--users-border);
+    border-radius: 12px;
+
+    background: var(--users-card);
+
+    box-shadow: var(--users-shadow);
+}
+
+.users-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 24px;
+
+    border-bottom: 1px solid var(--users-border);
+}
+
+.users-table-title {
+    margin: 0;
+
+    color: var(--users-text);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.users-table-description {
+    margin: 6px 0 0;
+
+    color: var(--users-text-muted);
+
+    font-size: 13px;
+}
+
+
+/*
+ * ==========================================================
+ * TABLA
+ * ==========================================================
+ */
+
+.users-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.users-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+
+    text-align: left;
+}
+
+.users-table thead {
+    background: #f8fafc;
+}
+
+.users-table th {
+    padding: 15px 20px;
+
+    border-bottom: 1px solid var(--users-border);
+
+    color: var(--users-text-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.users-table td {
+    padding: 16px 20px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    color: var(--users-text);
+
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.users-table tbody tr {
+    transition:
+        background-color 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/*
+ * ==========================================================
+ * ID
+ * ==========================================================
+ */
+
+.users-id {
+    color: var(--users-text-light);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/*
+ * ==========================================================
+ * CELDA DEL USUARIO
+ * ==========================================================
+ */
+
+.users-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.users-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #dbeafe;
+    color: #2563eb;
+
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.users-user-information {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.users-user-name {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--users-text);
+
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.users-user-username {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--users-text-muted);
+
+    font-size: 12px;
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/*
+ * ==========================================================
+ * CORREO ELECTRÓNICO
+ * ==========================================================
+ */
+
+.users-email {
+    color: #475569;
+
+    font-size: 13px;
+}
+
+
+/*
+ * ==========================================================
+ * FECHA DE REGISTRO
+ * ==========================================================
+ */
+
+.users-created-at {
+    color: var(--users-text-muted);
+
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+/*
+ * ==========================================================
+ * BADGES
+ * ==========================================================
+ */
+
+.users-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 28px;
+    padding: 0 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+
+
+/*
+ * Roles.
+ */
+
+.users-role-admin {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+
+.users-role-editor {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.users-role-usuario {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+
+/*
+ * Estados.
+ */
+
+.users-status-1,
+.users-status-activo,
+.users-status-active {
+    background: var(--users-primary-light);
+    color: #047857;
+}
+
+.users-status-0,
+.users-status-inactivo,
+.users-status-inactive {
+    background: var(--users-danger-light);
+    color: #b91c1c;
+}
+
+
+/*
+ * ==========================================================
+ * COLUMNA Y BOTONES DE ACCIONES
+ * ==========================================================
+ */
+
+.users-actions-column {
+    text-align: right !important;
+}
+
+.users-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.users-delete-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+
+/*
+ * Botón de acción general.
+ */
+
+.users-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    min-height: 34px;
+    padding: 0 10px;
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/*
+ * Editar.
+ */
+
+.users-edit-button {
+    border-color: #bfdbfe;
+
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.users-edit-button:hover {
+    border-color: #93c5fd;
+
+    background: #dbeafe;
+    color: #1d4ed8;
+
+    text-decoration: none;
+}
+
+
+/*
+ * Eliminar.
+ */
+
+.users-delete-button {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.users-delete-button:hover {
+    border-color: #fca5a5;
+
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.users-action-button:focus-visible {
+    outline: 3px solid rgba(16, 185, 129, 0.25);
+    outline-offset: 2px;
+}
+
+
+/*
+ * ==========================================================
+ * ESTADO VACÍO
+ * ==========================================================
+ */
+
+.users-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 72px 24px;
+
+    text-align: center;
+}
+
+.users-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+
+    margin-bottom: 18px;
+
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    font-size: 30px;
+}
+
+.users-empty-state h3 {
+    margin: 0 0 8px;
+
+    color: var(--users-text);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.users-empty-state p {
+    margin: 0 0 24px;
+
+    color: var(--users-text-muted);
+
+    font-size: 14px;
+}
+
+
+/*
+ * ==========================================================
+ * PAGINACIÓN
+ * ==========================================================
+ */
+
+.users-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px 24px;
+
+    border-top: 1px solid var(--users-border);
+}
+
+.users-pagination-information {
+    color: var(--users-text-muted);
+
+    font-size: 13px;
+}
+
+.users-pagination-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.users-pagination-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0 10px;
+
+    border: 1px solid var(--users-border);
+    border-radius: 6px;
+
+    background: #ffffff;
+    color: #475569;
+
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.users-pagination-link:hover {
+    border-color: var(--users-primary);
+
+    background: #ecfdf5;
+    color: #047857;
+
+    text-decoration: none;
+}
+
+.users-pagination-current {
+    border-color: var(--users-primary);
+
+    background: var(--users-primary);
+    color: #ffffff;
+}
+
+.users-pagination-current:hover {
+    border-color: var(--users-primary);
+
+    background: var(--users-primary);
+    color: #ffffff;
+}
+
+.users-pagination-disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+/*
+ * ==========================================================
+ * FORMULARIOS
+ * ==========================================================
+ */
+
+.users-form-card {
+    width: 100%;
+
+    border: 1px solid var(--users-border);
+    border-radius: 12px;
+
+    background: var(--users-card);
+
+    box-shadow: var(--users-shadow);
+}
+
+.users-form-card-header {
+    padding: 24px;
+
+    border-bottom: 1px solid var(--users-border);
+}
+
+.users-form-title {
+    margin: 0;
+
+    color: var(--users-text);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.users-form-description {
+    margin: 6px 0 0;
+
+    color: var(--users-text-muted);
+
+    font-size: 13px;
+}
+
+.users-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 28px;
+}
+
+.users-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.users-form-label {
+    color: var(--users-text);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.users-form-input {
+    width: 100%;
+    min-height: 44px;
+
+    padding: 0 13px;
+
+    border: 1px solid var(--users-border-dark);
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: var(--users-text);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.users-form-input::placeholder {
+    color: var(--users-text-light);
+}
+
+.users-form-input:hover {
+    border-color: #94a3b8;
+}
+
+.users-form-input:focus {
+    border-color: var(--users-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+.users-form-input:disabled {
+    background: #f1f5f9;
+    color: var(--users-text-muted);
+
+    cursor: not-allowed;
+}
+
+.users-form-select {
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+.users-form-help {
+    color: var(--users-text-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/*
+ * ==========================================================
+ * CAMPOS DE CONTRASEÑA
+ * ==========================================================
+ */
+
+.users-password-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.users-password-input {
+    width: 100%;
+}
+
+.users-password-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    align-self: flex-start;
+
+    min-height: 40px;
+    padding: 0 16px;
+
+    border: 1px solid var(--users-primary);
+    border-radius: 7px;
+
+    background: var(--users-primary);
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.users-password-toggle:hover {
+    border-color: var(--users-primary-hover);
+
+    background: var(--users-primary-hover);
+
+    box-shadow:
+        0 3px 10px rgba(16, 185, 129, 0.18);
+}
+
+.users-password-toggle:focus-visible {
+    outline: 3px solid rgba(16, 185, 129, 0.25);
+    outline-offset: 2px;
+}
+
+.users-password-toggle-icon {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.users-password-toggle-text {
+    line-height: 1;
+}
+
+
+/*
+ * Indicador de coincidencia de contraseñas.
+ */
+
+.users-password-match-message {
+    display: block;
+
+    min-height: 18px;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.users-password-match-success {
+    color: #047857;
+}
+
+.users-password-match-error {
+    color: #dc2626;
+}
+
+
+/*
+ * ==========================================================
+ * ALERTAS DEL FORMULARIO
+ * ==========================================================
+ */
+
+.users-form-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    margin-bottom: 24px;
+    padding: 14px 16px;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.users-form-alert-error {
+    border-color: #fecaca;
+
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.users-form-alert-success {
+    border-color: #a7f3d0;
+
+    background: #ecfdf5;
+    color: #047857;
+}
+
+
+/*
+ * ==========================================================
+ * ACCIONES DEL FORMULARIO
+ * ==========================================================
+ */
+
+.users-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 8px;
+    padding-top: 24px;
+
+    border-top: 1px solid var(--users-border);
+}
+
+.users-form-actions .users-primary-button,
+.users-form-actions .users-secondary-button {
+    flex-shrink: 0;
+}
+
+
+/*
+ * ==========================================================
+ * RESPONSIVE
+ * ==========================================================
+ */
+
+@media (max-width: 900px) {
+
+    .users-admin-page {
+        padding: 24px;
+    }
+
+    .users-page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .users-page-header .users-primary-button,
+    .users-page-header .users-secondary-button {
+        align-self: flex-start;
+    }
+
+    .users-summary-card {
+        max-width: 100%;
+    }
+
+    .users-table-header {
+        padding: 20px;
+    }
+
+    .users-pagination {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .users-pagination-links {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .users-admin-page {
+        padding: 16px;
+    }
+
+    .users-page-title {
+        font-size: 25px;
+    }
+
+    .users-page-description {
+        font-size: 14px;
+    }
+
+    .users-summary-card {
+        padding: 18px;
+    }
+
+    .users-form {
+        gap: 18px;
+        padding: 20px;
+    }
+
+    .users-form-card-header {
+        padding: 20px;
+    }
+
+    .users-form-actions {
+        align-items: stretch;
+        flex-direction: column-reverse;
+    }
+
+    .users-form-actions .users-primary-button,
+    .users-form-actions .users-secondary-button {
+        width: 100%;
+    }
+
+    .users-page-header .users-primary-button,
+    .users-page-header .users-secondary-button {
+        width: 100%;
+    }
+
+    .users-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .users-action-button {
+        width: 100%;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 14px 16px;
+    }
+
+}

@@ -384,6 +384,17 @@ $router->post('/admin/users/update/{id}', [
 
 
 /*
+ * Eliminar usuario.
+ *
+ * Se utiliza POST porque es una operación destructiva.
+ */
+$router->post('/admin/users/delete/{id}', [
+    UserController::class,
+    'delete'
+]);
+
+
+/*
 |--------------------------------------------------------------------------
 | Autenticación
 |--------------------------------------------------------------------------
