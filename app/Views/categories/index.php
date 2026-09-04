@@ -2,48 +2,55 @@
 
 declare(strict_types=1);
 
+/*
+|--------------------------------------------------------------------------
+| Vista de administración de categorías
+|--------------------------------------------------------------------------
+|
+| Esta vista se encarga únicamente de presentar las categorías.
+| La obtención de datos, validaciones y eliminación pertenecen
+| al controlador y al modelo.
+|
+| Variables esperadas:
+|
+| $categories → listado de categorías.
+| $csrfToken  → token CSRF para formularios POST.
+|
+*/
+
 ?>
 
-<section class="admin-section">
+<section class="categories-admin-page">
 
-    <div
-        style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 24px;
-        "
-    >
+    <!-- =========================================================
+         ENCABEZADO DE LA PÁGINA
+         ========================================================= -->
 
-        <div>
+    <div class="categories-page-header">
 
-            <h2
-                style="
-                    margin: 0 0 6px;
-                "
-            >
+        <div class="categories-page-heading">
+
+            <span class="categories-section-label">
+                Administración
+            </span>
+
+            <h2 class="categories-page-title">
                 Categorías
             </h2>
 
-            <p
-                style="
-                    margin: 0;
-                    color: #6b7280;
-                "
-            >
-                Administra las categorías utilizadas
-                por los artículos del blog.
+            <p class="categories-page-description">
+                Administra las categorías utilizadas por los artículos
+                del blog.
             </p>
 
         </div>
 
-
         <a
             href="/incuyo/cyberblog/public/admin/categories/create"
-            class="admin-button"
+            class="categories-primary-button"
         >
-            + Nueva categoría
+            <span aria-hidden="true">+</span>
+            Nueva categoría
         </a>
 
     </div>
@@ -51,31 +58,30 @@ declare(strict_types=1);
 
     <?php if (empty($categories)): ?>
 
-        <div
-            style="
-                padding: 40px;
-                background: #ffffff;
-                border: 1px solid var(--admin-border);
-                border-radius: 10px;
-                text-align: center;
-            "
-        >
+        <!-- =====================================================
+             ESTADO VACÍO
+             ===================================================== -->
 
-            <h3>
+        <div class="categories-empty-state">
+
+            <div
+                class="categories-empty-icon"
+                aria-hidden="true"
+            >
+                #
+            </div>
+
+            <h3 class="categories-empty-title">
                 No hay categorías
             </h3>
 
-            <p
-                style="
-                    color: var(--admin-text-muted);
-                "
-            >
+            <p class="categories-empty-description">
                 Todavía no se ha creado ninguna categoría.
             </p>
 
             <a
                 href="/incuyo/cyberblog/public/admin/categories/create"
-                class="admin-button"
+                class="categories-primary-button"
             >
                 Crear primera categoría
             </a>
@@ -84,174 +90,230 @@ declare(strict_types=1);
 
     <?php else: ?>
 
-        <div
-            style="
-                overflow-x: auto;
-            "
-        >
+        <!-- =====================================================
+             RESUMEN
+             ===================================================== -->
 
-            <table>
+        <div class="categories-summary-card">
 
-                <thead>
+            <div class="categories-summary-icon" aria-hidden="true">
+                #
+            </div>
 
-                    <tr>
+            <div class="categories-summary-content">
 
-                        <th>
-                            Nombre
-                        </th>
+                <span class="categories-summary-label">
+                    Categorías registradas
+                </span>
 
-                        <th>
-                            Slug
-                        </th>
+                <strong class="categories-summary-value">
+                    <?= (int) count($categories) ?>
+                </strong>
 
-                        <th>
-                            Artículos
-                        </th>
+            </div>
 
-                        <th>
-                            Descripción
-                        </th>
-
-                        <th>
-                            Acciones
-                        </th>
-
-                    </tr>
-
-                </thead>
+        </div>
 
 
-                <tbody>
+        <!-- =====================================================
+             TABLA DE CATEGORÍAS
+             ===================================================== -->
 
-                    <?php foreach (
-                        $categories
-                        as $category
-                    ): ?>
+        <div class="categories-table-card">
+
+            <div class="categories-table-header">
+
+                <div>
+
+                    <h3 class="categories-table-title">
+                        Listado de categorías
+                    </h3>
+
+                    <p class="categories-table-description">
+                        Gestioná las categorías asociadas a tus artículos.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="categories-table-wrapper">
+
+                <table class="categories-table">
+
+                    <thead>
 
                         <tr>
 
-                            <td>
+                            <th scope="col">
+                                Nombre
+                            </th>
 
-                                <strong>
-                                    <?= htmlspecialchars(
-                                        $category['nombre'],
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?>
-                                </strong>
+                            <th scope="col">
+                                Slug
+                            </th>
 
-                            </td>
+                            <th scope="col">
+                                Artículos
+                            </th>
 
+                            <th scope="col">
+                                Descripción
+                            </th>
 
-                            <td>
-
-                                <code>
-                                    <?= htmlspecialchars(
-                                        $category['slug'],
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?>
-                                </code>
-
-                            </td>
-
-
-                            <td>
-
-                                <?= (int) $category[
-                                    'total_articulos'
-                                ] ?>
-
-                            </td>
-
-
-                            <td>
-
-                                <?php if (
-                                    !empty(
-                                        $category['descripcion']
-                                    )
-                                ): ?>
-
-                                    <?= htmlspecialchars(
-                                        $category['descripcion'],
-                                        ENT_QUOTES,
-                                        'UTF-8'
-                                    ) ?>
-
-                                <?php else: ?>
-
-                                    <span
-                                        style="
-                                            color: var(--admin-text-muted);
-                                        "
-                                    >
-                                        Sin descripción
-                                    </span>
-
-                                <?php endif; ?>
-
-                            </td>
-
-
-                            <td>
-
-                                <div
-                                    style="
-                                        display: flex;
-                                        flex-wrap: wrap;
-                                        gap: 8px;
-                                    "
-                                >
-
-                                    <a
-                                        href="/incuyo/cyberblog/public/admin/categories/edit/<?= (int) $category['id'] ?>"
-                                        class="admin-button"
-                                    >
-                                        Editar
-                                    </a>
-
-
-                                    <form
-                                        method="POST"
-                                        action="/incuyo/cyberblog/public/admin/categories/delete/<?= (int) $category['id'] ?>"
-                                        style="
-                                            margin: 0;
-                                        "
-                                        onsubmit="return confirm(
-                                            '¿Seguro que deseas eliminar esta categoría?'
-                                        );"
-                                    >
-
-                                        <input
-                                            type="hidden"
-                                            name="csrf_token"
-                                            value="<?= htmlspecialchars(
-                                                $csrfToken,
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ) ?>"
-                                        >
-
-                                        <button
-                                            type="submit"
-                                        >
-                                            Eliminar
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
+                            <th scope="col">
+                                Acciones
+                            </th>
 
                         </tr>
 
-                    <?php endforeach; ?>
+                    </thead>
 
-                </tbody>
 
-            </table>
+                    <tbody>
+
+                        <?php foreach ($categories as $category): ?>
+
+                            <tr>
+
+                                <!-- Nombre -->
+
+                                <td>
+
+                                    <div class="categories-name-cell">
+
+                                        <span class="categories-name-indicator"></span>
+
+                                        <strong class="categories-name">
+                                            <?= htmlspecialchars(
+                                                (string) $category['nombre'],
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>
+                                        </strong>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Slug -->
+
+                                <td>
+
+                                    <code class="categories-slug">
+                                        <?= htmlspecialchars(
+                                            (string) $category['slug'],
+                                            ENT_QUOTES,
+                                            'UTF-8'
+                                        ) ?>
+                                    </code>
+
+                                </td>
+
+
+                                <!-- Cantidad de artículos -->
+
+                                <td>
+
+                                    <span class="categories-article-count">
+
+                                        <?= (int) $category['total_articulos'] ?>
+
+                                        <span class="categories-article-count-label">
+                                            <?= (int) $category['total_articulos'] === 1
+                                                ? 'artículo'
+                                                : 'artículos' ?>
+                                        </span>
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Descripción -->
+
+                                <td>
+
+                                    <?php if (!empty($category['descripcion'])): ?>
+
+                                        <span class="categories-description">
+
+                                            <?= htmlspecialchars(
+                                                (string) $category['descripcion'],
+                                                ENT_QUOTES,
+                                                'UTF-8'
+                                            ) ?>
+
+                                        </span>
+
+                                    <?php else: ?>
+
+                                        <span class="categories-no-description">
+                                            Sin descripción
+                                        </span>
+
+                                    <?php endif; ?>
+
+                                </td>
+
+
+                                <!-- Acciones -->
+
+                                <td>
+
+                                    <div class="categories-actions">
+
+                                        <a
+                                            href="/incuyo/cyberblog/public/admin/categories/edit/<?= (int) $category['id'] ?>"
+                                            class="categories-edit-button"
+                                        >
+                                            Editar
+                                        </a>
+
+
+                                        <form
+                                            method="POST"
+                                            action="/incuyo/cyberblog/public/admin/categories/delete/<?= (int) $category['id'] ?>"
+                                            class="categories-delete-form"
+                                            onsubmit="return confirm(
+                                                '¿Seguro que deseas eliminar esta categoría?'
+                                            );"
+                                        >
+
+                                            <input
+                                                type="hidden"
+                                                name="csrf_token"
+                                                value="<?= htmlspecialchars(
+                                                    (string) $csrfToken,
+                                                    ENT_QUOTES,
+                                                    'UTF-8'
+                                                ) ?>"
+                                            >
+
+                                            <button
+                                                type="submit"
+                                                class="categories-delete-button"
+                                            >
+                                                Eliminar
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
 

@@ -1,0 +1,690 @@
+/* =========================================================
+   ADMINISTRACIÓN DE CATEGORÍAS
+   ========================================================= */
+
+/*
+|--------------------------------------------------------------------------
+| Contenedor principal
+|--------------------------------------------------------------------------
+*/
+
+.categories-admin-page {
+    width: 100%;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Encabezado
+|--------------------------------------------------------------------------
+*/
+
+.categories-page-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+
+    width: 100%;
+    margin-bottom: 32px;
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.categories-page-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.categories-section-label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--admin-primary);
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.categories-page-title {
+    margin: 0 0 10px;
+
+    color: var(--admin-text);
+
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.categories-page-description {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: var(--admin-text-muted);
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Botón principal
+|--------------------------------------------------------------------------
+*/
+
+.categories-primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    flex: 0 0 auto;
+
+    min-height: 44px;
+    margin: 0;
+    padding: 0 20px;
+
+    border: 1px solid var(--admin-primary);
+    border-radius: 8px;
+
+    background: var(--admin-primary);
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.1s ease,
+        box-shadow 0.2s ease;
+}
+
+.categories-primary-button:hover {
+    background: var(--admin-primary-hover);
+    border-color: var(--admin-primary-hover);
+    color: #ffffff;
+    text-decoration: none;
+
+    box-shadow:
+        0 4px 12px
+        rgba(16, 185, 129, 0.18);
+}
+
+.categories-primary-button:active {
+    transform: translateY(1px);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Tarjeta de resumen
+|--------------------------------------------------------------------------
+*/
+
+.categories-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 20px 24px;
+
+    background: var(--admin-card);
+
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+
+    box-shadow: var(--admin-shadow);
+}
+
+.categories-summary-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+
+    flex: 0 0 48px;
+
+    border-radius: 12px;
+
+    background: rgba(16, 185, 129, 0.10);
+    color: var(--admin-primary);
+
+    font-family: Consolas, Monaco, monospace;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.categories-summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.categories-summary-label {
+    color: var(--admin-text-muted);
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.categories-summary-value {
+    color: var(--admin-text);
+
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Tarjeta de tabla
+|--------------------------------------------------------------------------
+*/
+
+.categories-table-card {
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--admin-card);
+
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+
+    box-shadow: var(--admin-shadow);
+}
+
+.categories-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 24px 28px;
+
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.categories-table-title {
+    margin: 0 0 6px;
+
+    color: var(--admin-text);
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.categories-table-description {
+    margin: 0;
+
+    color: var(--admin-text-muted);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Tabla
+|--------------------------------------------------------------------------
+*/
+
+.categories-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+.categories-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    background: #ffffff;
+}
+
+.categories-table thead th {
+    padding: 16px 24px;
+
+    background: #f8fafc;
+    color: #64748b;
+
+    border-bottom: 1px solid var(--admin-border);
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.categories-table tbody td {
+    padding: 20px 24px;
+
+    border-bottom: 1px solid #edf0f2;
+
+    color: var(--admin-text);
+
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.categories-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.categories-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.categories-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Nombre
+|--------------------------------------------------------------------------
+*/
+
+.categories-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.categories-name-indicator {
+    width: 8px;
+    height: 8px;
+
+    flex: 0 0 8px;
+
+    border-radius: 50%;
+
+    background: var(--admin-primary);
+}
+
+.categories-name {
+    color: var(--admin-text);
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Slug
+|--------------------------------------------------------------------------
+*/
+
+.categories-slug {
+    display: inline-block;
+
+    padding: 5px 8px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+
+    background: #f8fafc;
+    color: #475569;
+
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Cantidad de artículos
+|--------------------------------------------------------------------------
+*/
+
+.categories-article-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(16, 185, 129, 0.10);
+    color: #047857;
+
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.categories-article-count-label {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Descripción
+|--------------------------------------------------------------------------
+*/
+
+.categories-description {
+    display: block;
+
+    max-width: 420px;
+
+    color: #475569;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.categories-no-description {
+    color: var(--admin-text-muted);
+
+    font-size: 13px;
+    font-style: italic;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Acciones
+|--------------------------------------------------------------------------
+*/
+
+.categories-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Formulario de eliminación
+|--------------------------------------------------------------------------
+|
+| El formulario no debe modificar el tamaño del botón.
+|
+*/
+
+.categories-delete-form {
+    display: inline-flex;
+    align-items: center;
+
+    width: 82px;
+    min-width: 82px;
+    max-width: 82px;
+
+    height: 36px;
+    min-height: 36px;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Botones Editar y Eliminar
+|--------------------------------------------------------------------------
+|
+| Se fuerzan las mismas dimensiones para evitar que los estilos
+| globales de admin.css alteren el botón Eliminar.
+|
+*/
+
+.categories-edit-button,
+.categories-delete-button,
+.categories-delete-form .categories-delete-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 82px !important;
+    min-width: 82px !important;
+    max-width: 82px !important;
+
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+
+    margin: 0 !important;
+    padding: 0 10px !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 7px !important;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Botón Editar
+|--------------------------------------------------------------------------
+*/
+
+.categories-edit-button {
+    border: 1px solid var(--admin-primary) !important;
+
+    background: var(--admin-primary) !important;
+    color: #ffffff !important;
+}
+
+.categories-edit-button:hover {
+    border-color: var(--admin-primary-hover) !important;
+
+    background: var(--admin-primary-hover) !important;
+    color: #ffffff !important;
+
+    text-decoration: none;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Botón Eliminar
+|--------------------------------------------------------------------------
+*/
+
+.categories-delete-button,
+.categories-delete-form .categories-delete-button {
+    border: 1px solid #fecaca !important;
+
+    background: #fff1f2 !important;
+    color: #be123c !important;
+}
+
+.categories-delete-button:hover,
+.categories-delete-form .categories-delete-button:hover {
+    border-color: #fda4af !important;
+
+    background: #ffe4e6 !important;
+    color: #9f1239 !important;
+}
+
+.categories-edit-button:active,
+.categories-delete-button:active {
+    transform: translateY(1px);
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Estado vacío
+|--------------------------------------------------------------------------
+*/
+
+.categories-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 360px;
+
+    padding: 50px 32px;
+
+    background: var(--admin-card);
+
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+
+    text-align: center;
+
+    box-shadow: var(--admin-shadow);
+}
+
+.categories-empty-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+
+    margin-bottom: 20px;
+
+    border-radius: 14px;
+
+    background: rgba(16, 185, 129, 0.10);
+    color: var(--admin-primary);
+
+    font-family: Consolas, Monaco, monospace;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.categories-empty-title {
+    margin: 0 0 10px;
+
+    color: var(--admin-text);
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.categories-empty-description {
+    max-width: 500px;
+
+    margin: 0 0 24px;
+
+    color: var(--admin-text-muted);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Responsive
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 900px) {
+
+    .categories-page-header {
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 20px;
+    }
+
+    .categories-primary-button {
+        align-self: flex-start;
+    }
+
+    .categories-table-header {
+        padding: 22px 24px;
+    }
+
+    .categories-table thead th,
+    .categories-table tbody td {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .categories-page-header {
+        margin-bottom: 24px;
+        padding-bottom: 22px;
+    }
+
+    .categories-page-title {
+        font-size: 26px;
+    }
+
+    .categories-page-description {
+        font-size: 14px;
+    }
+
+    .categories-primary-button {
+        width: 100%;
+    }
+
+    .categories-summary-card {
+        padding: 18px 20px;
+    }
+
+    .categories-table-header {
+        padding: 20px;
+    }
+
+    .categories-empty-state {
+        min-height: 300px;
+        padding: 40px 20px;
+    }
+
+    .categories-empty-title {
+        font-size: 20px;
+    }
+
+}
