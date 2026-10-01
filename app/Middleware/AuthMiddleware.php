@@ -16,7 +16,7 @@ class AuthMiddleware
 
             // Si no existe, el usuario no está autenticado.
             // Lo enviamos al formulario de login.
-            header('Location: /incuyo/cyberblog/public/login');
+            header('Location: /login');
 
             // Detenemos la ejecución.
             exit;

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 return [
 
-    'host' => 'localhost',
+    'host' => getenv('MYSQL_HOST') ?: 'mysql',
 
-    'dbname' => 'cyberblog',
+    'dbname' => getenv('MYSQL_DATABASE') ?: 'cyberblog',
 
-    'username' => 'root',
+    'username' => getenv('MYSQL_USER') ?: 'cyberblog_app',
 
-    'password' => '',
+    'password' => getenv('MYSQL_PASSWORD') ?: '',
 
     'charset' => 'utf8mb4',
 

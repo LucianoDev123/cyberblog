@@ -40,7 +40,7 @@ declare(strict_types=1);
 
 
         <a
-            href="/incuyo/cyberblog/public/admin/articles"
+            href="/admin/articles"
             class="admin-button admin-button-secondary"
         >
 
@@ -56,7 +56,7 @@ declare(strict_types=1);
     <!-- ========================================= -->
 
     <form
-        action="/incuyo/cyberblog/public/admin/articles/update/<?= (int) $article['id'] ?>"
+        action="/admin/articles/update/<?= (int) $article['id'] ?>"
         method="POST"
         enctype="multipart/form-data"
         class="article-form"
@@ -529,7 +529,7 @@ declare(strict_types=1);
                         </p>
 
                         <img
-                            src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
+                            src="/uploads/articles/<?= htmlspecialchars(
                                 $article['imagen'],
                                 ENT_QUOTES,
                                 'UTF-8'
@@ -737,7 +737,7 @@ declare(strict_types=1);
         <div class="admin-form-actions">
 
             <a
-                href="/incuyo/cyberblog/public/admin/articles"
+                href="/admin/articles"
                 class="admin-button admin-button-secondary"
             >
                 Cancelar
@@ -760,7 +760,7 @@ declare(strict_types=1);
 
 
 <script
-    src="/incuyo/cyberblog/public/assets/js/editor.js"
+    src="/assets/js/editor.js"
 ></script>
 
 <script>

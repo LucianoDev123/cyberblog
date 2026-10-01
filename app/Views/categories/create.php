@@ -16,7 +16,7 @@ $oldInput =
     >
 
         <a
-            href="/incuyo/cyberblog/public/admin/categories"
+            href="/admin/categories"
             style="
                 color: var(--admin-primary);
                 font-size: 14px;
@@ -61,7 +61,7 @@ $oldInput =
 
         <form
             method="POST"
-            action="/incuyo/cyberblog/public/admin/categories"
+            action="/admin/categories"
         >
 
             <input
@@ -146,7 +146,7 @@ $oldInput =
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/categories"
+                    href="/admin/categories"
                     style="
                         color: var(--admin-text-muted);
                         font-size: 14px;

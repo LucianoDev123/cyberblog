@@ -139,7 +139,7 @@ class CategoryController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/categories/create'
+                'Location: /admin/categories/create'
             );
 
             exit;
@@ -161,7 +161,7 @@ class CategoryController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/categories/create'
+                'Location: /admin/categories/create'
             );
 
             exit;
@@ -215,7 +215,7 @@ class CategoryController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/categories/create'
+                'Location: /admin/categories/create'
             );
 
             exit;
@@ -228,7 +228,7 @@ class CategoryController extends Controller
         );
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/categories'
+            'Location: /admin/categories'
         );
 
         exit;
@@ -350,7 +350,7 @@ class CategoryController extends Controller
             );
 
             header(
-                "Location: /incuyo/cyberblog/public/admin/categories/edit/{$id}"
+                "Location: /admin/categories/edit/{$id}"
             );
 
             exit;
@@ -372,7 +372,7 @@ class CategoryController extends Controller
             );
 
             header(
-                "Location: /incuyo/cyberblog/public/admin/categories/edit/{$id}"
+                "Location: /admin/categories/edit/{$id}"
             );
 
             exit;
@@ -431,7 +431,7 @@ class CategoryController extends Controller
             );
 
             header(
-                "Location: /incuyo/cyberblog/public/admin/categories/edit/{$id}"
+                "Location: /admin/categories/edit/{$id}"
             );
 
             exit;
@@ -444,7 +444,7 @@ class CategoryController extends Controller
         );
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/categories'
+            'Location: /admin/categories'
         );
 
         exit;
@@ -518,7 +518,7 @@ class CategoryController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/categories'
+                'Location: /admin/categories'
             );
 
             exit;
@@ -543,7 +543,7 @@ class CategoryController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/categories'
+                'Location: /admin/categories'
             );
 
             exit;
@@ -556,7 +556,7 @@ class CategoryController extends Controller
         );
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/categories'
+            'Location: /admin/categories'
         );
 
         exit;

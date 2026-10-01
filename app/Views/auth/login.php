@@ -31,7 +31,7 @@ declare(strict_types=1);
 
         <form
             class="login-form"
-            action="/incuyo/cyberblog/public/login"
+            action="/login"
             method="POST"
         >
 
@@ -106,7 +106,7 @@ declare(strict_types=1);
         <div class="login-footer">
 
             <a
-                href="/incuyo/cyberblog/public/"
+                href="/"
                 class="back-to-site"
             >
                 ← Volver al sitio

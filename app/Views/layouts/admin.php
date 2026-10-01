@@ -24,7 +24,7 @@
     -->
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/style.css"
+        href="/assets/css/style.css"
     >
 
 
@@ -33,7 +33,7 @@
     -->
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/admin.css"
+        href="/assets/css/admin.css"
     >
 
 
@@ -44,7 +44,7 @@
         -->
         <link
             rel="stylesheet"
-            href="/incuyo/cyberblog/public/assets/css/<?= htmlspecialchars(
+            href="/assets/css/<?= htmlspecialchars(
                 $adminModule,
                 ENT_QUOTES,
                 'UTF-8'
@@ -66,7 +66,7 @@
             <div class="admin-logo">
 
                 <a
-                    href="/incuyo/cyberblog/public/admin"
+                    href="/admin"
                     class="admin-logo-link"
                 >
 
@@ -91,7 +91,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin"
+                    href="/admin"
                     class="admin-nav-link"
                 >
 
@@ -107,7 +107,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/articles"
+                    href="/admin/articles"
                     class="admin-nav-link"
                 >
 
@@ -123,7 +123,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/series"
+                    href="/admin/series"
                     class="admin-nav-link"
                 >
 
@@ -139,7 +139,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/categories"
+                    href="/admin/categories"
                     class="admin-nav-link"
                 >
 
@@ -155,7 +155,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/users"
+                    href="/admin/users"
                     class="admin-nav-link"
                 >
 
@@ -179,7 +179,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/"
+                    href="/"
                     class="admin-nav-link"
                 >
 
@@ -195,7 +195,7 @@
 
 
                 <a
-                    href="/incuyo/cyberblog/public/logout"
+                    href="/logout"
                     class="admin-nav-link admin-nav-logout"
                 >
 
@@ -248,7 +248,7 @@
                 <div class="admin-header-right">
 
                     <a
-                        href="/incuyo/cyberblog/public/"
+                        href="/"
                         class="admin-header-link"
                         title="Ver Blog"
                     >
@@ -257,7 +257,7 @@
 
 
                     <a
-                        href="/incuyo/cyberblog/public/logout"
+                        href="/logout"
                         class="admin-header-link admin-header-logout"
                         title="Cerrar sesión"
                     >
@@ -335,7 +335,7 @@
 
 
     <script
-        src="/incuyo/cyberblog/public/assets/js/editor.js"
+        src="/assets/js/editor.js"
     ></script>
 
 </body>

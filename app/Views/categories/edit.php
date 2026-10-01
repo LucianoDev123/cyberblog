@@ -26,7 +26,7 @@ $descripcion =
     >
 
         <a
-            href="/incuyo/cyberblog/public/admin/categories"
+            href="/admin/categories"
             style="
                 color: var(--admin-primary);
                 font-size: 14px;
@@ -70,7 +70,7 @@ $descripcion =
 
         <form
             method="POST"
-            action="/incuyo/cyberblog/public/admin/categories/update/<?= (int) $category['id'] ?>"
+            action="/admin/categories/update/<?= (int) $category['id'] ?>"
         >
 
             <input
@@ -155,7 +155,7 @@ $descripcion =
 
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/categories"
+                    href="/admin/categories"
                     style="
                         color: var(--admin-text-muted);
                         font-size: 14px;

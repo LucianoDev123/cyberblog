@@ -1,0 +1,45 @@
+FROM php:8.3-apache
+
+# Dependencia necesaria para compilar la extensión curl
+RUN apt-get update \
+    && apt-get install -y \
+        libcurl4-openssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Extensiones PHP utilizadas por CyberBlog
+RUN docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    curl
+
+# Habilitar mod_rewrite
+RUN a2enmod rewrite
+
+# Copiar Composer desde la imagen oficial
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /var/www/html
+
+# Copiar CyberBlog
+COPY . /var/www/html
+
+# Instalar dependencias de Composer y generar vendor/autoload.php
+RUN composer install \
+    --no-interaction \
+    --no-dev \
+    --optimize-autoloader
+
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+RUN sed -ri \
+    -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' \
+    /etc/apache2/sites-available/000-default.conf \
+    /etc/apache2/apache2.conf
+
+RUN sed -ri \
+    -e 's!AllowOverride None!AllowOverride All!g' \
+    /etc/apache2/apache2.conf
+
+RUN chown -R www-data:www-data /var/www/html
+
+EXPOSE 80

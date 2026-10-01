@@ -32,7 +32,7 @@ declare(strict_types=1);
 
 
 <form
-    action="/incuyo/cyberblog/public/admin/users/update/<?= (int) $user['id'] ?>"
+    action="/admin/users/update/<?= (int) $user['id'] ?>"
     method="POST"
 >
 

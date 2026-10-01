@@ -30,7 +30,7 @@ declare(strict_types=1);
         </div>
 
         <a
-            href="/incuyo/cyberblog/public/admin/articles/create"
+            href="/admin/articles/create"
             class="admin-button articles-create-button"
         >
             <span aria-hidden="true">
@@ -196,7 +196,7 @@ declare(strict_types=1);
                                     <!-- EDITAR -->
 
                                     <a
-                                        href="/incuyo/cyberblog/public/admin/articles/edit/<?= (int) $article['id'] ?>"
+                                        href="/admin/articles/edit/<?= (int) $article['id'] ?>"
                                         class="articles-action-edit"
                                     >
                                         Editar
@@ -210,7 +210,7 @@ declare(strict_types=1);
                                         <!-- ELIMINAR -->
 
                                         <form
-                                            action="/incuyo/cyberblog/public/admin/articles/delete/<?= (int) $article['id'] ?>"
+                                            action="/admin/articles/delete/<?= (int) $article['id'] ?>"
                                             method="POST"
                                             onsubmit="return confirm('¿Estás seguro de que quieres eliminar este artículo?');"
                                         >
@@ -288,7 +288,7 @@ declare(strict_types=1);
                 ): ?>
 
                     <a
-                        href="/incuyo/cyberblog/public/admin/articles?page=<?= $pagination->getPreviousPage() ?>"
+                        href="/admin/articles?page=<?= $pagination->getPreviousPage() ?>"
                         class="admin-button admin-pagination-link"
                     >
                         ← Anterior
@@ -317,7 +317,7 @@ declare(strict_types=1);
                     <?php else: ?>
 
                         <a
-                            href="/incuyo/cyberblog/public/admin/articles?page=<?= $page ?>"
+                            href="/admin/articles?page=<?= $page ?>"
                             class="admin-button admin-pagination-link"
                         >
                             <?= $page ?>
@@ -333,7 +333,7 @@ declare(strict_types=1);
                 ): ?>
 
                     <a
-                        href="/incuyo/cyberblog/public/admin/articles?page=<?= $pagination->getNextPage() ?>"
+                        href="/admin/articles?page=<?= $pagination->getNextPage() ?>"
                         class="admin-button admin-pagination-link"
                     >
                         Siguiente →

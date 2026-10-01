@@ -13,7 +13,7 @@ declare(strict_types=1);
         <!-- ===================================================== -->
 
         <a
-            href="/incuyo/cyberblog/public/blog"
+            href="/blog"
             class="back-link"
         >
 
@@ -37,7 +37,7 @@ declare(strict_types=1);
             <?php if (!empty($article['categoria'])): ?>
 
                 <a
-                    href="/incuyo/cyberblog/public/category/<?= htmlspecialchars(
+                    href="/category/<?= htmlspecialchars(
                         $article['categoria_slug'] ?? '',
                         ENT_QUOTES,
                         'UTF-8'
@@ -148,7 +148,7 @@ declare(strict_types=1);
                     </span>
 
                     <a
-                        href="/incuyo/cyberblog/public/series/<?= htmlspecialchars(
+                        href="/series/<?= htmlspecialchars(
                             $article['serie_slug'],
                             ENT_QUOTES,
                             'UTF-8'
@@ -180,7 +180,7 @@ declare(strict_types=1);
             <figure class="article-featured-image">
 
                 <img
-                    src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
+                    src="/uploads/articles/<?= htmlspecialchars(
                         $article['imagen'],
                         ENT_QUOTES,
                         'UTF-8'
@@ -264,7 +264,7 @@ declare(strict_types=1);
 
 
                     <a
-                        href="/incuyo/cyberblog/public/series/<?= htmlspecialchars(
+                        href="/series/<?= htmlspecialchars(
                             $seriesNavigation['serie']['slug'],
                             ENT_QUOTES,
                             'UTF-8'
@@ -318,7 +318,7 @@ declare(strict_types=1);
                     ): ?>
 
                         <a
-                            href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                            href="/blog/<?= htmlspecialchars(
                                 $seriesNavigation['previous']['slug'],
                                 ENT_QUOTES,
                                 'UTF-8'
@@ -359,7 +359,7 @@ declare(strict_types=1);
                     ): ?>
 
                         <a
-                            href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                            href="/blog/<?= htmlspecialchars(
                                 $seriesNavigation['next']['slug'],
                                 ENT_QUOTES,
                                 'UTF-8'
@@ -405,7 +405,7 @@ declare(strict_types=1);
             <?php if (!empty($article['categoria_slug'])): ?>
 
                 <a
-                    href="/incuyo/cyberblog/public/category/<?= htmlspecialchars(
+                    href="/category/<?= htmlspecialchars(
                         $article['categoria_slug'],
                         ENT_QUOTES,
                         'UTF-8'
@@ -429,7 +429,7 @@ declare(strict_types=1);
             <?php else: ?>
 
                 <a
-                    href="/incuyo/cyberblog/public/blog"
+                    href="/blog"
                     class="back-link"
                 >
 

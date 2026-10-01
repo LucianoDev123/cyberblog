@@ -39,7 +39,7 @@ $csrfToken = $csrfToken ?? '';
         </div>
 
         <a
-            href="/incuyo/cyberblog/public/admin/users"
+            href="/admin/users"
             class="users-secondary-button"
         >
             ← Volver a usuarios
@@ -113,7 +113,7 @@ $csrfToken = $csrfToken ?? '';
 
 
         <form
-            action="/incuyo/cyberblog/public/admin/users"
+            action="/admin/users"
             method="POST"
             class="users-form"
             id="create-user-form"
@@ -420,7 +420,7 @@ $csrfToken = $csrfToken ?? '';
             <div class="users-form-actions">
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/users"
+                    href="/admin/users"
                     class="users-secondary-button"
                 >
                     Cancelar

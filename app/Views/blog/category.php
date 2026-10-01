@@ -102,14 +102,14 @@ declare(strict_types=1);
                         ): ?>
 
                             <a
-                                href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                                href="/blog/<?= htmlspecialchars(
                                     $article['slug']
                                 ) ?>"
                                 class="article-image-link"
                             >
 
                                 <img
-                                    src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars(
+                                    src="/uploads/articles/<?= htmlspecialchars(
                                         $article['imagen']
                                     ) ?>"
                                     alt="<?= htmlspecialchars(
@@ -146,7 +146,7 @@ declare(strict_types=1);
                             >
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                                    href="/blog/<?= htmlspecialchars(
                                         $article['slug']
                                     ) ?>"
                                 >
@@ -193,7 +193,7 @@ declare(strict_types=1);
 
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                                    href="/blog/<?= htmlspecialchars(
                                         $article['slug']
                                     ) ?>"
                                     class="read-more"
@@ -232,7 +232,7 @@ declare(strict_types=1);
         >
 
             <a
-                href="/incuyo/cyberblog/public/blog"
+                href="/blog"
                 class="back-link"
             >
 

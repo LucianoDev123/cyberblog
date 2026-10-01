@@ -222,7 +222,7 @@ declare(strict_types=1);
             </div>
 
             <a
-                href="/incuyo/cyberblog/public/admin/articles"
+                href="/admin/articles"
                 class="dashboard-section-link"
             >
                 Ver todos
@@ -252,7 +252,7 @@ declare(strict_types=1);
                 </p>
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/articles/create"
+                    href="/admin/articles/create"
                     class="admin-button"
                 >
                     Crear artículo
@@ -427,7 +427,7 @@ declare(strict_types=1);
         <div class="dashboard-actions">
 
             <a
-                href="/incuyo/cyberblog/public/admin/articles/create"
+                href="/admin/articles/create"
                 class="dashboard-action"
             >
 
@@ -455,7 +455,7 @@ declare(strict_types=1);
 
 
             <a
-                href="/incuyo/cyberblog/public/admin/series/create"
+                href="/admin/series/create"
                 class="dashboard-action"
             >
 
@@ -483,7 +483,7 @@ declare(strict_types=1);
 
 
             <a
-                href="/incuyo/cyberblog/public/admin/categories/create"
+                href="/admin/categories/create"
                 class="dashboard-action"
             >
 
@@ -511,7 +511,7 @@ declare(strict_types=1);
 
 
             <a
-                href="/incuyo/cyberblog/public/admin/users"
+                href="/admin/users"
                 class="dashboard-action"
             >
 

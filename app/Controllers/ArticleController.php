@@ -189,7 +189,7 @@ class ArticleController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/articles/create'
+                'Location: /admin/articles/create'
             );
 
             exit;
@@ -214,7 +214,7 @@ class ArticleController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/articles/create'
+                'Location: /admin/articles/create'
             );
 
             exit;
@@ -243,7 +243,7 @@ class ArticleController extends Controller
                 );
 
                 header(
-                    'Location: /incuyo/cyberblog/public/admin/articles/create'
+                    'Location: /admin/articles/create'
                 );
 
                 exit;
@@ -309,7 +309,7 @@ class ArticleController extends Controller
         if ($imageName === false) {
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/articles/create'
+                'Location: /admin/articles/create'
             );
 
             exit;
@@ -376,7 +376,7 @@ class ArticleController extends Controller
 
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/articles'
+            'Location: /admin/articles'
         );
 
         exit;
@@ -496,7 +496,7 @@ class ArticleController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/articles/edit/' . $id
+                'Location: /admin/articles/edit/' . $id
             );
 
             exit;
@@ -522,7 +522,7 @@ class ArticleController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/articles/edit/' . $id
+                'Location: /admin/articles/edit/' . $id
             );
 
             exit;
@@ -551,7 +551,7 @@ class ArticleController extends Controller
                 );
 
                 header(
-                    'Location: /incuyo/cyberblog/public/admin/articles/edit/' . $id
+                    'Location: /admin/articles/edit/' . $id
                 );
 
                 exit;
@@ -661,7 +661,7 @@ class ArticleController extends Controller
             if ($uploadedImage === false) {
 
                 header(
-                    'Location: /incuyo/cyberblog/public/admin/articles/edit/' . $id
+                    'Location: /admin/articles/edit/' . $id
                 );
 
                 exit;
@@ -748,7 +748,7 @@ class ArticleController extends Controller
 
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/articles'
+            'Location: /admin/articles'
         );
 
         exit;
@@ -807,7 +807,7 @@ class ArticleController extends Controller
 
 
         header(
-            'Location: /incuyo/cyberblog/public/admin/articles'
+            'Location: /admin/articles'
         );
 
         exit;

@@ -30,7 +30,7 @@ declare(strict_types=1);
         </div>
 
         <a
-            href="/incuyo/cyberblog/public/admin/articles"
+            href="/admin/articles"
             class="article-create-back"
         >
             <span aria-hidden="true">
@@ -48,7 +48,7 @@ declare(strict_types=1);
     <!-- ========================================= -->
 
     <form
-        action="/incuyo/cyberblog/public/admin/articles"
+        action="/admin/articles"
         method="POST"
         enctype="multipart/form-data"
         class="article-create-form"
@@ -660,7 +660,7 @@ declare(strict_types=1);
         <div class="article-form-actions">
 
             <a
-                href="/incuyo/cyberblog/public/admin/articles"
+                href="/admin/articles"
                 class="article-form-cancel"
             >
                 Cancelar
@@ -686,7 +686,7 @@ declare(strict_types=1);
 
 <link
     rel="stylesheet"
-    href="/incuyo/cyberblog/public/assets/css/article-create.css"
+    href="/assets/css/article-create.css"
 >
 
 

@@ -61,14 +61,14 @@ declare(strict_types=1);
                         ): ?>
 
                             <a
-                                href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                 class="article-image-link"
                             >
 
                                 <div class="article-image-wrapper">
 
                                     <img
-                                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
+                                        src="/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
                                         alt="<?= htmlspecialchars($article['titulo']) ?>"
                                         class="article-image"
                                         loading="lazy"
@@ -86,7 +86,7 @@ declare(strict_types=1);
                             <div class="article-card-top">
 
                                 <a
-                                    href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug']) ?>"
+                                    href="/category/<?= htmlspecialchars($article['categoria_slug']) ?>"
                                     class="article-category"
                                 >
                                     <?= htmlspecialchars($article['categoria']) ?>
@@ -98,7 +98,7 @@ declare(strict_types=1);
                             <h2 class="article-title">
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                    href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                 >
                                     <?= htmlspecialchars($article['titulo']) ?>
                                 </a>
@@ -127,7 +127,7 @@ declare(strict_types=1);
 
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                    href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                     class="read-more"
                                 >
                                     Leer artículo

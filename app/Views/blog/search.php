@@ -22,7 +22,7 @@
 
 
         <form
-            action="/incuyo/cyberblog/public/blog/search"
+            action="/blog/search"
             method="GET"
             class="blog-search-form"
         >
@@ -89,12 +89,12 @@
                             <?php if (!empty($article['imagen'])): ?>
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                    href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                     class="article-card-image"
                                 >
 
                                     <img
-                                        src="/incuyo/cyberblog/public/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
+                                        src="/uploads/articles/<?= htmlspecialchars($article['imagen']) ?>"
                                         alt="<?= htmlspecialchars($article['titulo']) ?>"
                                     >
 
@@ -108,7 +108,7 @@
                                 <div class="article-card-top">
 
                                     <a
-                                        href="/incuyo/cyberblog/public/category/<?= htmlspecialchars($article['categoria_slug']) ?>"
+                                        href="/category/<?= htmlspecialchars($article['categoria_slug']) ?>"
                                         class="article-category"
                                     >
                                         <?= htmlspecialchars($article['categoria']) ?>
@@ -120,7 +120,7 @@
                                 <h2 class="article-title">
 
                                     <a
-                                        href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                        href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                     >
                                         <?= htmlspecialchars($article['titulo']) ?>
                                     </a>
@@ -149,7 +149,7 @@
 
 
                                     <a
-                                        href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars($article['slug']) ?>"
+                                        href="/blog/<?= htmlspecialchars($article['slug']) ?>"
                                         class="read-more"
                                     >
 

@@ -64,7 +64,7 @@ class AuthController extends Controller
         $_SESSION['usuario_rol'] = $user['rol'];
 
         // Redirigimos al usuario al panel de administración.
-        header('Location: /incuyo/cyberblog/public/admin');
+        header('Location: /admin');
 
         // Detenemos la ejecución después de la redirección.
         exit;
@@ -84,7 +84,7 @@ class AuthController extends Controller
         session_destroy();
 
         // Redirigimos al usuario al formulario de login.
-        header('Location: /incuyo/cyberblog/public/login');
+        header('Location: /login');
 
         // Detenemos la ejecución después de la redirección.
         exit;

@@ -46,7 +46,7 @@ declare(strict_types=1);
         </div>
 
         <a
-            href="/incuyo/cyberblog/public/admin/categories/create"
+            href="/admin/categories/create"
             class="categories-primary-button"
         >
             <span aria-hidden="true">+</span>
@@ -80,7 +80,7 @@ declare(strict_types=1);
             </p>
 
             <a
-                href="/incuyo/cyberblog/public/admin/categories/create"
+                href="/admin/categories/create"
                 class="categories-primary-button"
             >
                 Crear primera categoría
@@ -266,7 +266,7 @@ declare(strict_types=1);
                                     <div class="categories-actions">
 
                                         <a
-                                            href="/incuyo/cyberblog/public/admin/categories/edit/<?= (int) $category['id'] ?>"
+                                            href="/admin/categories/edit/<?= (int) $category['id'] ?>"
                                             class="categories-edit-button"
                                         >
                                             Editar
@@ -275,7 +275,7 @@ declare(strict_types=1);
 
                                         <form
                                             method="POST"
-                                            action="/incuyo/cyberblog/public/admin/categories/delete/<?= (int) $category['id'] ?>"
+                                            action="/admin/categories/delete/<?= (int) $category['id'] ?>"
                                             class="categories-delete-form"
                                             onsubmit="return confirm(
                                                 '¿Seguro que deseas eliminar esta categoría?'

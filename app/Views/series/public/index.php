@@ -57,7 +57,7 @@ declare(strict_types=1);
                             <div class="series-card-image">
 
                                 <img
-                                    src="/incuyo/cyberblog/public/uploads/series/<?= htmlspecialchars(
+                                    src="/uploads/series/<?= htmlspecialchars(
                                         $serie['imagen'],
                                         ENT_QUOTES,
                                         'UTF-8'
@@ -112,7 +112,7 @@ declare(strict_types=1);
                             </p>
 
                             <a
-                                href="/incuyo/cyberblog/public/series/<?= htmlspecialchars(
+                                href="/series/<?= htmlspecialchars(
                                     $serie['slug'],
                                     ENT_QUOTES,
                                     'UTF-8'

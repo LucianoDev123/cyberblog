@@ -358,7 +358,7 @@ class SeriesController extends Controller
 
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/series/create'
+                'Location: /admin/series/create'
             );
 
 
@@ -456,7 +456,7 @@ class SeriesController extends Controller
 
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/series/create'
+                'Location: /admin/series/create'
             );
 
 
@@ -478,7 +478,7 @@ class SeriesController extends Controller
          * Redirigimos al listado administrativo.
          */
         header(
-            'Location: /incuyo/cyberblog/public/admin/series'
+            'Location: /admin/series'
         );
 
 
@@ -622,7 +622,7 @@ class SeriesController extends Controller
 
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/series/edit/' . $id
+                'Location: /admin/series/edit/' . $id
             );
 
 
@@ -719,7 +719,7 @@ class SeriesController extends Controller
 
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/series/edit/' . $id
+                'Location: /admin/series/edit/' . $id
             );
 
 
@@ -740,7 +740,7 @@ class SeriesController extends Controller
          * Volvemos al listado.
          */
         header(
-            'Location: /incuyo/cyberblog/public/admin/series'
+            'Location: /admin/series'
         );
 
 
@@ -817,7 +817,7 @@ class SeriesController extends Controller
 
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/series'
+                'Location: /admin/series'
             );
 
 
@@ -838,7 +838,7 @@ class SeriesController extends Controller
          * Redirección.
          */
         header(
-            'Location: /incuyo/cyberblog/public/admin/series'
+            'Location: /admin/series'
         );
 
 

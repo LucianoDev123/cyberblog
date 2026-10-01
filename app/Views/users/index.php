@@ -53,7 +53,7 @@ $totalPages = $pagination
 
         <!-- Acción principal para crear un nuevo usuario. -->
         <a
-            href="/incuyo/cyberblog/public/admin/users/create"
+            href="/admin/users/create"
             class="users-primary-button"
         >
             <span aria-hidden="true">+</span>
@@ -125,7 +125,7 @@ $totalPages = $pagination
                 </p>
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/users/create"
+                    href="/admin/users/create"
                     class="users-primary-button"
                 >
                     Crear primer usuario
@@ -332,7 +332,7 @@ $totalPages = $pagination
 
                                         <!-- Enlace para editar el usuario. -->
                                         <a
-                                            href="/incuyo/cyberblog/public/admin/users/edit/<?= $userId ?>"
+                                            href="/admin/users/edit/<?= $userId ?>"
                                             class="users-action-button users-edit-button"
                                             title="Editar usuario"
                                         >
@@ -346,7 +346,7 @@ $totalPages = $pagination
                                          -->
                                         <form
                                             method="POST"
-                                            action="/incuyo/cyberblog/public/admin/users/delete/<?= $userId ?>"
+                                            action="/admin/users/delete/<?= $userId ?>"
                                             class="users-delete-form"
                                             onsubmit="return confirm('¿Estás seguro de que querés eliminar este usuario? Esta acción no se puede deshacer.');"
                                         >
@@ -409,7 +409,7 @@ $totalPages = $pagination
                         <?php if ($pagination->hasPreviousPage()): ?>
 
                             <a
-                                href="/incuyo/cyberblog/public/admin/users?page=<?= (int) ($currentPage - 1) ?>"
+                                href="/admin/users?page=<?= (int) ($currentPage - 1) ?>"
                                 class="users-pagination-link"
                             >
                                 ← Anterior
@@ -444,7 +444,7 @@ $totalPages = $pagination
                             <?php else: ?>
 
                                 <a
-                                    href="/incuyo/cyberblog/public/admin/users?page=<?= $pageNumber ?>"
+                                    href="/admin/users?page=<?= $pageNumber ?>"
                                     class="users-pagination-link"
                                 >
                                     <?= $pageNumber ?>
@@ -458,7 +458,7 @@ $totalPages = $pagination
                         <?php if ($pagination->hasNextPage()): ?>
 
                             <a
-                                href="/incuyo/cyberblog/public/admin/users?page=<?= (int) ($currentPage + 1) ?>"
+                                href="/admin/users?page=<?= (int) ($currentPage + 1) ?>"
                                 class="users-pagination-link"
                             >
                                 Siguiente →

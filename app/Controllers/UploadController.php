@@ -317,7 +317,7 @@ class UploadController extends Controller
          * dentro del editor.
          */
         $url =
-            '/incuyo/cyberblog/public/uploads/articles/content/'
+            '/uploads/articles/content/'
             . rawurlencode($fileName);
 
 

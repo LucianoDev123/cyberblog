@@ -530,7 +530,7 @@ document.addEventListener(
 
                     const response =
                         await fetch(
-                            '/incuyo/cyberblog/public/admin/upload/image',
+                            '/admin/upload/image',
                             {
 
                                 method:

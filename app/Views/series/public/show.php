@@ -482,7 +482,7 @@ declare(strict_types=1);
                             <h2>
 
                                 <a
-                                    href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                                    href="/blog/<?= htmlspecialchars(
                                         $article['slug'],
                                         ENT_QUOTES,
                                         'UTF-8'
@@ -520,7 +520,7 @@ declare(strict_types=1);
 
 
                             <a
-                                href="/incuyo/cyberblog/public/blog/<?= htmlspecialchars(
+                                href="/blog/<?= htmlspecialchars(
                                     $article['slug'],
                                     ENT_QUOTES,
                                     'UTF-8'
@@ -598,7 +598,7 @@ declare(strict_types=1);
 
 
         <a
-            href="/incuyo/cyberblog/public/series"
+            href="/series"
             class="series-public-back"
         >
 

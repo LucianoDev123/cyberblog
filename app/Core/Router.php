@@ -77,14 +77,19 @@ class Router
 
 
         /*
-         * Obtenemos la URL solicitada.
+         * Obtenemos únicamente la ruta solicitada.
          *
-         * Por ejemplo:
+         * Ejemplo:
          *
-         * /incuyo/cyberblog/public/blog/mi-primer-articulo
+         * /blog/mi-primer-articulo
          *
-         * parse_url(..., PHP_URL_PATH)
-         * se queda solamente con la parte de la ruta.
+         * Si la URL contiene parámetros GET:
+         *
+         * /blog/search?q=wazuh
+         *
+         * parse_url() devuelve únicamente:
+         *
+         * /blog/search
          */
         $requestUri = parse_url(
             $_SERVER['REQUEST_URI'],
@@ -93,39 +98,10 @@ class Router
 
 
         /*
-         * Esta es la carpeta donde está instalado
-         * nuestro proyecto dentro de XAMPP.
+         * Si no existe una ruta válida,
+         * utilizamos la raíz de la aplicación.
          */
-        $basePath = '/incuyo/cyberblog/public';
-
-
-        /*
-         * Si la URL comienza con nuestro basePath,
-         * lo eliminamos.
-         *
-         * Ejemplo:
-         *
-         * /incuyo/cyberblog/public/blog
-         *
-         * se convierte en:
-         *
-         * /blog
-         */
-        if (str_starts_with($requestUri, $basePath)) {
-
-            $requestUri = substr(
-                $requestUri,
-                strlen($basePath)
-            );
-        }
-
-
-        /*
-         * Si después de quitar el basePath
-         * no quedó ninguna ruta,
-         * significa que estamos en la página principal.
-         */
-        if ($requestUri === '') {
+        if ($requestUri === null || $requestUri === '') {
 
             $requestUri = '/';
         }
@@ -148,15 +124,14 @@ class Router
          *
          * Todas serán protegidas.
          */
-        // Comprobamos si la ruta pertenece al BackOffice.
         if (str_starts_with($requestUri, '/admin')) {
 
-        // Primero comprobamos que el usuario haya iniciado sesión.
-        AuthMiddleware::handle();
+            // Primero comprobamos que el usuario haya iniciado sesión.
+            AuthMiddleware::handle();
 
             // Después comprobamos que tenga un rol permitido.
             // Por ahora permitimos administradores y editores.
-        RoleMiddleware::handle(['admin', 'editor']);
+            RoleMiddleware::handle(['admin', 'editor']);
         }
 
 
@@ -176,7 +151,6 @@ class Router
          * para encontrar cuál coincide con la URL.
          */
         foreach ($routes as $route => $action) {
-
 
             /*
              * Convertimos parámetros dinámicos

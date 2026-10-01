@@ -71,7 +71,7 @@ $cssVersion =
 
     <link
         rel="stylesheet"
-        href="/incuyo/cyberblog/public/assets/css/style.css?v=<?= htmlspecialchars(
+        href="/assets/css/style.css?v=<?= htmlspecialchars(
             $cssVersion,
             ENT_QUOTES,
             'UTF-8'
@@ -93,7 +93,7 @@ $cssVersion =
         <!-- ================================================= -->
 
         <a
-            href="/incuyo/cyberblog/public/"
+            href="/"
             class="brand"
         >
 
@@ -124,7 +124,7 @@ $cssVersion =
             <!-- Inicio -->
 
             <a
-                href="/incuyo/cyberblog/public/"
+                href="/"
                 class="nav-link"
             >
 
@@ -136,7 +136,7 @@ $cssVersion =
             <!-- Blog -->
 
             <a
-                href="/incuyo/cyberblog/public/blog"
+                href="/blog"
                 class="nav-link"
             >
 
@@ -148,7 +148,7 @@ $cssVersion =
             <!-- Series -->
 
             <a
-                href="/incuyo/cyberblog/public/series"
+                href="/series"
                 class="nav-link"
             >
 
@@ -166,7 +166,7 @@ $cssVersion =
             -->
 
             <a
-                href="/incuyo/cyberblog/public/blog/search"
+                href="/blog/search"
                 class="nav-link nav-link-search"
             >
 
@@ -185,7 +185,7 @@ $cssVersion =
             <!-- Panel administrativo -->
 
             <a
-                href="/incuyo/cyberblog/public/admin"
+                href="/admin"
                 class="nav-link nav-link-admin"
             >
 

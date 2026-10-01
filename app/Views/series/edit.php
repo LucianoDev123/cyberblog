@@ -34,7 +34,7 @@ declare(strict_types=1);
 
 
         <a
-            href="/incuyo/cyberblog/public/admin/series"
+            href="/admin/series"
             class="admin-button admin-button-secondary"
         >
 
@@ -76,7 +76,7 @@ declare(strict_types=1);
 
 
         <form
-            action="/incuyo/cyberblog/public/admin/series/update/<?= (int) $serie['id'] ?>"
+            action="/admin/series/update/<?= (int) $serie['id'] ?>"
             method="POST"
             class="series-form"
         >
@@ -359,7 +359,7 @@ declare(strict_types=1);
             <div class="admin-form-actions series-form-actions">
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/series"
+                    href="/admin/series"
                     class="admin-button admin-button-secondary"
                 >
 

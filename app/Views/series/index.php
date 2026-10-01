@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 <link
     rel="stylesheet"
-    href="/incuyo/cyberblog/public/assets/css/series.css"
+    href="/assets/css/series.css"
 >
 
 <section class="admin-page series-admin-page">
@@ -36,7 +36,7 @@ declare(strict_types=1);
     <div class="series-actions">
 
         <a
-            href="/incuyo/cyberblog/public/admin/series/create"
+            href="/admin/series/create"
             class="admin-button admin-button-primary"
         >
 
@@ -175,7 +175,7 @@ declare(strict_types=1);
                                 <div class="admin-table-actions">
 
                                     <a
-                                        href="/incuyo/cyberblog/public/admin/series/edit/<?= (int) $serie['id'] ?>"
+                                        href="/admin/series/edit/<?= (int) $serie['id'] ?>"
                                         class="admin-action-link"
                                     >
                                         Editar
@@ -183,7 +183,7 @@ declare(strict_types=1);
 
 
                                     <form
-                                        action="/incuyo/cyberblog/public/admin/series/delete/<?= (int) $serie['id'] ?>"
+                                        action="/admin/series/delete/<?= (int) $serie['id'] ?>"
                                         method="POST"
                                         onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta serie? Los artículos no serán eliminados.')"
                                     >
@@ -240,7 +240,7 @@ declare(strict_types=1);
                 </p>
 
                 <a
-                    href="/incuyo/cyberblog/public/admin/series/create"
+                    href="/admin/series/create"
                     class="admin-button admin-button-primary"
                 >
                     Crear primera serie

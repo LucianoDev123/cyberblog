@@ -30,7 +30,7 @@ declare(strict_types=1);
             <div class="hero-actions">
 
                 <a
-                    href="/incuyo/cyberblog/public/blog"
+                    href="/blog"
                     class="btn btn-primary"
                 >
                     Explorar artículos

@@ -139,7 +139,7 @@ class UserController extends Controller
                 'Todos los campos son obligatorios.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users/create');
+            header('Location: /admin/users/create');
             exit;
         }
 
@@ -152,7 +152,7 @@ class UserController extends Controller
                 'El correo electrónico no tiene un formato válido.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users/create');
+            header('Location: /admin/users/create');
             exit;
         }
 
@@ -165,7 +165,7 @@ class UserController extends Controller
                 'El correo electrónico ya está registrado.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users/create');
+            header('Location: /admin/users/create');
             exit;
         }
 
@@ -178,7 +178,7 @@ class UserController extends Controller
                 'El nombre de usuario ya está registrado.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users/create');
+            header('Location: /admin/users/create');
             exit;
         }
 
@@ -206,7 +206,7 @@ class UserController extends Controller
                 'No se pudo crear el usuario.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users/create');
+            header('Location: /admin/users/create');
             exit;
         }
 
@@ -216,7 +216,7 @@ class UserController extends Controller
             'Usuario creado correctamente.'
         );
 
-        header('Location: /incuyo/cyberblog/public/admin/users');
+        header('Location: /admin/users');
         exit;
     }
 
@@ -241,7 +241,7 @@ class UserController extends Controller
                 'El usuario no existe.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users');
+            header('Location: /admin/users');
             exit;
         }
 
@@ -275,7 +275,7 @@ class UserController extends Controller
                 'El usuario no existe.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users');
+            header('Location: /admin/users');
             exit;
         }
 
@@ -311,7 +311,7 @@ class UserController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/users/edit/' . $id
+                'Location: /admin/users/edit/' . $id
             );
 
             exit;
@@ -327,7 +327,7 @@ class UserController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/users/edit/' . $id
+                'Location: /admin/users/edit/' . $id
             );
 
             exit;
@@ -348,7 +348,7 @@ class UserController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/users/edit/' . $id
+                'Location: /admin/users/edit/' . $id
             );
 
             exit;
@@ -383,7 +383,7 @@ class UserController extends Controller
             );
 
             header(
-                'Location: /incuyo/cyberblog/public/admin/users/edit/' . $id
+                'Location: /admin/users/edit/' . $id
             );
 
             exit;
@@ -395,7 +395,7 @@ class UserController extends Controller
             'Usuario actualizado correctamente.'
         );
 
-        header('Location: /incuyo/cyberblog/public/admin/users');
+        header('Location: /admin/users');
         exit;
     }
 
@@ -424,7 +424,7 @@ class UserController extends Controller
                 'No podés eliminar tu propia cuenta.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users');
+            header('Location: /admin/users');
             exit;
         }
 
@@ -440,7 +440,7 @@ class UserController extends Controller
                 'El usuario no existe.'
             );
 
-            header('Location: /incuyo/cyberblog/public/admin/users');
+            header('Location: /admin/users');
             exit;
         }
 
@@ -459,7 +459,7 @@ class UserController extends Controller
                     'No se puede eliminar el último administrador.'
                 );
 
-                header('Location: /incuyo/cyberblog/public/admin/users');
+                header('Location: /admin/users');
                 exit;
             }
         }
@@ -481,7 +481,7 @@ class UserController extends Controller
         }
 
         // Volvemos al listado después de finalizar la operación.
-        header('Location: /incuyo/cyberblog/public/admin/users');
+        header('Location: /admin/users');
         exit;
     }
 }

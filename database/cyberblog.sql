@@ -1,146 +1,291 @@
-DROP DATABASE IF EXISTS cyberblog;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 01-10-2026 a las 01:22:43
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
-CREATE DATABASE cyberblog
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-USE cyberblog;
 
--- ===========================
--- TABLA: usuarios
--- ===========================
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-CREATE TABLE usuarios (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(150) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    avatar VARCHAR(255) DEFAULT NULL,
-    rol ENUM('admin','editor','usuario') DEFAULT 'usuario',
-    estado TINYINT(1) DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+--
+-- Base de datos: `cyberblog`
+--
 
--- ===========================
--- TABLA: categorias
--- ===========================
+-- --------------------------------------------------------
 
-CREATE TABLE categorias (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    slug VARCHAR(120) NOT NULL UNIQUE,
-    descripcion TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+--
+-- Estructura de tabla para la tabla `articulos`
+--
 
--- ===========================
--- TABLA: articulos
--- ===========================
+CREATE TABLE `articulos` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED NOT NULL,
+  `categoria_id` int(10) UNSIGNED NOT NULL,
+  `serie_id` int(10) UNSIGNED DEFAULT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `resumen` text DEFAULT NULL,
+  `contenido` longtext NOT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `estado` enum('borrador','publicado') DEFAULT 'publicado',
+  `vistas` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE articulos (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+--
+-- Volcado de datos para la tabla `articulos`
+--
 
-    usuario_id INT UNSIGNED NOT NULL,
-    categoria_id INT UNSIGNED NOT NULL,
 
-    titulo VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL UNIQUE,
-    resumen TEXT,
-    contenido LONGTEXT NOT NULL,
-    imagen VARCHAR(255) DEFAULT NULL,
+-- --------------------------------------------------------
 
-    estado ENUM('borrador','publicado') DEFAULT 'publicado',
+--
+-- Estructura de tabla para la tabla `articulo_etiqueta`
+--
 
-    vistas INT DEFAULT 0,
+CREATE TABLE `articulo_etiqueta` (
+  `articulo_id` int(10) UNSIGNED NOT NULL,
+  `etiqueta_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+-- --------------------------------------------------------
 
-    CONSTRAINT fk_articulo_usuario
-        FOREIGN KEY (usuario_id)
-        REFERENCES usuarios(id),
+--
+-- Estructura de tabla para la tabla `categorias`
+--
 
-    CONSTRAINT fk_articulo_categoria
-        FOREIGN KEY (categoria_id)
-        REFERENCES categorias(id)
+CREATE TABLE `categorias` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `slug` varchar(120) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+--
+-- Volcado de datos para la tabla `categorias`
+--
 
--- ===========================
--- TABLA: etiquetas
--- ===========================
 
-CREATE TABLE etiquetas (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE,
-    slug VARCHAR(120) NOT NULL UNIQUE
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+-- --------------------------------------------------------
 
--- ===========================
--- TABLA: articulo_etiqueta
--- ===========================
+--
+-- Estructura de tabla para la tabla `comentarios`
+--
 
-CREATE TABLE articulo_etiqueta (
+CREATE TABLE `comentarios` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `articulo_id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED DEFAULT NULL,
+  `autor` varchar(100) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `comentario` text NOT NULL,
+  `estado` enum('pendiente','aprobado') DEFAULT 'pendiente',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-    articulo_id INT UNSIGNED NOT NULL,
-    etiqueta_id INT UNSIGNED NOT NULL,
+-- --------------------------------------------------------
 
-    PRIMARY KEY (articulo_id, etiqueta_id),
+--
+-- Estructura de tabla para la tabla `etiquetas`
+--
 
-    CONSTRAINT fk_rel_articulo
-        FOREIGN KEY (articulo_id)
-        REFERENCES articulos(id)
-        ON DELETE CASCADE,
+CREATE TABLE `etiquetas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `slug` varchar(120) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-    CONSTRAINT fk_rel_etiqueta
-        FOREIGN KEY (etiqueta_id)
-        REFERENCES etiquetas(id)
-        ON DELETE CASCADE
+--
+-- Volcado de datos para la tabla `etiquetas`
+--
 
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
 
--- ===========================
--- TABLA: comentarios
--- ===========================
+-- --------------------------------------------------------
 
-CREATE TABLE comentarios (
+--
+-- Estructura de tabla para la tabla `series`
+--
 
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `series` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `estado` enum('borrador','publicada') NOT NULL DEFAULT 'borrador',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-    articulo_id INT UNSIGNED NOT NULL,
-    usuario_id INT UNSIGNED NULL,
+--
+-- Volcado de datos para la tabla `series`
+--
 
-    autor VARCHAR(100),
-    email VARCHAR(150),
 
-    comentario TEXT NOT NULL,
+-- --------------------------------------------------------
 
-    estado ENUM('pendiente','aprobado')
-        DEFAULT 'pendiente',
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE `usuarios` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
+  `rol` enum('admin','editor','usuario') DEFAULT 'usuario',
+  `estado` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-    CONSTRAINT fk_comentario_articulo
-        FOREIGN KEY (articulo_id)
-        REFERENCES articulos(id),
+--
+-- Volcado de datos para la tabla `usuarios`
+--
 
-    CONSTRAINT fk_comentario_usuario
-        FOREIGN KEY (usuario_id)
-        REFERENCES usuarios(id)
 
-) ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
-COLLATE=utf8mb4_unicode_ci;
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`),
+  ADD KEY `fk_articulo_usuario` (`usuario_id`),
+  ADD KEY `fk_articulo_categoria` (`categoria_id`),
+  ADD KEY `idx_articulos_serie_id` (`serie_id`);
+
+--
+-- Indices de la tabla `articulo_etiqueta`
+--
+ALTER TABLE `articulo_etiqueta`
+  ADD PRIMARY KEY (`articulo_id`,`etiqueta_id`),
+  ADD KEY `fk_rel_etiqueta` (`etiqueta_id`);
+
+--
+-- Indices de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_comentario_articulo` (`articulo_id`),
+  ADD KEY `fk_comentario_usuario` (`usuario_id`);
+
+--
+-- Indices de la tabla `etiquetas`
+--
+ALTER TABLE `etiquetas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indices de la tabla `series`
+--
+ALTER TABLE `series`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `slug` (`slug`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT de la tabla `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `etiquetas`
+--
+ALTER TABLE `etiquetas`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `series`
+--
+ALTER TABLE `series`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `articulos`
+--
+ALTER TABLE `articulos`
+  ADD CONSTRAINT `fk_articulo_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`),
+  ADD CONSTRAINT `fk_articulo_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_articulos_series` FOREIGN KEY (`serie_id`) REFERENCES `series` (`id`) ON DELETE SET NULL;
+
+--
+-- Filtros para la tabla `articulo_etiqueta`
+--
+ALTER TABLE `articulo_etiqueta`
+  ADD CONSTRAINT `fk_rel_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_rel_etiqueta` FOREIGN KEY (`etiqueta_id`) REFERENCES `etiquetas` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `fk_comentario_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`),
+  ADD CONSTRAINT `fk_comentario_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
