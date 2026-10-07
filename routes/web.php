@@ -11,6 +11,7 @@ use App\Controllers\AuthController;
 use App\Controllers\UserController;
 use App\Controllers\UploadController;
 use App\Controllers\SeriesController;
+use App\Controllers\SecurityAnalyzerController;
 
 
 /*
@@ -107,6 +108,21 @@ $router->get('/series/{slug}', [
     SeriesController::class,
     'publicShow'
 ]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Security Analyzer
+|--------------------------------------------------------------------------
+*/
+
+$router->post('/api/security-analyzer', [
+    SecurityAnalyzerController::class,
+    'analyze'
+]);
+
+
+
 
 
 /*

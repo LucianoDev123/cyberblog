@@ -116,3 +116,125 @@
     </div>
 
 </footer>
+
+<!-- =============================================
+     SECURITY ANALYZER
+     ============================================= -->
+
+<div
+    id="security-analyzer"
+    class="security-analyzer"
+>
+
+    <!-- Botón flotante -->
+
+    <button
+        type="button"
+        id="security-analyzer-toggle"
+        class="security-analyzer-toggle"
+        aria-label="Abrir Security Analyzer"
+        aria-expanded="false"
+    >
+
+        🛡️
+
+    </button>
+
+
+    <!-- Panel -->
+
+    <section
+        id="security-analyzer-panel"
+        class="security-analyzer-panel"
+        aria-hidden="true"
+    >
+
+        <div class="security-analyzer-header">
+
+            <div>
+
+                <span class="security-analyzer-kicker">
+                    SECURITY TOOL
+                </span>
+
+                <h2>
+                    Security Analyzer
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="security-analyzer-close"
+                class="security-analyzer-close"
+                aria-label="Cerrar Security Analyzer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="security-analyzer-body">
+
+            <p class="security-analyzer-description">
+                Analizá un indicador utilizando nuestro
+                pipeline de análisis de seguridad.
+            </p>
+
+
+            <div class="security-analyzer-field">
+
+                <label for="security-analyzer-type">
+                    Tipo de indicador
+                </label>
+
+                <select id="security-analyzer-type">
+
+                    <option value="domain">
+                        Dominio
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="security-analyzer-field">
+
+                <label for="security-analyzer-indicator">
+                    Indicador
+                </label>
+
+                <input
+                    type="text"
+                    id="security-analyzer-indicator"
+                    placeholder="ej. deephacking.net"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                id="security-analyzer-submit"
+                class="security-analyzer-submit"
+            >
+                Analizar
+            </button>
+
+
+            <div
+                id="security-analyzer-result"
+                class="security-analyzer-result"
+                aria-live="polite"
+            ></div>
+
+        </div>
+        <script src="/assets/js/security-analyzer.js"></script>
+
+    </section>
+
+</div>
