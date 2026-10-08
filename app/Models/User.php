@@ -295,6 +295,50 @@ class User extends Model
 
 
     /**
+     * Actualiza los datos personales de la cuenta.
+     *
+     * Este método está destinado al usuario autenticado.
+     *
+     * Por seguridad, solamente permite modificar:
+     * - nombre
+     * - apellido
+     * - username
+     * - email
+     *
+     * No permite modificar:
+     * - rol
+     * - estado
+     */
+    public function updateAccount(
+        int $id,
+        string $nombre,
+        string $apellido,
+        string $username,
+        string $email
+    ): bool {
+        $sql = "
+            UPDATE usuarios
+            SET
+                nombre = :nombre,
+                apellido = :apellido,
+                username = :username,
+                email = :email
+            WHERE id = :id
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id'       => $id,
+            'nombre'   => $nombre,
+            'apellido' => $apellido,
+            'username' => $username,
+            'email'    => $email
+        ]);
+    }
+
+
+    /**
      * Crea un nuevo usuario.
      */
     public function create(
@@ -338,6 +382,59 @@ class User extends Model
 
 
     /**
+     * Actualiza la contraseña de un usuario.
+     *
+     * Recibe únicamente el hash de la nueva contraseña.
+     */
+    public function updatePassword(
+        int $id,
+        string $passwordHash
+    ): bool {
+        $sql = "
+            UPDATE usuarios
+            SET password = :password
+            WHERE id = :id
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id'       => $id,
+            'password' => $passwordHash
+        ]);
+    }
+
+
+    /**
+     * Obtiene únicamente el hash de contraseña de un usuario.
+     *
+     * Se utiliza para operaciones sensibles que necesitan
+     * verificar la contraseña actual.
+     */
+    public function getPasswordHash(int $id): ?string
+    {
+        $sql = "
+            SELECT password
+            FROM usuarios
+            WHERE id = :id
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'id' => $id
+        ]);
+
+        $result = $statement->fetch();
+
+        return $result !== false
+            ? $result['password']
+            : null;
+    }
+
+
+    /**
      * Elimina un usuario mediante su ID.
      *
      * Las validaciones de permisos, CSRF y reglas de negocio
@@ -355,5 +452,256 @@ class User extends Model
         return $statement->execute([
             'id' => $id
         ]);
+    }
+
+
+    /**
+     * Comprueba si un username pertenece a otro usuario.
+     *
+     * Se utiliza durante la edición de la cuenta para permitir
+     * que el usuario conserve su propio username sin considerarlo
+     * duplicado.
+     */
+    public function usernameExistsForOtherUser(
+        string $username,
+        int $userId
+    ): bool {
+        $sql = "
+            SELECT id
+            FROM usuarios
+            WHERE username = :username
+            AND id != :id
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'username' => $username,
+            'id'       => $userId
+        ]);
+
+        return $statement->fetch() !== false;
+    }
+
+
+    /*
+     * ============================================================
+     * RECUPERACIÓN DE CONTRASEÑA
+     * ============================================================
+     */
+
+
+    /**
+     * Invalida todos los desafíos de recuperación existentes
+     * para un usuario.
+     *
+     * Esto garantiza que solamente exista un desafío activo
+     * para una cuenta.
+     */
+    public function deletePasswordResetsForUser(
+        int $userId
+    ): bool {
+        $sql = "
+            DELETE FROM password_resets
+            WHERE usuario_id = :usuario_id
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'usuario_id' => $userId
+        ]);
+    }
+
+
+    /**
+     * Crea un nuevo desafío de recuperación.
+     *
+     * Solamente se almacena el hash del código.
+     *
+     * $expiresAt debe recibirse como una fecha válida
+     * en formato compatible con MySQL DATETIME.
+     */
+    public function createPasswordReset(
+        int $userId,
+        string $tokenHash,
+        string $expiresAt
+    ): bool {
+        $sql = "
+            INSERT INTO password_resets
+            (
+                usuario_id,
+                token_hash,
+                attempts,
+                expires_at
+            )
+            VALUES
+            (
+                :usuario_id,
+                :token_hash,
+                0,
+                :expires_at
+            )
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'usuario_id' => $userId,
+            'token_hash' => $tokenHash,
+            'expires_at' => $expiresAt
+        ]);
+    }
+
+
+    /**
+     * Busca el desafío de recuperación activo de un usuario.
+     *
+     * Se utiliza cuando el código ingresado todavía no fue
+     * validado, para poder controlar los intentos incorrectos.
+     *
+     * El desafío debe:
+     * - pertenecer al usuario indicado;
+     * - seguir vigente;
+     * - no haber alcanzado 5 intentos.
+     */
+    public function findActivePasswordResetByUser(
+        int $userId
+    ): array|false {
+        $sql = "
+            SELECT
+                id,
+                usuario_id,
+                token_hash,
+                attempts,
+                expires_at,
+                created_at
+            FROM password_resets
+            WHERE usuario_id = :usuario_id
+              AND expires_at > NOW()
+              AND attempts < 5
+            ORDER BY created_at DESC
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'usuario_id' => $userId
+        ]);
+
+        return $statement->fetch();
+    }
+
+
+    /**
+     * Busca un desafío de recuperación válido.
+     *
+     * La búsqueda se realiza mediante:
+     * - usuario_id
+     * - hash del token
+     *
+     * Además:
+     * - debe estar vigente;
+     * - no puede haber alcanzado el máximo de intentos.
+     *
+     * De esta manera, un token de un usuario no puede utilizarse
+     * para recuperar la cuenta de otro usuario.
+     */
+    public function findValidPasswordReset(
+        int $userId,
+        string $tokenHash
+    ): array|false {
+        $sql = "
+            SELECT
+                id,
+                usuario_id,
+                token_hash,
+                attempts,
+                expires_at,
+                created_at
+            FROM password_resets
+            WHERE usuario_id = :usuario_id
+              AND token_hash = :token_hash
+              AND expires_at > NOW()
+              AND attempts < 5
+            LIMIT 1
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'usuario_id' => $userId,
+            'token_hash' => $tokenHash
+        ]);
+
+        return $statement->fetch();
+    }
+
+
+    /**
+     * Incrementa de forma atómica el contador de intentos
+     * de un desafío de recuperación.
+     *
+     * El contador nunca puede superar 5.
+     */
+    public function incrementPasswordResetAttempts(
+        int $resetId
+    ): bool {
+        $sql = "
+            UPDATE password_resets
+            SET attempts = attempts + 1
+            WHERE id = :id
+              AND attempts < 5
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id' => $resetId
+        ]);
+    }
+
+
+    /**
+     * Elimina un desafío de recuperación.
+     *
+     * Se utiliza después de completar correctamente el cambio
+     * de contraseña para garantizar que el código sea de un
+     * solo uso.
+     */
+    public function deletePasswordReset(
+        int $resetId
+    ): bool {
+        $sql = "
+            DELETE FROM password_resets
+            WHERE id = :id
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            'id' => $resetId
+        ]);
+    }
+
+
+    /**
+     * Elimina los desafíos de recuperación expirados.
+     *
+     * Es una limpieza opcional que puede ejecutarse antes
+     * de crear un nuevo desafío o mediante una tarea periódica.
+     */
+    public function deleteExpiredPasswordResets(): bool
+    {
+        $sql = "
+            DELETE FROM password_resets
+            WHERE expires_at <= NOW()
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute();
     }
 }

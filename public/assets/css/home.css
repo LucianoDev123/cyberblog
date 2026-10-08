@@ -1,0 +1,692 @@
+    /* =========================================================
+    9. MAIN
+    ========================================================= */
+
+    /* Área principal del contenido. */
+    .site-main {
+        min-height:
+            calc(100vh - 76px);
+    }
+
+
+    /* =========================================================
+    10. HERO
+    ========================================================= */
+
+    /* Sección principal de la página de inicio. */
+    .hero {
+        position:
+            relative;
+
+        overflow:
+            hidden;
+
+        padding:
+            110px 0;
+
+        border-bottom:
+            1px solid var(--border-color);
+    }
+
+
+    /* Efecto luminoso decorativo del Hero. */
+    .hero::before {
+        content:
+            "";
+
+        position:
+            absolute;
+
+        top:
+            -250px;
+
+        left:
+            50%;
+
+        width:
+            600px;
+
+        height:
+            600px;
+
+        transform:
+            translateX(-50%);
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(57, 255, 136, 0.08),
+                transparent 65%
+            );
+
+        pointer-events:
+            none;
+    }
+
+
+    /* Contenido del Hero. */
+    .hero-container {
+        position:
+            relative;
+
+        display:
+            grid;
+
+        grid-template-columns:
+            1.1fr 0.9fr;
+
+        align-items:
+            center;
+
+        gap:
+            80px;
+    }
+
+
+    /* =========================================================
+    11. EYEBROW
+    ========================================================= */
+
+    /* Etiqueta superior reutilizable. */
+    .eyebrow,
+    .section-label {
+        margin:
+            0 0 16px;
+
+        color:
+            var(--accent-green);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            0.78rem;
+
+        font-weight:
+            600;
+
+        letter-spacing:
+            0.12em;
+    }
+
+
+    /* =========================================================
+    12. HERO CONTENT
+    ========================================================= */
+
+    /* Título principal del Hero. */
+    .hero-title {
+        max-width:
+            760px;
+
+        margin:
+            0;
+
+        font-size:
+            clamp(
+                3rem,
+                6vw,
+                5.5rem
+            );
+
+        line-height:
+            1.05;
+
+        letter-spacing:
+            -0.04em;
+    }
+
+
+    /* Palabra destacada del título. */
+    .hero-title span {
+        color:
+            var(--accent-green);
+    }
+
+
+    /* Descripción principal. */
+    .hero-description {
+        max-width:
+            620px;
+
+        margin:
+            30px 0;
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            1.1rem;
+
+        line-height:
+            1.8;
+    }
+
+
+    /* =========================================================
+    13. BUTTONS
+    ========================================================= */
+
+    /* Contenedor de botones. */
+    .hero-actions {
+        display:
+            flex;
+
+        flex-wrap:
+            wrap;
+
+        gap:
+            14px;
+    }
+
+
+    /* Estilo general de botones. */
+    .btn {
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        gap:
+            10px;
+
+        min-height:
+            48px;
+
+        padding:
+            0 22px;
+
+        border:
+            1px solid transparent;
+
+        font-weight:
+            600;
+
+        font-size:
+            0.9rem;
+
+        transition:
+            transform var(--transition),
+            border-color var(--transition),
+            background var(--transition);
+    }
+
+
+    /* Elevación visual al pasar el cursor. */
+    .btn:hover {
+        transform:
+            translateY(-2px);
+    }
+
+
+    /* Botón principal. */
+    .btn-primary {
+        background:
+            var(--accent-green);
+
+        color:
+            #06120b;
+    }
+
+
+    /* Hover del botón principal. */
+    .btn-primary:hover {
+        background:
+            var(--accent-green-dark);
+    }
+
+
+    /* Botón secundario. */
+    .btn-secondary {
+        border-color:
+            var(--border-color);
+
+        color:
+            var(--text-primary);
+
+        background:
+            transparent;
+    }
+
+
+    /* Hover del botón secundario. */
+    .btn-secondary:hover {
+        border-color:
+            var(--accent-green);
+
+        color:
+            var(--accent-green);
+    }
+
+
+    /* =========================================================
+    14. TERMINAL
+    ========================================================= */
+
+    /* Terminal decorativa del Hero. */
+    .hero-terminal {
+        overflow:
+            hidden;
+
+        background:
+            var(--bg-terminal);
+
+        border:
+            1px solid var(--border-color);
+
+        border-radius:
+            10px;
+
+        box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+
+    /* Barra superior de la terminal. */
+    .terminal-header {
+        min-height:
+            46px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            14px;
+
+        padding:
+            0 18px;
+
+        background:
+            #111720;
+
+        border-bottom:
+            1px solid var(--border-color);
+    }
+
+
+    /* Contenedor de puntos decorativos. */
+    .terminal-dots {
+        display:
+            flex;
+
+        gap:
+            7px;
+    }
+
+
+    /* Punto individual de la terminal. */
+    .terminal-dots span {
+        width:
+            9px;
+
+        height:
+            9px;
+
+        border-radius:
+            50%;
+
+        background:
+            #4b5563;
+    }
+
+
+    /* Título de la terminal. */
+    .terminal-title {
+        color:
+            var(--text-muted);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            0.72rem;
+    }
+
+
+    /* Cuerpo de la terminal. */
+    .terminal-body {
+        min-height:
+            370px;
+
+        padding:
+            28px;
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            0.85rem;
+
+        line-height:
+            1.9;
+    }
+
+
+    /* Párrafos internos. */
+    .terminal-body p {
+        margin:
+            0 0 14px;
+    }
+
+
+    /* Prompt de terminal. */
+    .terminal-prompt {
+        color:
+            var(--accent-green);
+    }
+
+
+    /* Salida de terminal. */
+    .terminal-output {
+        padding-left:
+            16px;
+
+        color:
+            var(--text-secondary);
+    }
+
+
+    /* Cursor animado. */
+    .terminal-cursor {
+        display:
+            inline-block;
+
+        width:
+            8px;
+
+        height:
+            18px;
+
+        background:
+            var(--accent-green);
+
+        vertical-align:
+            middle;
+
+        animation:
+            blink 1s infinite;
+    }
+
+
+    /* Animación del cursor. */
+    @keyframes blink {
+
+        0%,
+        50% {
+            opacity:
+                1;
+        }
+
+        51%,
+        100% {
+            opacity:
+                0;
+        }
+
+    }
+
+
+    /* =========================================================
+    15. TOPICS
+    ========================================================= */
+
+    /* Sección de temas. */
+    .topics-section {
+        padding:
+            110px 0;
+    }
+
+
+    /* Encabezado de sección. */
+    .section-heading {
+        max-width:
+            680px;
+
+        margin-bottom:
+            55px;
+    }
+
+
+    /* Títulos generales. */
+    .section-heading h2,
+    .about-section h2 {
+        margin:
+            0 0 18px;
+
+        font-size:
+            clamp(
+                2rem,
+                4vw,
+                3.5rem
+            );
+
+        line-height:
+            1.1;
+
+        letter-spacing:
+            -0.03em;
+    }
+
+
+    /* Descripción del encabezado. */
+    .section-heading > p:last-child {
+        margin:
+            0;
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            1.05rem;
+    }
+
+
+    /* Grilla de temas. */
+    .topics-grid {
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(4, 1fr);
+
+        gap:
+            20px;
+    }
+
+
+    /* Tarjeta individual de tema. */
+    .topic-card {
+        position:
+            relative;
+
+        min-height:
+            270px;
+
+        padding:
+            30px;
+
+        background:
+            var(--bg-card);
+
+        border:
+            1px solid var(--border-color);
+
+        transition:
+            transform var(--transition),
+            border-color var(--transition);
+    }
+
+
+    /* Hover de tarjeta. */
+    .topic-card:hover {
+        transform:
+            translateY(-6px);
+
+        border-color:
+            var(--accent-green);
+    }
+
+
+    /* Número identificador del tema. */
+    .topic-number {
+        display:
+            block;
+
+        margin-bottom:
+            50px;
+
+        color:
+            var(--accent-green);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            0.8rem;
+    }
+
+
+    /* Título del tema. */
+    .topic-card h3 {
+        margin:
+            0 0 12px;
+
+        font-size:
+            1.25rem;
+    }
+
+
+    /* Descripción del tema. */
+    .topic-card p {
+        margin:
+            0;
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            0.9rem;
+
+        line-height:
+            1.7;
+    }
+
+
+    /* =========================================================
+    16. ABOUT
+    ========================================================= */
+
+    /* Sección informativa. */
+    .about-section {
+        padding:
+            110px 0;
+
+        background:
+            var(--bg-secondary);
+
+        border-top:
+            1px solid var(--border-color);
+
+        border-bottom:
+            1px solid var(--border-color);
+    }
+
+
+    /* Grilla interna de About. */
+    .about-container {
+        display:
+            grid;
+
+        grid-template-columns:
+            0.8fr 1.2fr;
+
+        gap:
+            100px;
+    }
+
+
+    /* Párrafos de About. */
+    .about-content > p {
+        margin-top:
+            0;
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            1.05rem;
+
+        line-height:
+            1.9;
+    }
+
+
+    /* Grilla de características. */
+    .about-features {
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        margin-top:
+            35px;
+
+        border-top:
+            1px solid var(--border-color);
+
+        border-left:
+            1px solid var(--border-color);
+    }
+
+
+    /* Característica individual. */
+    .about-features div {
+        padding:
+            18px;
+
+        border-right:
+            1px solid var(--border-color);
+
+        border-bottom:
+            1px solid var(--border-color);
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            0.9rem;
+    }
+
+
+    /* Etiqueta de característica. */
+    .about-features span {
+        display:
+            block;
+
+        margin-bottom:
+            8px;
+
+        color:
+            var(--accent-green);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            0.75rem;
+    }
+
+
+   /* =========================================================
+   CYBERBLOG - FOOTER
+   ========================================================= */
+
+

@@ -18,10 +18,17 @@ services:
       USERS_API_URL: ${USERS_API_URL}
       SECURITY_ANALYZER_WEBHOOK_URL: ${SECURITY_ANALYZER_WEBHOOK_URL}
 
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
+      MAIL_ENCRYPTION: ""
 
     depends_on:
       mysql:
         condition: service_healthy
+      mailpit:
+        condition: service_started
 
     volumes:
       - ./public/uploads:/var/www/html/public/uploads
@@ -60,6 +67,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+    networks:
+      - cyberblog_network
+
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: cyberblog-mailpit
+    restart: unless-stopped
+
+    ports:
+      - "8025:8025"
 
     networks:
       - cyberblog_network

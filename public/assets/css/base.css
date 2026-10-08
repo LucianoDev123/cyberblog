@@ -1,0 +1,116 @@
+ /* =========================================================
+    CYBERBLOG
+    Diseño principal - FrontOffice
+    ========================================================= */
+
+
+    /* =========================================================
+    1. VARIABLES GLOBALES
+    ========================================================= */
+
+    :root {
+        --bg-primary: #090b10;
+        --bg-secondary: #0f131a;
+        --bg-card: #141a22;
+        --bg-terminal: #0b0f14;
+
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --text-muted: #64748b;
+
+        --border-color: #26303d;
+
+        --accent-green: #39ff88;
+        --accent-green-dark: #20c96b;
+        --accent-blue: #58a6ff;
+
+        --font-main: "Inter", sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+
+        --container-width: 1200px;
+
+        --transition: 0.25s ease;
+    }
+
+
+    /* =========================================================
+    2. RESET Y BASE
+    ========================================================= */
+
+    /* Aplicamos box-sizing a todos los elementos. */
+    * {
+        box-sizing: border-box;
+    }
+
+
+    /* Activamos desplazamiento suave. */
+    html {
+        scroll-behavior: smooth;
+    }
+
+
+    /* Configuración general del cuerpo de la aplicación. */
+    body {
+        margin: 0;
+
+        background:
+            var(--bg-primary);
+
+        color:
+            var(--text-primary);
+
+        font-family:
+            var(--font-main);
+
+        line-height:
+            1.6;
+
+        -webkit-font-smoothing:
+            antialiased;
+    }
+
+
+    /* Eliminamos estilos visuales por defecto de enlaces. */
+    a {
+        color:
+            inherit;
+
+        text-decoration:
+            none;
+    }
+
+
+    /* Unificamos la fuente de los controles. */
+    button,
+    input,
+    textarea,
+    select {
+        font:
+            inherit;
+    }
+
+
+    /* Evitamos que las imágenes excedan su contenedor. */
+    img {
+        max-width:
+            100%;
+    }
+
+
+    /* =========================================================
+    3. CONTAINER
+    ========================================================= */
+
+    /* Contenedor principal reutilizable en toda la aplicación. */
+    .container {
+        width:
+            min(
+                calc(100% - 40px),
+                var(--container-width)
+            );
+
+        margin:
+            0 auto;
+    }
+
+

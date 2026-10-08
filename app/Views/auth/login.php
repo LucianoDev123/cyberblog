@@ -12,21 +12,48 @@ declare(strict_types=1);
             <span>&gt;_</span>
         </div>
 
+
         <div class="login-header">
 
             <span class="login-eyebrow">
-                ÁREA RESTRINGIDA
+                CYBERBLOG // AUTH
             </span>
 
             <h1>
-                Panel de acceso
+                Iniciar sesión
             </h1>
 
             <p>
-                Inicia sesión para acceder al panel de administración de CyberBlog.
+                Accedé a tu cuenta para continuar en CyberBlog.
             </p>
 
         </div>
+
+
+        <?php if (!empty($flashError)): ?>
+
+            <div class="form-message error">
+                <?= htmlspecialchars(
+                    $flashError,
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>
+            </div>
+
+        <?php endif; ?>
+
+
+        <?php if (!empty($flashSuccess)): ?>
+
+            <div class="form-message success">
+                <?= htmlspecialchars(
+                    $flashSuccess,
+                    ENT_QUOTES,
+                    'UTF-8'
+                ) ?>
+            </div>
+
+        <?php endif; ?>
 
 
         <form
@@ -43,7 +70,10 @@ declare(strict_types=1);
 
                 <div class="input-wrapper">
 
-                    <span class="input-icon">
+                    <span
+                        class="input-icon"
+                        aria-hidden="true"
+                    >
                         @
                     </span>
 
@@ -63,13 +93,28 @@ declare(strict_types=1);
 
             <div class="form-group">
 
-                <label for="password">
-                    Contraseña
-                </label>
+                <div class="password-label-row">
+
+                    <label for="password">
+                        Contraseña
+                    </label>
+
+                    <a
+                        href="/forgot-password"
+                        class="forgot-password-link"
+                    >
+                        ¿Olvidaste tu contraseña?
+                    </a>
+
+                </div>
+
 
                 <div class="input-wrapper">
 
-                    <span class="input-icon">
+                    <span
+                        class="input-icon"
+                        aria-hidden="true"
+                    >
                         #
                     </span>
 
@@ -77,10 +122,22 @@ declare(strict_types=1);
                         type="password"
                         id="password"
                         name="password"
-                        placeholder="Introduce tu contraseña"
+                        placeholder="Introducí tu contraseña"
                         autocomplete="current-password"
                         required
                     >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="password-toggle"
+                        aria-label="Mostrar contraseña"
+                        aria-pressed="false"
+                    >
+                        <span id="password-toggle-icon">
+                            ◉
+                        </span>
+                    </button>
 
                 </div>
 
@@ -91,16 +148,34 @@ declare(strict_types=1);
                 type="submit"
                 class="login-button"
             >
+
                 <span>
                     Iniciar sesión
                 </span>
 
-                <span>
+                <span
+                    class="login-button-arrow"
+                    aria-hidden="true"
+                >
                     →
                 </span>
+
             </button>
 
         </form>
+
+
+        <div class="login-register">
+
+            <span>
+                ¿Todavía no tenés una cuenta?
+            </span>
+
+            <a href="/register">
+                Crear cuenta
+            </a>
+
+        </div>
 
 
         <div class="login-footer">
@@ -117,3 +192,58 @@ declare(strict_types=1);
     </div>
 
 </section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const passwordInput =
+        document.getElementById('password');
+
+    const toggleButton =
+        document.getElementById('password-toggle');
+
+    const toggleIcon =
+        document.getElementById('password-toggle-icon');
+
+
+    if (
+        !passwordInput ||
+        !toggleButton ||
+        !toggleIcon
+    ) {
+        return;
+    }
+
+
+    toggleButton.addEventListener('click', function () {
+
+        const isPassword =
+            passwordInput.type === 'password';
+
+
+        passwordInput.type =
+            isPassword ? 'text' : 'password';
+
+
+        toggleButton.setAttribute(
+            'aria-label',
+            isPassword
+                ? 'Ocultar contraseña'
+                : 'Mostrar contraseña'
+        );
+
+
+        toggleButton.setAttribute(
+            'aria-pressed',
+            isPassword ? 'true' : 'false'
+        );
+
+
+        toggleIcon.textContent =
+            isPassword ? '◉' : '◌';
+
+    });
+
+});
+</script>

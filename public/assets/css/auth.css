@@ -1,0 +1,419 @@
+/* =========================================================
+   CYBERBLOG - AUTHENTICATION
+   Login / Register / Forgot Password / Reset Password
+   ========================================================= */
+
+.login-page {
+    width: 100%;
+    min-height: calc(100vh - 76px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    padding: 42px;
+    box-sizing: border-box;
+    background: linear-gradient(145deg, #121925, #0c121c);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+.login-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 28px;
+    border: 1px solid rgba(57, 255, 136, 0.35);
+    border-radius: 12px;
+    background: rgba(57, 255, 136, 0.08);
+}
+
+.login-icon span {
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.login-header {
+    margin-bottom: 32px;
+}
+
+.login-eyebrow {
+    display: block;
+    margin: 0 0 12px;
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.login-card h1 {
+    margin: 0 0 12px;
+    color: var(--text-primary);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.login-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.form-message {
+    margin: 0 0 20px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.form-message.success {
+    border: 1px solid rgba(57, 255, 136, 0.30);
+    background: rgba(57, 255, 136, 0.08);
+    color: var(--accent-green);
+}
+
+.form-message.error {
+    border: 1px solid rgba(255, 90, 90, 0.30);
+    background: rgba(255, 90, 90, 0.08);
+    color: #ff8a8a;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.password-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.password-label-row label {
+    margin: 0;
+}
+
+.forgot-password-link {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--transition), opacity var(--transition);
+}
+
+.forgot-password-link:hover {
+    color: var(--accent-green);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    z-index: 2;
+    color: var(--accent-green);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    pointer-events: none;
+}
+
+.input-wrapper input,
+.login-form input {
+    width: 100%;
+    height: 52px;
+    box-sizing: border-box;
+    padding: 0 16px 0 46px;
+    border: 1px solid #303a48;
+    border-radius: 8px;
+    outline: none;
+    background: #101720;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.input-wrapper input:hover,
+.login-form input:hover {
+    border-color: #475467;
+}
+
+.input-wrapper input:focus,
+.login-form input:focus {
+    border-color: var(--accent-green);
+    background: #131c26;
+    box-shadow: 0 0 0 3px rgba(57, 255, 136, 0.10);
+}
+
+.input-wrapper input::placeholder,
+.login-form input::placeholder {
+    color: var(--text-muted);
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    transition:
+        color var(--transition),
+        background var(--transition),
+        border-color var(--transition);
+}
+
+.password-toggle:hover {
+    border-color: rgba(57, 255, 136, 0.25);
+    background: rgba(57, 255, 136, 0.06);
+    color: var(--accent-green);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid rgba(57, 255, 136, 0.35);
+    outline-offset: 2px;
+}
+
+.input-wrapper input[type="password"] {
+    padding-right: 52px;
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    height: 54px;
+    margin-top: 8px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent-green);
+    color: #06120b;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.login-button:hover {
+    background: var(--accent-green-dark);
+    box-shadow: 0 10px 30px rgba(57, 255, 136, 0.20);
+    transform: translateY(-2px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.login-button-arrow {
+    font-size: 19px;
+    transition: transform var(--transition);
+}
+
+.login-button:hover .login-button-arrow {
+    transform: translateX(4px);
+}
+
+.login-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 24px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.login-register a {
+    color: var(--accent-green);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.login-register a:hover {
+    color: var(--accent-green-dark);
+}
+
+.login-footer {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.back-to-site {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-decoration: none;
+    transition: color var(--transition), transform var(--transition);
+}
+
+.back-to-site:hover {
+    color: var(--text-primary);
+    transform: translateX(-2px);
+}
+
+/* Register / account forms that use the existing account classes. */
+.account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.account-field label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.account-field input,
+.account-field select,
+.account-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #303a48;
+    border-radius: 8px;
+    outline: none;
+    background: #101720;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.account-field input,
+.account-field select {
+    height: 48px;
+    padding: 0 14px;
+}
+
+.account-field textarea {
+    min-height: 120px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.account-field input:hover,
+.account-field select:hover,
+.account-field textarea:hover {
+    border-color: #475467;
+}
+
+.account-field input:focus,
+.account-field select:focus,
+.account-field textarea:focus {
+    border-color: var(--accent-green);
+    background: #131c26;
+    box-shadow: 0 0 0 3px rgba(57, 255, 136, 0.10);
+}
+
+.account-field input::placeholder,
+.account-field textarea::placeholder {
+    color: var(--text-muted);
+}
+
+@media (max-width: 700px) {
+    .login-page {
+        align-items: flex-start;
+        min-height: auto;
+        padding: 40px 16px 60px;
+    }
+
+    .login-card {
+        max-width: 100%;
+        padding: 30px 24px;
+    }
+
+    .login-icon {
+        width: 54px;
+        height: 54px;
+        margin-bottom: 24px;
+    }
+
+    .login-card h1 {
+        font-size: 24px;
+    }
+
+    .login-header p {
+        font-size: 13px;
+    }
+
+    .password-label-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .login-register {
+        flex-direction: column;
+        gap: 2px;
+    }
+}

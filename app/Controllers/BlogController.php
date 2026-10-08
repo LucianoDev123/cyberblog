@@ -186,12 +186,22 @@ class BlogController extends Controller
         }
 
 
+        /*
+         * La página pública de artículo utiliza
+         * su propia hoja de estilos.
+         *
+         * El header la cargará solamente para
+         * esta vista.
+         */
         $this->view('blog/show', [
             'article' =>
                 $article,
 
             'seriesNavigation' =>
-                $seriesNavigation
+                $seriesNavigation,
+
+            'pageCss' =>
+                'article.css'
         ]);
     }
 }

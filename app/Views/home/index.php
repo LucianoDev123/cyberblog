@@ -182,7 +182,7 @@ declare(strict_types=1);
             >
 
                 <span>
-                    OFENSIVO
+                    RED TEAM
                 </span>
 
             </a>
@@ -199,7 +199,7 @@ declare(strict_types=1);
             >
 
                 <span>
-                    DEFENSIVO
+                    BLUE TEAM
                 </span>
 
             </a>

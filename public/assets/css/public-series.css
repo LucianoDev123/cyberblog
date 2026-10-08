@@ -1,0 +1,877 @@
+/* =========================================================
+   CYBERBLOG
+   SERIES - PUBLIC
+   ========================================================= */
+
+/* =========================================================
+   SERIES - PUBLIC LISTING
+   ========================================================= */
+
+.series-page {
+    padding: 52px 0 68px;
+}
+
+.series-page .container {
+    width: min(
+        calc(100% - 40px),
+        var(--container-width)
+    );
+}
+
+
+/* ---------------------------------------------------------
+   PAGE HEADER
+   --------------------------------------------------------- */
+
+.series-page .page-header {
+    max-width: 720px;
+
+    margin-bottom: 38px;
+}
+
+.series-page .page-kicker {
+    display: inline-block;
+
+    margin: 0 0 14px;
+
+    color: var(--accent-green);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+}
+
+.series-page .page-kicker::before {
+    content: "// ";
+
+    color: var(--text-muted);
+}
+
+.series-page .page-header h1 {
+    margin: 0 0 18px;
+
+    color: var(--text-primary);
+
+    font-size: clamp(
+        2.2rem,
+        4.5vw,
+        3.8rem
+    );
+
+    line-height: 1.05;
+
+    letter-spacing: -0.04em;
+}
+
+.series-page .page-description {
+    max-width: 680px;
+
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SERIES GRID
+   ========================================================= */
+
+.series-grid {
+    display: grid;
+
+    grid-template-columns: repeat(
+        3,
+        minmax(0, 1fr)
+    );
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   SERIES CARD
+   ========================================================= */
+
+.series-card {
+    position: relative;
+
+    display: flex;
+
+    min-height: 0;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--bg-card) 0%,
+            var(--bg-card) 100%
+        );
+
+    border: 1px solid var(--border-color);
+
+    transition:
+        transform var(--transition),
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.series-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 3px;
+    height: 0;
+
+    background: var(--accent-green);
+
+    transition: height var(--transition);
+
+    z-index: 2;
+}
+
+.series-card:hover {
+    transform: translateY(-5px);
+
+    border-color: var(--accent-green);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.22);
+}
+
+.series-card:hover::before {
+    height: 100%;
+}
+
+
+/* =========================================================
+   CARD IMAGE
+   ========================================================= */
+
+.series-card-image {
+    position: relative;
+
+    overflow: hidden;
+
+    height: 165px;
+
+    background: var(--bg-terminal);
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.series-card-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 45%,
+            rgba(0, 0, 0, 0.35) 100%
+        );
+
+    pointer-events: none;
+}
+
+.series-card-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.5s ease,
+        opacity var(--transition);
+}
+
+.series-card:hover .series-card-image img {
+    transform: scale(1.045);
+
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
+.series-card-content {
+    display: flex;
+
+    flex: 1;
+
+    flex-direction: column;
+
+    padding: 21px;
+}
+
+.series-card-label {
+    margin: 0 0 12px;
+
+    color: var(--accent-green);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.68rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+}
+
+.series-card-label::before {
+    content: "[ ";
+
+    color: var(--text-muted);
+}
+
+.series-card-label::after {
+    content: " ]";
+
+    color: var(--text-muted);
+}
+
+.series-card-title {
+    margin: 0 0 12px;
+
+    color: var(--text-primary);
+
+    font-size: 1.28rem;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.015em;
+}
+
+.series-card-description {
+    margin: 0;
+
+    color: var(--text-secondary);
+
+    font-size: 0.93rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ARTICLE COUNT
+   ========================================================= */
+
+.series-card-count {
+    margin: auto 0 18px;
+
+    padding-top: 18px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.7rem;
+
+    line-height: 1.5;
+
+    border-top: 1px solid var(--border-color);
+}
+
+.series-card-count::before {
+    content: "> ";
+
+    color: var(--accent-green);
+}
+
+
+/* =========================================================
+   CARD LINK
+   ========================================================= */
+
+.series-card-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: fit-content;
+
+    color: var(--text-primary);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition),
+        gap var(--transition);
+}
+
+.series-card-link span {
+    color: var(--accent-green);
+
+    transition:
+        transform var(--transition);
+}
+
+.series-card-link:hover {
+    gap: 11px;
+
+    color: var(--accent-green);
+}
+
+.series-card-link:hover span {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   SERIES - PUBLIC DETAIL
+   ========================================================= */
+
+.series-public-page {
+    width: min(
+        calc(100% - 40px),
+        var(--container-width)
+    );
+
+    margin: 0 auto;
+
+    padding: 54px 0 68px;
+}
+
+
+/* =========================================================
+   DETAIL HEADER
+   ========================================================= */
+
+.series-public-header {
+    max-width: 900px;
+
+    margin-bottom: 40px;
+
+    padding-bottom: 34px;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.series-public-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: var(--accent-green);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+
+    text-transform: uppercase;
+}
+
+.series-public-eyebrow::before {
+    content: "// ";
+
+    color: var(--text-muted);
+}
+
+.series-public-header h1 {
+    margin: 0 0 18px;
+
+    color: var(--text-primary);
+
+    font-size: clamp(
+        2.4rem,
+        5vw,
+        4.4rem
+    );
+
+    line-height: 1.04;
+
+    letter-spacing: -0.045em;
+}
+
+.series-public-description {
+    max-width: 760px;
+
+    margin: 0 0 22px;
+
+    color: var(--text-secondary);
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+}
+
+.series-public-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.72rem;
+}
+
+.series-public-meta::before {
+    content: ">";
+
+    color: var(--accent-green);
+}
+
+
+/* =========================================================
+   ARTICLES
+   ========================================================= */
+
+.series-public-articles {
+    max-width: 1000px;
+}
+
+.series-public-list {
+    display: flex;
+
+    flex-direction: column;
+
+    border-top: 1px solid var(--border-color);
+}
+
+.series-public-article {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 76px minmax(0, 1fr);
+
+    gap: 28px;
+
+    padding: 30px 0;
+
+    border-bottom: 1px solid var(--border-color);
+
+    transition:
+        padding-left var(--transition),
+        background var(--transition);
+}
+
+.series-public-article::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: 2px;
+
+    background: var(--accent-green);
+
+    opacity: 0;
+
+    transition: opacity var(--transition);
+}
+
+.series-public-article:hover {
+    padding-left: 12px;
+}
+
+.series-public-article:hover::before {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   ARTICLE NUMBER
+   ========================================================= */
+
+.series-public-number {
+    padding-top: 3px;
+
+    color: var(--accent-green);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+.series-public-number::before {
+    content: "#";
+}
+
+
+/* =========================================================
+   ARTICLE CONTENT
+   ========================================================= */
+
+.series-public-article-content {
+    min-width: 0;
+}
+
+.series-public-article-content h2 {
+    margin: 0 0 11px;
+
+    color: var(--text-primary);
+
+    font-size: 1.4rem;
+
+    line-height: 1.3;
+
+    letter-spacing: -0.015em;
+}
+
+.series-public-article-content h2 a {
+    color: var(--text-primary);
+
+    text-decoration: none;
+
+    transition: color var(--transition);
+}
+
+.series-public-article-content h2 a:hover {
+    color: var(--accent-green);
+}
+
+.series-public-article-content p {
+    max-width: 760px;
+
+    margin: 0 0 18px;
+
+    color: var(--text-secondary);
+
+    font-size: 0.94rem;
+
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   READ LINK
+   ========================================================= */
+
+.series-public-read-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-primary);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.76rem;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition),
+        gap var(--transition);
+}
+
+.series-public-read-link::before {
+    content: ">";
+
+    color: var(--accent-green);
+}
+
+.series-public-read-link:hover {
+    gap: 11px;
+
+    color: var(--accent-green);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.series-public-empty {
+    max-width: 760px;
+
+    padding: 44px 36px;
+
+    background: var(--bg-card);
+
+    border: 1px solid var(--border-color);
+
+    text-align: center;
+}
+
+.series-public-empty-icon {
+    display: block;
+
+    margin-bottom: 18px;
+
+    color: var(--accent-green);
+
+    font-family: var(--font-mono);
+
+    font-size: 1.5rem;
+
+    font-weight: 700;
+}
+
+.series-public-empty-icon::before {
+    content: "[ ";
+
+    color: var(--text-muted);
+}
+
+.series-public-empty-icon::after {
+    content: " ]";
+
+    color: var(--text-muted);
+}
+
+.series-public-empty h2 {
+    margin: 0 0 12px;
+
+    color: var(--text-primary);
+
+    font-size: 1.3rem;
+
+    line-height: 1.4;
+}
+
+.series-public-empty p {
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    color: var(--text-secondary);
+
+    font-size: 0.92rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   DETAIL FOOTER
+   ========================================================= */
+
+.series-public-footer {
+    max-width: 1000px;
+
+    margin-top: 44px;
+
+    padding-top: 26px;
+
+    border-top: 1px solid var(--border-color);
+}
+
+.series-public-back {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-secondary);
+
+    font-family: var(--font-mono);
+
+    font-size: 0.76rem;
+
+    text-decoration: none;
+
+    transition:
+        color var(--transition),
+        gap var(--transition);
+}
+
+.series-public-back::before {
+    content: "<";
+    
+    color: var(--accent-green);
+}
+
+.series-public-back:hover {
+    gap: 11px;
+
+    color: var(--accent-green);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .series-grid {
+        grid-template-columns: repeat(
+            2,
+            minmax(0, 1fr)
+        );
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .series-page {
+        padding: 42px 0 52px;
+    }
+
+    .series-page .container {
+        width: min(
+            calc(100% - 32px),
+            var(--container-width)
+        );
+    }
+
+    .series-page .page-header {
+        margin-bottom: 30px;
+    }
+
+    .series-page .page-header h1 {
+        font-size: clamp(
+            2rem,
+            9vw,
+            2.8rem
+        );
+    }
+
+    .series-grid {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+    .series-card-image {
+        height: 150px;
+    }
+
+    .series-card-content {
+        padding: 18px;
+    }
+
+    .series-card-title {
+        font-size: 1.2rem;
+    }
+
+    .series-public-page {
+        width: min(
+            calc(100% - 32px),
+            var(--container-width)
+        );
+
+        padding: 44px 0 56px;
+    }
+
+    .series-public-header {
+        margin-bottom: 34px;
+
+        padding-bottom: 28px;
+    }
+
+    .series-public-header h1 {
+        font-size: clamp(
+            2rem,
+            9vw,
+            2.8rem
+        );
+    }
+
+    .series-public-description {
+        font-size: 0.94rem;
+    }
+
+    .series-public-article {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        padding: 25px 0;
+    }
+
+    .series-public-article:hover {
+        padding-left: 0;
+    }
+
+    .series-public-article::before {
+        display: none;
+    }
+
+    .series-public-number {
+        padding-top: 0;
+
+        font-size: 0.78rem;
+    }
+
+    .series-public-article-content h2 {
+        font-size: 1.25rem;
+    }
+
+    .series-public-article-content p {
+        font-size: 0.9rem;
+    }
+
+    .series-public-empty {
+        padding: 36px 22px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .series-page .container,
+    .series-public-page {
+        width: calc(100% - 28px);
+    }
+
+    .series-card-image {
+        height: 135px;
+    }
+
+    .series-public-header h1 {
+        font-size: 2rem;
+    }
+
+}

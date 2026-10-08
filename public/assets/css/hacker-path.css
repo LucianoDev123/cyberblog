@@ -1,0 +1,1264 @@
+/* =========================================================
+   CYBERBLOG - HACKER PATH
+   ========================================================= */
+
+
+/* =========================================================
+   1. SECCIÓN PRINCIPAL
+   ========================================================= */
+
+.hacker-path-section {
+
+    padding:
+        88px 0 110px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--bg-primary),
+            rgba(8, 12, 16, 0.96)
+        );
+}
+
+
+/* =========================================================
+   2. ENCABEZADO
+   ========================================================= */
+
+.hacker-path-heading {
+
+    max-width:
+        900px;
+
+    margin:
+        0 auto 52px;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   3. SECURITY PATH
+   ========================================================= */
+
+.hacker-path-heading .section-label {
+
+    margin:
+        0 0 18px;
+
+    color:
+        var(--accent-green);
+
+    font-family:
+        var(--font-mono);
+
+    font-size:
+        0.72rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.20em;
+}
+
+
+/* =========================================================
+   4. TÍTULO
+   ========================================================= */
+
+.hacker-path-heading h1 {
+
+    margin:
+        0;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    line-height:
+        0.92;
+
+    letter-spacing:
+        -0.045em;
+}
+
+
+/* =========================================================
+   5. ELIGE TU CAMINO
+   ========================================================= */
+
+.hacker-title-main {
+
+    display:
+        block;
+
+    color:
+        var(--text-primary);
+
+    font-size:
+        clamp(
+            2.8rem,
+            5.5vw,
+            5rem
+        );
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   6. HACKER
+   ========================================================= */
+
+.hacker-title-accent {
+
+    display:
+        block;
+
+    margin-top:
+        4px;
+
+    color:
+        var(--accent-green);
+
+    font-size:
+        clamp(
+            4rem,
+            8vw,
+            7rem
+        );
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        -0.06em;
+
+    text-shadow:
+        0 0 24px rgba(
+            57,
+            255,
+            136,
+            0.10
+        );
+}
+
+
+/* =========================================================
+   7. DESCRIPCIÓN
+   ========================================================= */
+
+.hacker-path-description {
+
+    max-width:
+        570px;
+
+    margin:
+        24px auto 0;
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        1rem;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================================
+   8. MORPHEUS - CONTENEDOR
+   ========================================================= */
+
+.morpheus-wrapper {
+
+    position:
+        relative;
+
+    width:
+        min(
+            780px,
+            88vw
+        );
+
+    margin:
+        0 auto;
+
+    padding-top:
+        12px;
+
+    line-height:
+        0;
+}
+
+
+/* =========================================================
+   9. MORPHEUS - IMAGEN
+   ========================================================= */
+
+.morpheus-image {
+
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        auto;
+
+    border-radius:
+        28px;
+
+    user-select:
+        none;
+
+    -webkit-user-drag:
+        none;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 7%,
+            black 87%,
+            transparent 100%
+        );
+
+    -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 7%,
+            black 87%,
+            transparent 100%
+        );
+}
+
+
+/* =========================================================
+   10. MATRIX - CONTENEDORES
+   ========================================================= */
+
+.matrix-rain {
+
+    position:
+        absolute;
+
+    z-index:
+        1;
+
+    top:
+        0;
+
+    bottom:
+        0;
+
+    width:
+        24%;
+
+    overflow:
+        hidden;
+
+    pointer-events:
+        none;
+
+    font-family:
+        var(--font-mono);
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        700;
+
+    line-height:
+        1.25;
+}
+
+
+/* =========================================================
+   11. MATRIX - IZQUIERDA
+   ========================================================= */
+
+.matrix-rain-left {
+
+    right:
+        calc(100% + 18px);
+}
+
+
+/* =========================================================
+   12. MATRIX - DERECHA
+   ========================================================= */
+
+.matrix-rain-right {
+
+    left:
+        calc(100% + 18px);
+}
+
+
+/* =========================================================
+   13. STREAM BASE
+   ========================================================= */
+
+.matrix-stream {
+
+    position:
+        absolute;
+
+    display:
+        block;
+
+    color:
+        rgba(
+            57,
+            255,
+            136,
+            0.50
+        );
+
+    text-shadow:
+        0 0 8px rgba(
+            57,
+            255,
+            136,
+            0.25
+        );
+
+    white-space:
+        nowrap;
+
+    animation:
+        matrixFall
+        7s
+        linear
+        infinite;
+}
+
+
+/* =========================================================
+   14. ANIMACIÓN MATRIX
+   ========================================================= */
+
+@keyframes matrixFall {
+
+    from {
+
+        transform:
+            translateY(-120px);
+
+    }
+
+    to {
+
+        transform:
+            translateY(600px);
+
+    }
+
+}
+
+
+/* =========================================================
+   15. STREAM 1
+   ========================================================= */
+
+.matrix-rain-left .stream-1 {
+
+    left:
+        5%;
+
+    top:
+        -40px;
+
+    animation-duration:
+        5.5s;
+
+    animation-delay:
+        -1s;
+
+    opacity:
+        0.75;
+}
+
+
+/* =========================================================
+   16. STREAM 2
+   ========================================================= */
+
+.matrix-rain-left .stream-2 {
+
+    left:
+        23%;
+
+    top:
+        -180px;
+
+    animation-duration:
+        7s;
+
+    animation-delay:
+        -3s;
+
+    opacity:
+        0.45;
+}
+
+
+/* =========================================================
+   17. STREAM 3
+   ========================================================= */
+
+.matrix-rain-left .stream-3 {
+
+    left:
+        42%;
+
+    top:
+        -80px;
+
+    animation-duration:
+        6.2s;
+
+    animation-delay:
+        -2s;
+
+    opacity:
+        0.65;
+}
+
+
+/* =========================================================
+   18. STREAM 4
+   ========================================================= */
+
+.matrix-rain-left .stream-4 {
+
+    left:
+        61%;
+
+    top:
+        -260px;
+
+    animation-duration:
+        8s;
+
+    animation-delay:
+        -5s;
+
+    opacity:
+        0.40;
+}
+
+
+/* =========================================================
+   19. STREAM 9
+   ========================================================= */
+
+.matrix-rain-left .stream-9 {
+
+    left:
+        77%;
+
+    top:
+        -130px;
+
+    animation-duration:
+        6.5s;
+
+    animation-delay:
+        -2.8s;
+
+    opacity:
+        0.60;
+}
+
+
+/* =========================================================
+   20. STREAM 10
+   ========================================================= */
+
+.matrix-rain-left .stream-10 {
+
+    left:
+        92%;
+
+    top:
+        -220px;
+
+    animation-duration:
+        8.5s;
+
+    animation-delay:
+        -6s;
+
+    opacity:
+        0.35;
+}
+
+
+/* =========================================================
+   21. STREAM 5
+   ========================================================= */
+
+.matrix-rain-right .stream-5 {
+
+    left:
+        5%;
+
+    top:
+        -150px;
+
+    animation-duration:
+        6.5s;
+
+    animation-delay:
+        -3s;
+
+    opacity:
+        0.60;
+}
+
+
+/* =========================================================
+   22. STREAM 6
+   ========================================================= */
+
+.matrix-rain-right .stream-6 {
+
+    left:
+        23%;
+
+    top:
+        -50px;
+
+    animation-duration:
+        8s;
+
+    animation-delay:
+        -5s;
+
+    opacity:
+        0.40;
+}
+
+
+/* =========================================================
+   23. STREAM 7
+   ========================================================= */
+
+.matrix-rain-right .stream-7 {
+
+    left:
+        42%;
+
+    top:
+        -230px;
+
+    animation-duration:
+        6s;
+
+    animation-delay:
+        -1.5s;
+
+    opacity:
+        0.70;
+}
+
+
+/* =========================================================
+   24. STREAM 8
+   ========================================================= */
+
+.matrix-rain-right .stream-8 {
+
+    left:
+        61%;
+
+    top:
+        -100px;
+
+    animation-duration:
+        7.5s;
+
+    animation-delay:
+        -4s;
+
+    opacity:
+        0.45;
+}
+
+
+/* =========================================================
+   25. STREAM 11
+   ========================================================= */
+
+.matrix-rain-right .stream-11 {
+
+    left:
+        77%;
+
+    top:
+        -190px;
+
+    animation-duration:
+        6.8s;
+
+    animation-delay:
+        -2.5s;
+
+    opacity:
+        0.60;
+}
+
+
+/* =========================================================
+   26. STREAM 12
+   ========================================================= */
+
+.matrix-rain-right .stream-12 {
+
+    left:
+        92%;
+
+    top:
+        -280px;
+
+    animation-duration:
+        8.5s;
+
+    animation-delay:
+        -6.5s;
+
+    opacity:
+        0.35;
+}
+
+
+/* =========================================================
+   27. PASTILLAS INTERACTIVAS
+   ========================================================= */
+
+.hacker-pill {
+
+    position:
+        absolute;
+
+    z-index:
+        4;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    color:
+        transparent;
+
+    text-decoration:
+        none;
+
+    background:
+        transparent;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform 180ms ease;
+}
+
+
+/* =========================================================
+   28. PASTILLA ROJA
+   ========================================================= */
+
+.hacker-pill-red {
+
+    left:
+        21%;
+
+    top:
+        76%;
+
+    width:
+        18%;
+
+    height:
+        11%;
+}
+
+
+/* =========================================================
+   29. PASTILLA AZUL
+   ========================================================= */
+
+.hacker-pill-blue {
+
+    right:
+        21%;
+
+    top:
+        76%;
+
+    width:
+        18%;
+
+    height:
+        11%;
+}
+
+
+/* =========================================================
+   30. INTERACCIÓN
+   ========================================================= */
+
+.hacker-pill:hover,
+.hacker-pill:focus-visible {
+
+    transform:
+        scale(1.035);
+}
+
+
+/* =========================================================
+   31. ETIQUETA
+   ========================================================= */
+
+.hacker-pill span {
+
+    position:
+        absolute;
+
+    bottom:
+        -38px;
+
+    padding:
+        7px 12px;
+
+    background:
+        rgba(
+            6,
+            10,
+            14,
+            0.94
+        );
+
+    font-family:
+        var(--font-mono);
+
+    font-size:
+        0.72rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.12em;
+
+    line-height:
+        1;
+
+    white-space:
+        nowrap;
+
+    opacity:
+        0;
+
+    transform:
+        translateY(5px);
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+}
+
+
+/* =========================================================
+   32. ETIQUETA OFENSIVA
+   ========================================================= */
+
+.hacker-pill-red span {
+
+    border:
+        1px solid rgba(
+            255,
+            55,
+            55,
+            0.55
+        );
+
+    color:
+        #ff4d4d;
+}
+
+
+/* =========================================================
+   33. ETIQUETA DEFENSIVA
+   ========================================================= */
+
+.hacker-pill-blue span {
+
+    border:
+        1px solid rgba(
+            65,
+            145,
+            255,
+            0.55
+        );
+
+    color:
+        #5aa2ff;
+}
+
+
+/* =========================================================
+   34. MOSTRAR ETIQUETA
+   ========================================================= */
+
+.hacker-pill:hover span,
+.hacker-pill:focus-visible span {
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   35. RUTAS INFERIORES
+   ========================================================= */
+
+.hacker-path-routes {
+
+    margin-top:
+        10px;
+
+    text-align:
+        center;
+}
+
+
+/* =========================================================
+   36. TEXTO DE RUTAS
+   ========================================================= */
+
+.hacker-path-routes-label {
+
+    margin:
+        0 0 16px;
+
+    color:
+        var(--text-muted);
+
+    font-family:
+        var(--font-mono);
+
+    font-size:
+        0.68rem;
+
+    letter-spacing:
+        0.14em;
+
+    text-transform:
+        uppercase;
+}
+
+
+/* =========================================================
+   37. CONTENEDOR DE RUTAS
+   ========================================================= */
+
+.hacker-path-route-links {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        18px;
+}
+
+
+/* =========================================================
+   38. ENLACES
+   ========================================================= */
+
+.route-link {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    font-family:
+        var(--font-mono);
+
+    font-size:
+        0.78rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.08em;
+
+    text-decoration:
+        none;
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+}
+
+
+/* =========================================================
+   39. INDICADOR
+   ========================================================= */
+
+.route-indicator {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    display:
+        inline-block;
+
+    border-radius:
+        50%;
+}
+
+
+/* =========================================================
+   40. RUTA OFENSIVA
+   ========================================================= */
+
+.route-link-red {
+
+    color:
+        #ff5555;
+}
+
+
+.route-link-red .route-indicator {
+
+    background:
+        #ff3b3b;
+
+    box-shadow:
+        0 0 5px rgba(
+            255,
+            50,
+            50,
+            0.5
+        );
+}
+
+
+/* =========================================================
+   41. RUTA DEFENSIVA
+   ========================================================= */
+
+.route-link-blue {
+
+    color:
+        #5aa2ff;
+}
+
+
+.route-link-blue .route-indicator {
+
+    background:
+        #3d8dff;
+
+    box-shadow:
+        0 0 5px rgba(
+            50,
+            130,
+            255,
+            0.5
+        );
+}
+
+
+/* =========================================================
+   42. HOVER DE RUTAS
+   ========================================================= */
+
+.route-link:hover {
+
+    opacity:
+        0.75;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   43. SEPARADOR
+   ========================================================= */
+
+.route-separator {
+
+    color:
+        var(--text-muted);
+
+    opacity:
+        0.4;
+
+    font-family:
+        var(--font-mono);
+}
+
+
+/* =========================================================
+   44. ACCESIBILIDAD
+   ========================================================= */
+
+.hacker-pill:focus-visible {
+
+    outline:
+        2px solid var(--text-primary);
+
+    outline-offset:
+        4px;
+}
+
+
+/* =========================================================
+   45. RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .hacker-path-section {
+
+        padding:
+            70px 0 80px;
+    }
+
+
+    .hacker-path-heading {
+
+        margin-bottom:
+            34px;
+    }
+
+
+    .hacker-title-main {
+
+        font-size:
+            clamp(
+                2.2rem,
+                10vw,
+                3.2rem
+            );
+    }
+
+
+    .hacker-title-accent {
+
+        font-size:
+            clamp(
+                3.5rem,
+                16vw,
+                5.5rem
+            );
+    }
+
+
+    .hacker-path-description {
+
+        padding:
+            0 20px;
+
+        font-size:
+            0.92rem;
+    }
+
+
+    /* =============================================
+       MORPHEUS
+       ============================================= */
+
+    .morpheus-wrapper {
+
+        width:
+            94vw;
+
+        padding-top:
+            8px;
+    }
+
+
+    /* =============================================
+       MATRIX MÓVIL
+       ============================================= */
+
+    .matrix-rain {
+
+        width:
+            15%;
+
+        font-size:
+            0.55rem;
+
+        opacity:
+            0.55;
+    }
+
+
+    .matrix-rain-left {
+
+        right:
+            calc(100% + 5px);
+    }
+
+
+    .matrix-rain-right {
+
+        left:
+            calc(100% + 5px);
+    }
+
+
+    .matrix-rain-left .stream-2,
+    .matrix-rain-left .stream-4,
+    .matrix-rain-left .stream-10,
+    .matrix-rain-right .stream-6,
+    .matrix-rain-right .stream-8,
+    .matrix-rain-right .stream-12 {
+
+        display:
+            none;
+    }
+
+
+    /* =============================================
+       PASTILLAS
+       ============================================= */
+
+    .hacker-pill {
+
+        width:
+            20%;
+
+        height:
+            13%;
+
+        top:
+            75%;
+    }
+
+
+    .hacker-pill-red {
+
+        left:
+            19%;
+    }
+
+
+    .hacker-pill-blue {
+
+        right:
+            19%;
+    }
+
+
+    .hacker-pill span {
+
+        bottom:
+            -34px;
+
+        font-size:
+            0.65rem;
+    }
+
+
+    /* =============================================
+       RUTAS
+       ============================================= */
+
+    .hacker-path-routes {
+
+        margin-top:
+            4px;
+    }
+
+
+    .hacker-path-route-links {
+
+        flex-direction:
+            column;
+
+        gap:
+            12px;
+    }
+
+
+    .route-separator {
+
+        display:
+            none;
+    }
+
+}
+
+
+/* =========================================================
+   46. REDUCIR ANIMACIONES
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .matrix-stream,
+    .hacker-pill,
+    .hacker-pill span,
+    .route-link {
+
+        animation:
+            none;
+
+        transition:
+            none;
+    }
+
+}
+
+/* =========================================================

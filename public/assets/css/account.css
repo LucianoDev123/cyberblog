@@ -1,0 +1,139 @@
+   ACCOUNT PAGE
+   ========================================================= */
+
+.account-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.account-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.account-field label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.account-field input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #303a48;
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #101720;
+    color: var(--text-primary);
+
+    font-size: 14px;
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition),
+        background var(--transition);
+}
+
+.account-field input:hover {
+    border-color: #475467;
+}
+
+.account-field input:focus {
+    border-color: var(--accent-green);
+
+    background: #131c26;
+
+    box-shadow:
+        0 0 0 3px rgba(57, 255, 136, 0.10);
+}
+
+
+/* =========================================================
+   ACCOUNT STATUS / INFORMATION
+   ========================================================= */
+
+.account-info {
+    margin-top: 4px;
+    padding: 16px;
+
+    border: 1px solid #273448;
+    border-radius: 8px;
+
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.account-info p {
+    margin: 0 0 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.account-info p:last-child {
+    margin-bottom: 0;
+}
+
+.account-info strong {
+    color: var(--text-primary);
+}
+
+
+/* =========================================================
+   ACCOUNT MESSAGES
+   ========================================================= */
+
+.form-message {
+    margin-bottom: 20px;
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.form-message.success {
+    border: 1px solid rgba(57, 255, 136, 0.30);
+    background: rgba(57, 255, 136, 0.08);
+    color: var(--accent-green);
+}
+
+.form-message.error {
+    border: 1px solid rgba(255, 90, 90, 0.30);
+    background: rgba(255, 90, 90, 0.08);
+    color: #ff8a8a;
+}
+
+.account-section {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid #273448;
+}
+
+.account-section-header {
+    margin-bottom: 24px;
+}
+
+.account-section-header h2 {
+    margin: 8px 0 8px;
+    color: var(--text-primary);
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.account-section-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}

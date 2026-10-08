@@ -251,39 +251,6 @@ declare(strict_types=1);
             >
 
                 <!-- ================================================= -->
-                <!-- CABECERA DE LA NAVEGACIÓN -->
-                <!-- ================================================= -->
-
-                <div class="series-navigation-header">
-
-                    <span class="series-navigation-label">
-
-                        SERIE
-
-                    </span>
-
-
-                    <a
-                        href="/series/<?= htmlspecialchars(
-                            $seriesNavigation['serie']['slug'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>"
-                        class="series-navigation-title"
-                    >
-
-                        <?= htmlspecialchars(
-                            $seriesNavigation['serie']['titulo'],
-                            ENT_QUOTES,
-                            'UTF-8'
-                        ) ?>
-
-                    </a>
-
-                </div>
-
-
-                <!-- ================================================= -->
                 <!-- PROGRESO -->
                 <!-- ================================================= -->
 

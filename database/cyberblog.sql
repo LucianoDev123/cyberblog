@@ -159,12 +159,27 @@ CREATE TABLE `usuarios` (
 --
 
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `usuario_id` int(10) UNSIGNED NOT NULL,
+  `token_hash` char(64) NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `articulos`
+-- Índices de la tabla `articulos`
 --
 ALTER TABLE `articulos`
   ADD PRIMARY KEY (`id`),
@@ -174,14 +189,14 @@ ALTER TABLE `articulos`
   ADD KEY `idx_articulos_serie_id` (`serie_id`);
 
 --
--- Indices de la tabla `articulo_etiqueta`
+-- Índices de la tabla `articulo_etiqueta`
 --
 ALTER TABLE `articulo_etiqueta`
   ADD PRIMARY KEY (`articulo_id`,`etiqueta_id`),
   ADD KEY `fk_rel_etiqueta` (`etiqueta_id`);
 
 --
--- Indices de la tabla `categorias`
+-- Índices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`),
@@ -189,7 +204,7 @@ ALTER TABLE `categorias`
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
--- Indices de la tabla `comentarios`
+-- Índices de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`id`),
@@ -197,7 +212,7 @@ ALTER TABLE `comentarios`
   ADD KEY `fk_comentario_usuario` (`usuario_id`);
 
 --
--- Indices de la tabla `etiquetas`
+-- Índices de la tabla `etiquetas`
 --
 ALTER TABLE `etiquetas`
   ADD PRIMARY KEY (`id`),
@@ -205,19 +220,28 @@ ALTER TABLE `etiquetas`
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
--- Indices de la tabla `series`
+-- Índices de la tabla `series`
 --
 ALTER TABLE `series`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `slug` (`slug`);
 
 --
--- Indices de la tabla `usuarios`
+-- Índices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Índices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token_hash` (`token_hash`),
+  ADD KEY `idx_password_resets_usuario_id` (`usuario_id`),
+  ADD KEY `idx_password_resets_expires_at` (`expires_at`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -260,6 +284,12 @@ ALTER TABLE `usuarios`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Restricciones para tablas volcadas
 --
 
@@ -267,23 +297,44 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `articulos`
 --
 ALTER TABLE `articulos`
-  ADD CONSTRAINT `fk_articulo_categoria` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`),
-  ADD CONSTRAINT `fk_articulo_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
-  ADD CONSTRAINT `fk_articulos_series` FOREIGN KEY (`serie_id`) REFERENCES `series` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `fk_articulo_categoria`
+    FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`),
+  ADD CONSTRAINT `fk_articulo_usuario`
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_articulos_series`
+    FOREIGN KEY (`serie_id`) REFERENCES `series` (`id`)
+    ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `articulo_etiqueta`
 --
 ALTER TABLE `articulo_etiqueta`
-  ADD CONSTRAINT `fk_rel_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_rel_etiqueta` FOREIGN KEY (`etiqueta_id`) REFERENCES `etiquetas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_rel_articulo`
+    FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`)
+    ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_rel_etiqueta`
+    FOREIGN KEY (`etiqueta_id`) REFERENCES `etiquetas` (`id`)
+    ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  ADD CONSTRAINT `fk_comentario_articulo` FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`),
-  ADD CONSTRAINT `fk_comentario_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `fk_comentario_articulo`
+    FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`),
+  ADD CONSTRAINT `fk_comentario_usuario`
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD CONSTRAINT `fk_password_resets_usuario`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `usuarios` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,0 +1,359 @@
+    /* =========================================================
+    4. HEADER
+    ========================================================= */
+
+    /* Encabezado principal del sitio. */
+    .site-header {
+        position:
+            sticky;
+
+        top:
+            0;
+
+        z-index:
+            100;
+
+        background:
+            rgba(9, 11, 16, 0.92);
+
+        border-bottom:
+            1px solid var(--border-color);
+
+        backdrop-filter:
+            blur(12px);
+    }
+
+
+    /* Contenedor interno del header. */
+    .header-container {
+        min-height:
+            76px;
+
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            space-between;
+
+        gap:
+            30px;
+    }
+
+
+    /* =========================================================
+    5. BRAND
+    ========================================================= */
+
+    /* Marca principal del sitio. */
+    .brand {
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            10px;
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            1.2rem;
+
+        font-weight:
+            700;
+
+        letter-spacing:
+            0.05em;
+    }
+
+
+    /* Símbolo >_ de la marca. */
+    .brand-mark {
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        justify-content:
+            center;
+
+        width:
+            38px;
+
+        height:
+            38px;
+
+        box-sizing:
+            border-box;
+
+        border:
+            1px solid
+            rgba(57, 255, 136, 0.35);
+
+        border-radius:
+            8px;
+
+        background:
+            rgba(57, 255, 136, 0.08);
+
+        color:
+            var(--accent-green);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            14px;
+
+        font-weight:
+            700;
+
+        line-height:
+            1;
+    }
+
+
+    /* Texto principal de la marca. */
+    .brand-text {
+        color:
+            var(--text-primary);
+    }
+
+
+    /* Parte destacada del logo. */
+    .brand-text span {
+        color:
+            var(--accent-green);
+    }
+
+
+    /* =========================================================
+    6. NAV
+    ========================================================= */
+
+    /* Navegación principal. */
+    .main-nav {
+        display:
+            flex;
+
+        align-items:
+            center;
+
+        gap:
+            28px;
+    }
+
+
+    /* Estilo base de los enlaces del menú. */
+    .nav-link {
+        position:
+            relative;
+
+        color:
+            var(--text-secondary);
+
+        font-size:
+            0.9rem;
+
+        font-weight:
+            500;
+
+        transition:
+            color var(--transition);
+    }
+
+
+    /* Cambio de color al pasar el cursor. */
+    .nav-link:hover {
+        color:
+            var(--accent-green);
+    }
+
+
+    /* Línea decorativa debajo del enlace. */
+    .nav-link::after {
+        content:
+            "";
+
+        position:
+            absolute;
+
+        left:
+            0;
+
+        bottom:
+            -7px;
+
+        width:
+            0;
+
+        height:
+            2px;
+
+        background:
+            var(--accent-green);
+
+        transition:
+            width var(--transition);
+    }
+
+
+    /* Expandimos la línea al pasar el cursor. */
+    .nav-link:hover::after {
+        width:
+            100%;
+    }
+
+
+    /* =========================================================
+    7. ACCESO AL PANEL ADMINISTRATIVO
+    ========================================================= */
+
+    /* Botón especial para acceder al panel administrativo. */
+    .nav-link-admin {
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            8px;
+
+        padding:
+            10px 14px;
+
+        border:
+            1px solid rgba(57, 255, 136, 0.25);
+
+        border-radius:
+            8px;
+
+        color:
+            var(--text-primary);
+
+        background:
+            rgba(57, 255, 136, 0.06);
+
+        transition:
+            background var(--transition),
+            border-color var(--transition),
+            transform var(--transition);
+    }
+
+
+    /* Estado hover del botón administrativo. */
+    .nav-link-admin:hover {
+        color:
+            var(--text-primary);
+
+        border-color:
+            rgba(57, 255, 136, 0.65);
+
+        background:
+            rgba(57, 255, 136, 0.12);
+
+        transform:
+            translateY(-1px);
+    }
+
+
+    /* Icono del panel administrativo. */
+    .nav-admin-icon {
+        color:
+            var(--accent-green);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            14px;
+
+        font-weight:
+            700;
+    }
+
+
+    /* =========================================================
+    8. ACCESO AL BUSCADOR
+    ========================================================= */
+
+    /*
+    * Botón visual que permite acceder
+    * al buscador interno del blog.
+    */
+    .nav-link-search {
+        display:
+            inline-flex;
+
+        align-items:
+            center;
+
+        gap:
+            8px;
+
+        padding:
+            10px 14px;
+
+        border:
+            1px solid rgba(88, 166, 255, 0.25);
+
+        border-radius:
+            8px;
+
+        background:
+            rgba(88, 166, 255, 0.06);
+
+        transition:
+            color var(--transition),
+            background var(--transition),
+            border-color var(--transition),
+            transform var(--transition);
+    }
+
+
+    /* Estado hover del acceso al buscador. */
+    .nav-link-search:hover {
+        color:
+            var(--text-primary);
+
+        border-color:
+            var(--accent-blue);
+
+        background:
+            rgba(88, 166, 255, 0.12);
+
+        transform:
+            translateY(-1px);
+    }
+
+
+    /* Eliminamos la línea inferior heredada de .nav-link. */
+    .nav-link-search::after {
+        display:
+            none;
+    }
+
+
+    /* Icono utilizado dentro del botón Buscar. */
+    .nav-search-icon {
+        color:
+            var(--accent-blue);
+
+        font-family:
+            var(--font-mono);
+
+        font-size:
+            1rem;
+
+        font-weight:
+            700;
+    }
+
+

@@ -12,7 +12,7 @@ use App\Controllers\UserController;
 use App\Controllers\UploadController;
 use App\Controllers\SeriesController;
 use App\Controllers\SecurityAnalyzerController;
-
+use App\Controllers\AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,9 +122,6 @@ $router->post('/api/security-analyzer', [
 ]);
 
 
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Administración
@@ -200,10 +197,11 @@ $router->post('/admin/articles/delete/{id}', [
     'delete'
 ]);
 
-/* 
-|-------------------------------------------------------------------------- 
+
+/*
+|--------------------------------------------------------------------------
 | Categorías administrativas
-|-------------------------------------------------------------------------- 
+|--------------------------------------------------------------------------
 */
 
 
@@ -226,7 +224,7 @@ $router->get('/admin/categories/create', [
 
 
 /*
- * Procesar creación de categoría.
+ * Procesar creación de una categoría.
  */
 $router->post('/admin/categories', [
     CategoryController::class,
@@ -244,7 +242,7 @@ $router->get('/admin/categories/edit/{id}', [
 
 
 /*
- * Procesar edición de categoría.
+ * Procesar edición de una categoría.
  */
 $router->post('/admin/categories/update/{id}', [
     CategoryController::class,
@@ -261,11 +259,6 @@ $router->post('/admin/categories/delete/{id}', [
     CategoryController::class,
     'delete'
 ]);
-
-
-
-
-
 
 
 /*
@@ -418,6 +411,24 @@ $router->post('/admin/users/delete/{id}', [
 
 
 /*
+ * Formulario de registro.
+ */
+$router->get('/register', [
+    AuthController::class,
+    'register'
+]);
+
+
+/*
+ * Procesar registro.
+ */
+$router->post('/register', [
+    AuthController::class,
+    'storeRegister'
+]);
+
+
+/*
  * Formulario de login.
  */
 $router->get('/login', [
@@ -441,4 +452,79 @@ $router->post('/login', [
 $router->get('/logout', [
     AuthController::class,
     'logout'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Cuenta personal
+|--------------------------------------------------------------------------
+*/
+
+
+$router->get('/account', [
+    AccountController::class,
+    'index'
+]);
+
+
+$router->post('/account/update', [
+    AccountController::class,
+    'update'
+]);
+
+
+$router->post('/account/password', [
+    AccountController::class,
+    'changePassword'
+]);
+
+
+/*
+|--------------------------------------------------------------------------
+| Recuperación de contraseña
+|--------------------------------------------------------------------------
+*/
+
+
+/*
+ * Formulario para solicitar la recuperación.
+ */
+$router->get('/forgot-password', [
+    AuthController::class,
+    'forgotPassword'
+]);
+
+
+/*
+ * Procesar solicitud de recuperación.
+ *
+ * Genera y envía el código mediante SMTP.
+ */
+$router->post('/forgot-password', [
+    AuthController::class,
+    'processForgotPassword'
+]);
+
+
+/*
+ * Formulario para introducir:
+ *
+ * - correo electrónico;
+ * - código de recuperación;
+ * - nueva contraseña;
+ * - confirmación.
+ */
+$router->get('/reset-password', [
+    AuthController::class,
+    'resetPassword'
+]);
+
+
+/*
+ * Procesar el restablecimiento de contraseña.
+ */
+$router->post('/reset-password', [
+    AuthController::class,
+    'processResetPassword'
 ]);

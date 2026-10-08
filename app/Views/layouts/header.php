@@ -3,11 +3,14 @@
 declare(strict_types=1);
 
 /*
- * Versión del CSS.
+ * =========================================================
+ * CSS GLOBAL
+ * =========================================================
  *
  * Utilizamos la fecha de modificación del archivo
  * para evitar problemas de caché del navegador.
  */
+
 $cssPath =
     dirname(__DIR__, 2) .
     '/../public/assets/css/style.css';
@@ -16,6 +19,104 @@ $cssVersion =
     file_exists($cssPath)
         ? (string) filemtime($cssPath)
         : (string) time();
+
+
+/*
+ * =========================================================
+ * CSS ESPECÍFICO DE PÁGINA
+ * =========================================================
+ *
+ * Algunas páginas necesitan estilos propios que no deben
+ * cargarse en todo el sitio.
+ *
+ * Ejemplo:
+ *
+ * $pageCss = 'article.css';
+ *
+ * El valor debe ser solamente el nombre del archivo CSS.
+ */
+
+$pageCss = $pageCss ?? null;
+
+$pageCssPath = null;
+$pageCssVersion = null;
+
+if (
+    is_string($pageCss) &&
+    $pageCss !== ''
+) {
+
+    /*
+     * Permitimos únicamente nombres de archivo CSS simples.
+     *
+     * Esto evita que una variable de vista pueda utilizar
+     * rutas arbitrarias.
+     */
+    if (
+        preg_match(
+            '/^[a-zA-Z0-9_-]+\.css$/',
+            $pageCss
+        )
+    ) {
+
+        $pageCssPath =
+            dirname(__DIR__, 2) .
+            '/../public/assets/css/' .
+            $pageCss;
+
+
+        if (file_exists($pageCssPath)) {
+
+            $pageCssVersion =
+                (string) filemtime(
+                    $pageCssPath
+                );
+
+        } else {
+
+            /*
+             * Si el archivo solicitado no existe,
+             * no cargamos ninguna hoja específica.
+             */
+            $pageCss = null;
+            $pageCssPath = null;
+            $pageCssVersion = null;
+        }
+
+    } else {
+
+        /*
+         * Valor inválido: no se carga ningún CSS
+         * específico.
+         */
+        $pageCss = null;
+    }
+}
+
+
+/*
+ * =========================================================
+ * ESTADO DE AUTENTICACIÓN
+ * =========================================================
+ *
+ * Comprobamos si existe un ID de usuario
+ * almacenado en la sesión.
+ */
+
+$isAuthenticated =
+    isset($_SESSION['usuario_id']);
+
+
+/*
+ * =========================================================
+ * ROL DEL USUARIO
+ * =========================================================
+ *
+ * Si no existe una sesión, el valor será null.
+ */
+
+$userRole =
+    $_SESSION['usuario_rol'] ?? null;
 
 ?>
 <!DOCTYPE html>
@@ -77,10 +178,36 @@ $cssVersion =
             'UTF-8'
         ) ?>"
     >
+
     <link
         rel="stylesheet"
         href="/assets/css/security-analyzer.css"
-    >    
+    >
+
+
+    <?php if (
+        $pageCss !== null &&
+        $pageCssVersion !== null
+    ): ?>
+
+        <!-- ================================================= -->
+        <!-- ESTILO ESPECÍFICO DE LA PÁGINA -->
+        <!-- ================================================= -->
+
+        <link
+            rel="stylesheet"
+            href="/assets/css/<?= htmlspecialchars(
+                $pageCss,
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>?v=<?= htmlspecialchars(
+                $pageCssVersion,
+                ENT_QUOTES,
+                'UTF-8'
+            ) ?>"
+        >
+
+    <?php endif; ?>
 
 
 </head>
@@ -187,23 +314,122 @@ $cssVersion =
             </a>
 
 
-            <!-- Panel administrativo -->
+            <?php if (!$isAuthenticated): ?>
 
-            <a
-                href="/admin"
-                class="nav-link nav-link-admin"
-            >
+                <!-- ========================================= -->
+                <!-- USUARIO NO AUTENTICADO -->
+                <!-- ========================================= -->
 
-                <span
-                    class="nav-admin-icon"
-                    aria-hidden="true"
+
+                <!-- Inicio de sesión -->
+
+                <a
+                    href="/login"
+                    class="nav-link"
                 >
-                    ⌘
-                </span>
 
-                Panel admin
+                    Iniciar sesión
 
-            </a>
+                </a>
+
+
+                <!-- Registro -->
+
+                <a
+                    href="/register"
+                    class="nav-link"
+                >
+
+                    Registrarse
+
+                </a>
+
+
+            <?php elseif (
+                $userRole === 'admin' ||
+                $userRole === 'editor'
+            ): ?>
+
+                <!-- ========================================= -->
+                <!-- ADMINISTRADOR / EDITOR -->
+                <!-- ========================================= -->
+
+
+                <!-- Panel administrativo -->
+
+                <a
+                    href="/admin"
+                    class="nav-link nav-link-admin"
+                >
+
+                    <span
+                        class="nav-admin-icon"
+                        aria-hidden="true"
+                    >
+                        ⌘
+                    </span>
+
+                    Panel admin
+
+                </a>
+
+
+                <!-- Mi cuenta -->
+
+                <a
+                    href="/account"
+                    class="nav-link"
+                >
+
+                    Mi cuenta
+
+                </a>
+
+
+                <!-- Cerrar sesión -->
+
+                <a
+                    href="/logout"
+                    class="nav-link"
+                >
+
+                    Cerrar sesión
+
+                </a>
+
+
+            <?php else: ?>
+
+                <!-- ========================================= -->
+                <!-- USUARIO NORMAL -->
+                <!-- ========================================= -->
+
+
+                <!-- Mi cuenta -->
+
+                <a
+                    href="/account"
+                    class="nav-link"
+                >
+
+                    Mi cuenta
+
+                </a>
+
+
+                <!-- Cerrar sesión -->
+
+                <a
+                    href="/logout"
+                    class="nav-link"
+                >
+
+                    Cerrar sesión
+
+                </a>
+
+
+            <?php endif; ?>
 
 
         </nav>
