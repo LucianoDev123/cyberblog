@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -18,30 +17,20 @@
         ) ?>
     </title>
 
-
-    <!--
-        Estilos generales del FrontOffice.
-    -->
+    <!-- Estilos generales del FrontOffice -->
     <link
         rel="stylesheet"
         href="/assets/css/style.css"
     >
 
-
-    <!--
-        Estilos generales del BackOffice.
-    -->
+    <!-- Estilos generales del BackOffice -->
     <link
         rel="stylesheet"
         href="/assets/css/admin.css"
     >
 
-
     <?php if (!empty($adminModule)): ?>
-
-        <!--
-            Estilos específicos del módulo administrativo.
-        -->
+        <!-- Estilos específicos del módulo administrativo -->
         <link
             rel="stylesheet"
             href="/assets/css/<?= htmlspecialchars(
@@ -50,17 +39,17 @@
                 'UTF-8'
             ) ?>.css"
         >
-
     <?php endif; ?>
 
 </head>
-
 
 <body class="admin-body">
 
     <div class="admin-layout">
 
-
+        <!-- =========================================
+             BARRA LATERAL
+             ========================================= -->
         <aside class="admin-sidebar">
 
             <div class="admin-logo">
@@ -69,19 +58,16 @@
                     href="/admin"
                     class="admin-logo-link"
                 >
-
                     <span class="admin-logo-symbol">
-                        >_
+                        &gt;_
                     </span>
 
                     <span class="admin-logo-text">
                         CYBER<span>BLOG</span>
                     </span>
-
                 </a>
 
             </div>
-
 
             <nav class="admin-navigation">
 
@@ -89,161 +75,108 @@
                     PANEL
                 </div>
 
-
                 <a
                     href="/admin"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ⌂
-                    </span>
-
-                    <span>
-                        Dashboard
-                    </span>
-
+                    <span class="admin-nav-icon">⌂</span>
+                    <span>Dashboard</span>
                 </a>
-
 
                 <a
                     href="/admin/articles"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ▤
-                    </span>
-
-                    <span>
-                        Artículos
-                    </span>
-
+                    <span class="admin-nav-icon">▤</span>
+                    <span>Artículos</span>
                 </a>
-
 
                 <a
                     href="/admin/series"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ≡
-                    </span>
-
-                    <span>
-                        Series
-                    </span>
-
+                    <span class="admin-nav-icon">≡</span>
+                    <span>Series</span>
                 </a>
-
 
                 <a
                     href="/admin/categories"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ▦
-                    </span>
-
-                    <span>
-                        Categorías
-                    </span>
-
+                    <span class="admin-nav-icon">▦</span>
+                    <span>Categorías</span>
                 </a>
 
+                <a
+                    href="/admin/comments"
+                    class="admin-nav-link"
+                >
+                    <span class="admin-nav-icon">◌</span>
+                    <span>Comentarios</span>
+                </a>
 
                 <a
                     href="/admin/users"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ◉
-                    </span>
-
-                    <span>
-                        Usuarios
-                    </span>
-
+                    <span class="admin-nav-icon">◉</span>
+                    <span>Usuarios</span>
                 </a>
 
-
                 <div class="admin-navigation-separator"></div>
-
 
                 <div class="admin-navigation-title">
                     SITIO
                 </div>
 
-
                 <a
                     href="/"
                     class="admin-nav-link"
                 >
-
-                    <span class="admin-nav-icon">
-                        ↗
-                    </span>
-
-                    <span>
-                        Ver Blog
-                    </span>
-
+                    <span class="admin-nav-icon">↗</span>
+                    <span>Ver Blog</span>
                 </a>
-
 
                 <a
                     href="/logout"
                     class="admin-nav-link admin-nav-logout"
                 >
-
-                    <span class="admin-nav-icon">
-                        ⏻
-                    </span>
-
-                    <span>
-                        Cerrar sesión
-                    </span>
-
+                    <span class="admin-nav-icon">⏻</span>
+                    <span>Cerrar sesión</span>
                 </a>
 
             </nav>
 
-
             <div class="admin-sidebar-footer">
-
                 <span class="admin-status-dot"></span>
 
                 <span>
                     Sistema operativo
                 </span>
-
             </div>
 
         </aside>
 
 
+        <!-- =========================================
+             ÁREA PRINCIPAL
+             ========================================= -->
         <div class="admin-main">
 
-
+            <!-- Encabezado global -->
             <header class="admin-header">
 
                 <div class="admin-header-left">
 
                     <h1 class="admin-page-title">
-
                         <?= htmlspecialchars(
                             $title ?? 'Panel de Administración',
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
-
                     </h1>
 
                 </div>
-
 
                 <div class="admin-header-right">
 
@@ -251,15 +184,16 @@
                         href="/"
                         class="admin-header-link"
                         title="Ver Blog"
+                        aria-label="Ver Blog"
                     >
                         ↗
                     </a>
-
 
                     <a
                         href="/logout"
                         class="admin-header-link admin-header-logout"
                         title="Cerrar sesión"
+                        aria-label="Cerrar sesión"
                     >
                         ⏻
                     </a>
@@ -269,62 +203,60 @@
             </header>
 
 
+            <!-- =========================================
+                 CONTENIDO DE LA VISTA
+                 ========================================= -->
             <main class="admin-content">
 
+                <!-- Mensaje de error global -->
                 <?php if (!empty($flashError)): ?>
 
                     <div
                         class="admin-alert admin-alert-error"
+                        role="alert"
                     >
-
                         <?= htmlspecialchars(
                             $flashError,
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
-
                     </div>
 
                 <?php endif; ?>
 
 
+                <!-- Mensaje de éxito global -->
                 <?php if (!empty($flashSuccess)): ?>
 
                     <div
                         class="admin-alert admin-alert-success"
+                        role="status"
                     >
-
                         <?= htmlspecialchars(
                             $flashSuccess,
                             ENT_QUOTES,
                             'UTF-8'
                         ) ?>
-
                     </div>
 
                 <?php endif; ?>
 
 
+                <!-- Vista del módulo -->
                 <?= $content ?>
 
             </main>
 
 
+            <!-- Pie de página -->
             <footer class="admin-footer">
 
                 <span>
-
-                    © <?= date('Y') ?>
-
-                    CyberBlog
-
+                    © <?= date('Y') ?> CyberBlog
                 </span>
 
-
                 <span class="admin-footer-version">
-
                     Panel de Administración
-
                 </span>
 
             </footer>
@@ -334,9 +266,7 @@
     </div>
 
 
-    <script
-        src="/assets/js/editor.js"
-    ></script>
+    <script src="/assets/js/editor.js"></script>
 
 </body>
 

@@ -609,18 +609,34 @@ class AuthController extends Controller
 
     public function authenticate(): void
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
 
         $userModel = new User();
         $user = $userModel->findByEmail($email);
 
-        if ($user === false) {
-            die('Usuario o contraseña incorrectos.');
+        if (
+            $user === false ||
+            !password_verify($password, $user['password'])
+        ) {
+            $this->setFlash(
+                'error',
+                'Usuario o contraseña incorrectos.'
+            );
+
+            header('Location: /login');
+            exit;
         }
 
-        if (!password_verify($password, $user['password'])) {
-            die('Usuario o contraseña incorrectos.');
+        // Evitamos iniciar sesión con una cuenta deshabilitada.
+        if ((int) $user['estado'] !== 1) {
+            $this->setFlash(
+                'error',
+                'Tu cuenta está deshabilitada.'
+            );
+
+            header('Location: /login');
+            exit;
         }
 
         session_regenerate_id(true);
@@ -640,6 +656,9 @@ class AuthController extends Controller
 
         exit;
     }
+
+
+
 
 
     public function logout(): void

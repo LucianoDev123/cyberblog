@@ -1794,3 +1794,437 @@ body {
     }
 
 }
+
+/* =========================================================
+   CYBERBLOG - MODERACIÓN ADMINISTRATIVA DE COMENTARIOS
+   ========================================================= */
+
+.comments-admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comments-admin-item {
+    padding: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.45);
+    overflow-wrap: anywhere;
+}
+
+.comments-admin-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.comments-admin-item-header h3 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+}
+
+.comments-admin-email {
+    margin: 0;
+    color: var(--text-secondary, #9ca3af);
+    font-size: 0.9rem;
+}
+
+.comments-admin-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 999px;
+    background: rgba(245, 158, 11, 0.1);
+    color: #fbbf24;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.comments-admin-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+    color: var(--text-secondary, #9ca3af);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.comments-admin-meta strong {
+    color: var(--text-primary, #e5e7eb);
+}
+
+.comments-admin-content {
+    padding: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    border-radius: 9px;
+    background: rgba(2, 6, 23, 0.45);
+    color: var(--text-primary, #e5e7eb);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.comments-admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.comments-admin-actions form {
+    margin: 0;
+}
+
+.comments-admin-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.comments-admin-button:hover {
+    transform: translateY(-1px);
+}
+
+.comments-admin-button-approve {
+    border-color: #10b981;
+    background: #10b981;
+    color: #052e22;
+}
+
+.comments-admin-button-approve:hover {
+    border-color: #34d399;
+    background: #34d399;
+}
+
+.comments-admin-button-delete {
+    border-color: rgba(248, 113, 113, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+    color: #fca5a5;
+}
+
+.comments-admin-button-delete:hover {
+    border-color: #f87171;
+    background: rgba(239, 68, 68, 0.17);
+}
+
+.comments-admin-button:focus-visible {
+    outline: 2px solid #6ee7b7;
+    outline-offset: 3px;
+}
+
+.comments-admin-empty {
+    padding: 48px 20px;
+    text-align: center;
+}
+
+.comments-admin-empty-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    font-size: 1.4rem;
+}
+
+.comments-admin-empty h3 {
+    margin: 0 0 10px;
+}
+
+.comments-admin-empty p {
+    margin: 0;
+    color: var(--text-secondary, #9ca3af);
+    line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+    .comments-admin-item {
+        padding: 18px;
+    }
+
+    .comments-admin-actions {
+        flex-direction: column;
+    }
+
+    .comments-admin-actions form,
+    .comments-admin-button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   MODERACIÓN DE COMENTARIOS
+   ========================================= */
+
+.comments-admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 8px 0 4px;
+}
+
+.comments-admin-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comments-admin-item:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 5px 16px rgba(15, 23, 42, 0.07);
+}
+
+/* Encabezado: autor y estado */
+
+.comments-admin-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.comments-admin-item-header h3 {
+    margin: 0 0 6px;
+    color: #172033;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.comments-admin-email {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+}
+
+/* Estado del comentario */
+
+.comments-admin-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 6px 11px;
+    border: 1px solid #fcd34d;
+    border-radius: 20px;
+    background: #fffbeb;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.comments-admin-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d97706;
+}
+
+/* Información del artículo y fecha */
+
+.comments-admin-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    padding: 14px 0;
+    margin-bottom: 16px;
+    border-top: 1px solid #edf0f4;
+    border-bottom: 1px solid #edf0f4;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.comments-admin-meta strong {
+    color: #334155;
+    font-weight: 600;
+}
+
+/* Contenido del comentario */
+
+.comments-admin-content {
+    padding: 18px 20px;
+    border: 1px solid #e8edf3;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+/* Acciones */
+
+.comments-admin-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.comments-admin-actions form {
+    margin: 0;
+}
+
+.comments-admin-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.comments-admin-button:hover {
+    transform: translateY(-1px);
+}
+
+/* Aprobar: verde discreto */
+
+.comments-admin-button-approve {
+    background: #059669;
+    border-color: #059669;
+    color: #ffffff;
+}
+
+.comments-admin-button-approve:hover {
+    background: #047857;
+    border-color: #047857;
+}
+
+/* Eliminar: rojo */
+
+.comments-admin-button-delete {
+    background: #ffffff;
+    border-color: #fecaca;
+    color: #b91c1c;
+}
+
+.comments-admin-button-delete:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+}
+
+/* Estado vacío */
+
+.comments-admin-empty {
+    padding: 48px 20px;
+    text-align: center;
+}
+
+.comments-admin-empty-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 14px;
+    border-radius: 50%;
+    background: #ecfdf5;
+    color: #059669;
+    font-size: 24px;
+}
+
+.comments-admin-empty h3 {
+    margin: 0 0 8px;
+    color: #172033;
+    font-size: 18px;
+}
+
+.comments-admin-empty p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 640px) {
+    .comments-admin-item {
+        padding: 18px;
+    }
+
+    .comments-admin-item-header {
+        gap: 10px;
+    }
+
+    .comments-admin-meta {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .comments-admin-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .comments-admin-actions form,
+    .comments-admin-button {
+        width: 100%;
+    }
+}
+
+/* Botón de regreso en moderación de comentarios */
+
+.admin-page .comments-back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    margin-top: 18px;
+    padding: 0 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.admin-page .comments-back-button:hover {
+    background: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
+}

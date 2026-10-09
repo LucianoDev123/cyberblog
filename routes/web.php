@@ -13,7 +13,7 @@ use App\Controllers\UploadController;
 use App\Controllers\SeriesController;
 use App\Controllers\SecurityAnalyzerController;
 use App\Controllers\AccountController;
-
+use App\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Rutas de la aplicación
@@ -61,6 +61,16 @@ $router->get('/blog/{slug}', [
     'show'
 ]);
 
+/*
+ * Procesar el envío de un comentario.
+ *
+ * Los comentarios quedan pendientes de moderación.
+ * La ruta debe utilizar POST porque modifica datos.
+ */
+$router->post('/blog/{slug}/comments', [
+    BlogController::class,
+    'storeComment'
+]);
 
 /*
  * Vista individual de una categoría.
@@ -133,6 +143,37 @@ $router->get('/admin', [
     DashboardController::class,
     'index'
 ]);
+
+/*
+|--------------------------------------------------------------------------
+| Moderación de comentarios
+|--------------------------------------------------------------------------
+*/
+
+/*
+ * Listado de comentarios pendientes.
+ */
+$router->get('/admin/comments', [
+    CommentController::class,
+    'index'
+]);
+
+/*
+ * Aprobar un comentario.
+ */
+$router->post('/admin/comments/approve/{id}', [
+    CommentController::class,
+    'approve'
+]);
+
+/*
+ * Eliminar un comentario.
+ */
+$router->post('/admin/comments/delete/{id}', [
+    CommentController::class,
+    'delete'
+]);
+
 
 
 /*

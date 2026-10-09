@@ -88,6 +88,7 @@ CREATE TABLE `comentarios` (
   `id` int(10) UNSIGNED NOT NULL,
   `articulo_id` int(10) UNSIGNED NOT NULL,
   `usuario_id` int(10) UNSIGNED DEFAULT NULL,
+  `comentario_padre_id` int(10) UNSIGNED DEFAULT NULL,
   `autor` varchar(100) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `comentario` text NOT NULL,
@@ -128,11 +129,6 @@ CREATE TABLE `series` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `series`
---
-
 
 -- --------------------------------------------------------
 
@@ -209,7 +205,8 @@ ALTER TABLE `categorias`
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_comentario_articulo` (`articulo_id`),
-  ADD KEY `fk_comentario_usuario` (`usuario_id`);
+  ADD KEY `fk_comentario_usuario` (`usuario_id`),
+  ADD KEY `idx_comentario_padre_id` (`comentario_padre_id`);
 
 --
 -- Índices de la tabla `etiquetas`
@@ -323,7 +320,12 @@ ALTER TABLE `comentarios`
   ADD CONSTRAINT `fk_comentario_articulo`
     FOREIGN KEY (`articulo_id`) REFERENCES `articulos` (`id`),
   ADD CONSTRAINT `fk_comentario_usuario`
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `fk_comentario_padre`
+    FOREIGN KEY (`comentario_padre_id`)
+    REFERENCES `comentarios` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `password_resets`
@@ -339,4 +341,3 @@ COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
