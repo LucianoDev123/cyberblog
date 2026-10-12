@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Middleware\AuthMiddleware;
 use App\Models\User;
+use App\Models\Comment;
 
 class AccountController extends Controller
 {
@@ -36,9 +37,14 @@ class AccountController extends Controller
 
         $oldInput = $this->getOldInput();
 
+        // Obtener los comentarios y las respuestas del usuario.
+        $commentModel = new Comment();
+        $userComments = $commentModel->getByUserId($userId);
+
         $this->view('account/index', [
             'title'        => 'Mi cuenta',
             'user'         => $user,
+            'userComments' => $userComments,
             'csrfToken'    => $this->getCsrfToken(),
             'oldInput'     => $oldInput,
             'flashError'   => $this->getFlash('error'),

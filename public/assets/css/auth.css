@@ -453,3 +453,327 @@
     }
 }
 
+/* =========================================================
+   CYBERBLOG - MI ACTIVIDAD
+   Comentarios y respuestas del usuario
+   ========================================================= */
+
+.account-activity {
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border-color);
+}
+
+.account-activity .account-section-header {
+    margin-bottom: 24px;
+}
+
+.account-activity .account-section-header h2 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.account-activity .account-section-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Resumen de participaciones */
+
+.account-comments-summary {
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border: 1px solid rgba(57, 255, 136, 0.15);
+    border-radius: 9px;
+    background: rgba(57, 255, 136, 0.045);
+}
+
+.account-comments-summary p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.account-comments-summary strong {
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+/* Listado */
+
+.account-comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Tarjeta individual */
+
+.account-comment-card {
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid #293545;
+    border-radius: 11px;
+    background: linear-gradient(
+        145deg,
+        rgba(20, 30, 43, 0.92),
+        rgba(13, 20, 30, 0.96)
+    );
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.account-comment-card:hover {
+    border-color: rgba(57, 255, 136, 0.32);
+    background: linear-gradient(
+        145deg,
+        rgba(23, 35, 48, 0.98),
+        rgba(14, 23, 33, 0.98)
+    );
+    transform: translateY(-2px);
+}
+
+/* Tipo de participación y estado */
+
+.account-comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.account-comment-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.account-comment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.account-comment-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+}
+
+.account-comment-status.approved {
+    border-color: rgba(57, 255, 136, 0.2);
+    background: rgba(57, 255, 136, 0.08);
+    color: #39ff88;
+}
+
+.account-comment-status.approved::before {
+    background: #39ff88;
+    box-shadow: 0 0 7px rgba(57, 255, 136, 0.35);
+}
+
+.account-comment-status.pending {
+    border-color: rgba(251, 191, 36, 0.24);
+    background: rgba(251, 191, 36, 0.08);
+    color: #fbbf24;
+}
+
+.account-comment-status.pending::before {
+    background: #fbbf24;
+}
+
+.account-comment-status.unknown {
+    border-color: rgba(148, 163, 184, 0.22);
+    background: rgba(148, 163, 184, 0.08);
+    color: #cbd5e1;
+}
+
+.account-comment-status.unknown::before {
+    background: #94a3b8;
+}
+
+/* Título del artículo */
+
+.account-comment-article {
+    margin: 0 0 15px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.account-comment-article a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.account-comment-article a:hover {
+    color: var(--accent-green);
+}
+
+.account-comment-article a:focus-visible,
+.account-comment-link:focus-visible {
+    outline: 2px solid var(--accent-green);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+/* Texto del comentario */
+
+.account-comment-content {
+    padding: 14px 15px;
+    border-left: 2px solid rgba(57, 255, 136, 0.42);
+    border-radius: 0 7px 7px 0;
+    background: rgba(5, 10, 17, 0.38);
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+/* Fecha y enlace */
+
+.account-comment-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 17px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.account-comment-footer time {
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.account-comment-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-green);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        gap 0.2s ease;
+}
+
+.account-comment-link:hover {
+    color: #7dffb0;
+    gap: 10px;
+}
+
+/* Estado sin actividad */
+
+.account-activity > .account-info {
+    margin-bottom: 18px;
+    padding: 18px;
+    border: 1px dashed #303a48;
+    border-radius: 10px;
+    background: rgba(16, 23, 32, 0.55);
+}
+
+.account-activity > .account-info p {
+    margin: 0 0 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.account-activity > .account-info p:last-child {
+    margin-bottom: 0;
+}
+
+.account-activity > .back-to-site {
+    color: var(--accent-green);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.account-activity > .back-to-site:hover {
+    color: #7dffb0;
+}
+
+/* Adaptación a móviles */
+
+@media (max-width: 700px) {
+    .account-activity {
+        margin-top: 26px;
+        padding-top: 24px;
+    }
+
+    .account-activity .account-section-header h2 {
+        font-size: 21px;
+    }
+
+    .account-comment-card {
+        padding: 15px;
+    }
+
+    .account-comment-header {
+        align-items: flex-start;
+    }
+
+    .account-comment-article {
+        font-size: 16px;
+    }
+
+    .account-comment-content {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .account-comment-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .account-comment-link {
+        min-height: 24px;
+    }
+}
+
+/* Accesibilidad: reducir animaciones si el usuario lo prefiere */
+
+@media (prefers-reduced-motion: reduce) {
+    .account-comment-card,
+    .account-comment-article a,
+    .account-comment-link {
+        transition: none;
+    }
+
+    .account-comment-card:hover {
+        transform: none;
+    }
+}

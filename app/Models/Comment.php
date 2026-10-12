@@ -128,6 +128,44 @@ class Comment extends Model
     }
 
     /**
+     * Obtiene los comentarios y las respuestas de un usuario.
+     *
+     * Incluye comentarios pendientes y aprobados, junto con
+     * la información necesaria para enlazar cada comentario
+     * con su artículo.
+     *
+     * Los comentarios de otros usuarios no se incluyen.
+     */
+    public function getByUserId(int $usuarioId): array
+    {
+        $sql = "
+            SELECT
+                c.id,
+                c.articulo_id,
+                c.usuario_id,
+                c.comentario_padre_id,
+                c.comentario,
+                c.estado,
+                c.created_at,
+                a.titulo AS articulo_titulo,
+                a.slug AS articulo_slug
+            FROM {$this->table} c
+            INNER JOIN articulos a
+                ON a.id = c.articulo_id
+            WHERE c.usuario_id = :usuario_id
+            ORDER BY c.created_at DESC, c.id DESC
+        ";
+
+        $statement = $this->db->prepare($sql);
+
+        $statement->execute([
+            'usuario_id' => $usuarioId,
+        ]);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Obtiene los comentarios pendientes de moderación.
      *
      * Incluye información del artículo y del comentario padre.

@@ -445,8 +445,8 @@ unset($commentId);
                     ?>
 
                         <article
+                            id="comment-<?= $commentId ?>"
                             class="comment-card comment-depth-<?= $visualDepth ?>"
-                            id="comentario-<?= $commentId ?>"
                             data-comment-id="<?= $commentId ?>"
                         >
 
