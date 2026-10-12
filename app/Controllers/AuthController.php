@@ -15,6 +15,7 @@ class AuthController extends Controller
     {
         $this->view('auth/login', [
             'title'        => 'Iniciar sesión',
+            'pageCss'      => 'auth.css',
             'flashError'   => $this->getFlash('error'),
             'flashSuccess' => $this->getFlash('success')
         ]);
@@ -24,7 +25,8 @@ class AuthController extends Controller
     public function register(): void
     {
         $this->view('auth/register', [
-            'title' => 'Crear cuenta'
+            'title'   => 'Crear cuenta',
+            'pageCss' => 'auth.css'
         ]);
     }
 

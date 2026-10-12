@@ -333,17 +333,6 @@ $userRole =
                 </a>
 
 
-                <!-- Registro -->
-
-                <a
-                    href="/register"
-                    class="nav-link"
-                >
-
-                    Registrarse
-
-                </a>
-
 
             <?php elseif (
                 $userRole === 'admin' ||

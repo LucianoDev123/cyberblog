@@ -417,3 +417,39 @@
         gap: 2px;
     }
 }
+
+
+/* =========================================================
+   CYBERBLOG - ESTILOS DE AUTENTICACIÓN
+   ========================================================= */
+
+/* Enlace "Iniciar sesión" en la página de registro */
+.login-footer p a {
+    color: #10b981;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        color 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+/* Efecto al pasar el cursor */
+.login-footer p a:hover {
+    color: #34d399;
+    text-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
+}
+
+/* Accesibilidad mediante teclado */
+.login-footer p a:focus-visible {
+    outline: 2px solid #6ee7b7;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* Respeta la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    .login-footer p a {
+        transition: none;
+    }
+}
+
