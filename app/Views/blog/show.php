@@ -110,6 +110,57 @@ unset($commentId);
 
             </div>
 
+            <!-- Seguimiento del artículo -->
+            <div class="article-follow">
+
+                <div class="article-follow-action">
+                    <?php if (!empty($isAuthenticated)): ?>
+
+                        <form
+                            method="POST"
+                            action="/blog/<?= htmlspecialchars(
+                                rawurlencode((string) ($article['slug'] ?? '')),
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>/<?= !empty($isFollowing) ? 'unfollow' : 'follow' ?>"
+                        >
+                            <input
+                                type="hidden"
+                                name="csrf_token"
+                                value="<?= htmlspecialchars(
+                                    $csrfToken ?? '',
+                                    ENT_QUOTES,
+                                    'UTF-8'
+                                ) ?>"
+                            >
+
+                            <button type="submit" class="follow-button">
+                                <?= !empty($isFollowing)
+                                    ? 'Dejar de seguir'
+                                    : 'Seguir artículo' ?>
+                            </button>
+                        </form>
+
+                    <?php else: ?>
+
+                        <a href="/login" class="follow-button">
+                            Iniciá sesión para seguir este artículo
+                        </a>
+
+                    <?php endif; ?>
+                </div>
+
+                <span class="follow-count">
+                    <?= (int) ($followerCount ?? 0) ?>
+                    <?= (int) ($followerCount ?? 0) === 1
+                        ? 'seguidor'
+                        : 'seguidores' ?>
+                </span>
+
+            </div>
+
+
+
             <?php if (
                 !empty($article['serie_id']) &&
                 !empty($article['serie']) &&

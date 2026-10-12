@@ -1,0 +1,35 @@
+/* =========================================================
+   CYBERBLOG — NAVEGACIÓN
+   Indicador de notificaciones pendientes
+   ========================================================= */
+
+.main-nav .nav-link-notifications {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Insignia roja para notificaciones pendientes */
+.main-nav .notification-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    margin-left: 2px;
+
+    border: 1px solid #ff5263;
+    border-radius: 999px;
+
+    background: #ff5263;
+    color: #ffffff;
+
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+
+    box-shadow: 0 0 10px rgba(255, 82, 99, 0.25);
+}

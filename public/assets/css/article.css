@@ -1601,3 +1601,70 @@
         transition: none;
     }
 }
+
+
+/* =========================================
+   SEGUIMIENTO DE ARTÍCULOS
+   ========================================= */
+
+.article-follow {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
+
+.article-follow form {
+    margin: 0;
+}
+
+.article-follow .follow-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid #00ff88;
+    border-radius: 6px;
+    background: rgba(0, 255, 136, 0.08);
+    color: #00ff88;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.article-follow .follow-button:hover {
+    background: #00ff88;
+    border-color: #00ff88;
+    color: #080b10;
+    box-shadow: 0 0 14px rgba(0, 255, 136, 0.2);
+}
+
+.article-follow .follow-button:focus-visible {
+    outline: 2px solid #00ff88;
+    outline-offset: 4px;
+}
+
+.article-follow .follow-count {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .article-follow .follow-button {
+        max-width: 100%;
+        text-align: center;
+    }
+}

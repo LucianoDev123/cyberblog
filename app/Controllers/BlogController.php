@@ -9,6 +9,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Series;
 use App\Models\User;
+use App\Models\ArticleFollower;
 
 class BlogController extends Controller
 {
@@ -63,6 +64,29 @@ class BlogController extends Controller
             http_response_code(404);
             die('Artículo no encontrado.');
         }
+
+
+        /*
+         * Estado del seguimiento del artículo.
+         */
+        $isAuthenticated =
+            isset($_SESSION['usuario_id']) &&
+            is_numeric($_SESSION['usuario_id']) &&
+            (int) $_SESSION['usuario_id'] > 0;
+
+        $followerModel = new ArticleFollower();
+        $isFollowing = false;
+
+        if ($isAuthenticated) {
+            $isFollowing = $followerModel->isFollowing(
+                (int) $_SESSION['usuario_id'],
+                (int) $article['id']
+            );
+        }
+
+        $followerCount = $followerModel->countFollowers(
+            (int) $article['id']
+        );
 
 
         /*
@@ -156,7 +180,11 @@ class BlogController extends Controller
 
             'pageCss' => 'article.css',
 
-            'isAuthenticated' => isset($_SESSION['usuario_id']),
+            'isAuthenticated' => $isAuthenticated,
+
+            'isFollowing' => $isFollowing,
+
+            'followerCount' => $followerCount,
 
             'csrfToken' => $this->getCsrfToken(),
 

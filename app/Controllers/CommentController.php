@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Middleware\RoleMiddleware;
 use App\Models\Comment;
+use App\Models\Notification;
 
 class CommentController extends Controller
 {
@@ -35,7 +36,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Aprueba un comentario pendiente.
+     * Aprueba un comentario pendiente y genera notificaciones.
      */
     public function approve(int $id): void
     {
@@ -65,6 +66,18 @@ class CommentController extends Controller
 
             header('Location: /admin/comments');
             exit;
+        }
+
+        // La aprobación ya se confirmó; los fallos de notificación no deben
+        // revertir la moderación, pero sí quedar registrados para diagnóstico.
+        try {
+            (new Notification())->createForApprovedComment($id);
+        } catch (\Throwable $exception) {
+            error_log(
+                'El comentario #' . $id .
+                ' fue aprobado, pero no se pudieron crear sus notificaciones: ' .
+                $exception->getMessage()
+            );
         }
 
         $this->setFlash(

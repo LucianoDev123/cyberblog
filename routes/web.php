@@ -14,6 +14,8 @@ use App\Controllers\SeriesController;
 use App\Controllers\SecurityAnalyzerController;
 use App\Controllers\AccountController;
 use App\Controllers\CommentController;
+use App\Controllers\ArticleFollowerController;
+use App\Controllers\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Rutas de la aplicación
@@ -78,6 +80,51 @@ $router->post('/blog/{slug}/comments', [
 $router->get('/category/{slug}', [
     CategoryController::class,
     'show'
+]);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Seguimiento de artículos
+|--------------------------------------------------------------------------
+*/
+
+/*
+ * Seguir un artículo publicado.
+ */
+$router->post('/blog/{slug}/follow', [
+    ArticleFollowerController::class,
+    'follow'
+]);
+
+/*
+ * Dejar de seguir un artículo.
+ */
+$router->post('/blog/{slug}/unfollow', [
+    ArticleFollowerController::class,
+    'unfollow'
+]);
+
+/*
+|--------------------------------------------------------------------------
+| Notificaciones
+|--------------------------------------------------------------------------
+*/
+
+$router->get('/notifications', [
+    NotificationController::class,
+    'index'
+]);
+
+$router->post('/notifications/read/{id}', [
+    NotificationController::class,
+    'read'
+]);
+
+$router->post('/notifications/read-all', [
+    NotificationController::class,
+    'readAll'
 ]);
 
 
