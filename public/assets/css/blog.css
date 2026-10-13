@@ -203,43 +203,25 @@
     CATEGORY TAG
     ========================================================= */
 
-    /* Etiqueta de categoría. */
     .article-category {
-        display:
-            inline-flex;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
-        align-items:
-            center;
+        box-sizing: border-box;
+        min-height: 28px;
+        padding: 5px 10px;
 
-        min-height:
-            28px;
+        border: 1px solid rgba(57, 255, 136, 0.3);
+        color: var(--accent-green);
+        background: rgba(57, 255, 136, 0.05);
 
-        padding:
-            0 10px;
-
-        border:
-            1px solid rgba(57, 255, 136, 0.3);
-
-        color:
-            var(--accent-green);
-
-        background:
-            rgba(57, 255, 136, 0.05);
-
-        font-family:
-            var(--font-mono);
-
-        font-size:
-            0.7rem;
-
-        font-weight:
-            600;
-
-        letter-spacing:
-            0.08em;
-
-        text-transform:
-            uppercase;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
 
         transition:
             background var(--transition),
