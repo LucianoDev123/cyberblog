@@ -92,23 +92,46 @@
         </div>
 
 
+        
         <!-- =============================================
-             INFORMACIÓN DEL SITIO
-             ============================================= -->
+            INFORMACIÓN DEL SITIO
+            ============================================= -->
 
         <div class="footer-status">
 
-            <p>
-                © 2026 CyberBlog. Todos los derechos reservados.
+            <p class="footer-attribution">
+                <span>
+                    © <?= date('Y') ?> CyberBlog.
+                </span>
+
+                <span class="footer-author">
+                    Developed by Luciano Lobos /
+                </span>
+
+                <a
+                    href="https://profile.hackthebox.com/profile/01a00139-2b08-71f5-88dd-af63cadce969"
+                    class="footer-author-htb"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Perfil de Hack The Box de Ov3erhaulV3ctor"
+                    title="Ver perfil de Hack The Box"
+                >
+                    <span>V3ctorOv3rhaul</span>
+
+                    <span class="footer-author-htb-box">
+                        <img
+                            src="/assets/img/htb-logo.svg"
+                            class="footer-author-htb-icon"
+                            alt=""
+                            aria-hidden="true"
+                        >
+                    </span>
+                </a>
             </p>
 
-
             <span class="system-status">
-
                 <span class="system-status-dot"></span>
-
                 SYSTEM ONLINE
-
             </span>
 
         </div>
