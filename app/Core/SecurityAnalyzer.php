@@ -17,7 +17,7 @@ class SecurityAnalyzer
     {
         if ($this->webhookUrl === '') {
             throw new \RuntimeException(
-                'SECURITY_ANALYZER_WEBHOOK_URL no está configurada.'
+                'El servicio de análisis no está configurado.'
             );
         }
 
@@ -26,15 +26,29 @@ class SecurityAnalyzer
             'indicator' => $indicator
         ]);
 
+        if ($payload === false) {
+            throw new \RuntimeException(
+                'No se pudo preparar la solicitud de análisis.'
+            );
+        }
+
         $ch = curl_init($this->webhookUrl);
+
+        if ($ch === false) {
+            throw new \RuntimeException(
+                'No se pudo inicializar la solicitud de análisis.'
+            );
+        }
 
         curl_setopt_array($ch, [
             CURLOPT_POST => true,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json'
+                'Content-Type: application/json',
+                'Accept: application/json'
             ],
             CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_CONNECTTIMEOUT => 10,
             CURLOPT_TIMEOUT => 60
         ]);
 
@@ -46,25 +60,77 @@ class SecurityAnalyzer
             curl_close($ch);
 
             throw new \RuntimeException(
-                'Error al comunicarse con n8n: ' . $error
+                'No fue posible comunicarse con el servicio de análisis. Intentá nuevamente más tarde.'
             );
         }
 
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
 
         $data = json_decode($response, true);
 
-        if (!is_array($data)) {
+        /*
+         * Primero comprobamos el código HTTP.
+         * Si hay un error, intentamos utilizar el mensaje
+         * que n8n incluyó en el JSON.
+         */
+        if ($httpCode < 200 || $httpCode >= 300) {
+            if (is_array($data)) {
+                $error = $data['error'] ?? null;
+                $message = $data['message'] ?? null;
+
+                if (
+                    $httpCode === 400 &&
+                    $error === 'invalid_domain' &&
+                    is_string($message) &&
+                    $message !== ''
+                ) {
+                    throw new \RuntimeException($message);
+                }
+
+                if ($httpCode === 502) {
+                    throw new \RuntimeException(
+                        'No fue posible consultar el servicio de análisis. Intentá nuevamente más tarde.'
+                    );
+                }
+
+                if ($httpCode === 503) {
+                    throw new \RuntimeException(
+                        'El servicio de análisis está temporalmente ocupado. Intentá nuevamente más tarde.'
+                    );
+                }
+            }
+
             throw new \RuntimeException(
-                'n8n devolvió una respuesta inválida.'
+                'El servicio de análisis no pudo completar la solicitud. Código HTTP: ' . $httpCode
             );
         }
 
-        if ($httpCode < 200 || $httpCode >= 300) {
+        /*
+         * Una respuesta exitosa también debe contener
+         * un JSON válido.
+         */
+        if (!is_array($data)) {
             throw new \RuntimeException(
-                'n8n respondió con HTTP ' . $httpCode
+                'El servicio de análisis devolvió una respuesta inesperada.'
+            );
+        }
+
+        /*
+         * Algunas implementaciones pueden devolver errores
+         * de aplicación utilizando HTTP 200.
+         * No debemos interpretarlos como análisis exitosos.
+         */
+        if (($data['success'] ?? null) === false) {
+            $message = $data['message'] ?? null;
+
+            if (is_string($message) && $message !== '') {
+                throw new \RuntimeException($message);
+            }
+
+            throw new \RuntimeException(
+                'No fue posible completar el análisis.'
             );
         }
 
